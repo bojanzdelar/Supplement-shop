@@ -1,20 +1,23 @@
-from app import app, mysql
 import flask
+from flask import Blueprint
+from app import mysql
 
-@app.route("/api/product", methods=["GET"])
+product = Blueprint('product', __name__)
+
+@product.route("/", methods=["GET"])
 def get_all_product():
     cursor = mysql.get_db().cursor()
     cursor.execute("SELECT * FROM product")
     return flask.jsonify(cursor.fetchall())
 
-@app.route("/api/product/<int:id>", methods=["GET"])
+@product.route("/<int:id>", methods=["GET"])
 def get_product(id):
     cursor = mysql.get_db().cursor()
     cursor.execute("SELECT * FROM product WHERE id=%s", (id,))
     product = cursor.fetchone()
     return flask.jsonify(product) if product else ("", 404)
 
-@app.route("/api/product", methods=["POST"])
+@product.route("/", methods=["POST"])
 def create_product():
     db = mysql.get_db()
     cursor = db.cursor()
@@ -23,7 +26,7 @@ def create_product():
     db.commit()
     return flask.jsonify(flask.request.json), 201
 
-@app.route("/api/product/<int:id>", methods=["PUT"])
+@product.route("/<int:id>", methods=["PUT"])
 def update_product(id):
     product = flask.request.json
     product["id"] = id
@@ -35,7 +38,7 @@ def update_product(id):
     cursor.execute("SELECT * FROM product WHERE id=%s", (id,))
     return flask.jsonify(cursor.fetchone()), 200
 
-@app.route("/api/product/<int:id>", methods=["DELETE"])
+@product.route("/<int:id>", methods=["DELETE"])
 def delete_product(id):
     db = mysql.get_db()
     cursor = db.cursor()

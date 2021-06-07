@@ -1,20 +1,23 @@
-from app import app, mysql
 import flask
+from flask import Blueprint
+from app import mysql
 
-@app.route("/api/cart", methods=["GET"])
+cart = Blueprint('cart', __name__)
+
+@cart.route("/", methods=["GET"])
 def get_all_cart():
     cursor = mysql.get_db().cursor()
     cursor.execute("SELECT * FROM cart")
     return flask.jsonify(cursor.fetchall())
 
-@app.route("/api/cart/<int:id>", methods=["GET"])
+@cart.route("/<int:id>", methods=["GET"])
 def get_cart(id):
     cursor = mysql.get_db().cursor()
     cursor.execute("SELECT * FROM cart WHERE id=%s", (id,))
     cart = cursor.fetchone()
     return flask.jsonify(cart) if cart else ("", 404)
 
-@app.route("/api/cart", methods=["POST"])
+@cart.route("/", methods=["POST"])
 def create_cart():
     db = mysql.get_db()
     cursor = db.cursor()
@@ -23,7 +26,7 @@ def create_cart():
     db.commit()
     return flask.jsonify(flask.request.json), 201
 
-@app.route("/api/cart/<int:id>", methods=["PUT"])
+@cart.route("/<int:id>", methods=["PUT"])
 def update_cart(id):
     cart = flask.request.json
     cart["id"] = id
@@ -35,7 +38,7 @@ def update_cart(id):
     cursor.execute("SELECT * FROM cart WHERE id=%s", (id,))
     return flask.jsonify(cursor.fetchone()), 200
 
-@app.route("/api/cart/<int:id>", methods=["DELETE"])
+@cart.route("/<int:id>", methods=["DELETE"])
 def delete_cart(id):
     db = mysql.get_db()
     cursor = db.cursor()
