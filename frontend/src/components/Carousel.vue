@@ -25,25 +25,51 @@
         data-bs-slide-to="2"
         aria-label="Slide 3"
       ></button>
+      <button
+        type="button"
+        data-bs-target="#carousel"
+        data-bs-slide-to="3"
+        aria-label="Slide 4"
+      ></button>
+      <button
+        type="button"
+        data-bs-target="#carousel"
+        data-bs-slide-to="4"
+        aria-label="Slide 5"
+      ></button>
     </div>
     <div class="carousel-inner">
       <div class="carousel-item active">
         <img
-          src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmdbootstrap.com%2Fimg%2FPhotos%2FSlides%2Fimg%2520(31).jpg&f=1&nofb=1"
+          src="../assets/images/carousel/FFRIDAY_SHIRT_900x.jpg"
           class="d-block w-100"
           alt="..."
         />
       </div>
       <div class="carousel-item">
         <img
-          src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.TpcN0TjSdIxUiGhpy83iAQHaD2%26pid%3DApi&f=1"
+          src="../assets/images/carousel/2020-white_900x.jpg"
           class="d-block w-100"
           alt="..."
         />
       </div>
       <div class="carousel-item">
         <img
-          src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwowslider.com%2Fsliders%2Fdemo-93%2Fdata1%2Fimages%2Flandscape.jpg&f=1&nofb=1"
+          src="../assets/images/carousel/davey-nynsprogram2_900x.png"
+          class="d-block w-100"
+          alt="..."
+        />
+      </div>
+      <div class="carousel-item">
+        <img
+          src="../assets/images/carousel/nyny20taylor_900x.png"
+          class="d-block w-100"
+          alt="..."
+        />
+      </div>
+      <div class="carousel-item">
+        <img
+          src="../assets/images/carousel/swag-newtheme_900x.jpg"
           class="d-block w-100"
           alt="..."
         />
@@ -72,9 +98,6 @@
 
 <script>
 export default {
-  name: "Carousel",
-  // props: {
-  //   msg: String,
-  // }
+  name: "Carousel"
 };
 </script>
