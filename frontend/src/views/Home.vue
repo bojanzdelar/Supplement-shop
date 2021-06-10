@@ -31,22 +31,21 @@ export default {
   },
   data() {
     return {
-      products: {}
-    }
+      products: {},
+    };
   },
-  methods: { 
+  methods: {
     get_products() {
-      axios.get("http://localhost:5000/api/product")
-        .then((response) => {
-          this.products = response.data;
-        });
+      axios.get("http://localhost:5000/api/product").then((response) => {
+        this.products = response.data;
+      });
     },
-    view_details(id) { 
+    view_details(id) {
       this.$router.push(`/products/${id}`);
-    }
+    },
   },
   created() {
     this.get_products();
-  }
+  },
 };
 </script>
