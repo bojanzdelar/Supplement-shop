@@ -4,6 +4,8 @@ import Category from "../views/Category.vue";
 import ProductDetails from "../views/ProductDetails.vue";
 // import About from "../views/About.vue";
 import Contact from "../views/Contact.vue";
+import Registration from "../views/Registration.vue";
+import Login from "../views/Login.vue";
 
 const routes = [
   {
@@ -34,6 +36,16 @@ const routes = [
     path: "/contact",
     name: "Contact",
     component: Contact,
+  },
+  {
+    path: "/registration",
+    name: "Registration",
+    component: Registration,
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
   },
 ];
 
