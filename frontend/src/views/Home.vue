@@ -10,7 +10,7 @@
           :name="product.name"
           :description="product.description"
           :thumbnail="product.thumbnail"
-          @details="view_details"
+          @details="viewDetails"
           class="col-lg-2"
         />
       </div>
@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import Carousel from "@/components/Carousel.vue";
 import Product from "@/components/Product.vue";
 
@@ -35,17 +34,17 @@ export default {
     };
   },
   methods: {
-    get_products() {
-      axios.get("http://localhost:5000/api/product").then((response) => {
+    getProducts() {
+      this.axios.get("/product").then((response) => {
         this.products = response.data;
       });
     },
-    view_details(id) {
+    viewDetails(id) {
       this.$router.push(`/products/${id}`);
     },
   },
   created() {
-    this.get_products();
+    this.getProducts();
   },
 };
 </script>

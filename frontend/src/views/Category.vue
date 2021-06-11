@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import Product from "@/components/Product.vue";
 
 export default {
@@ -33,7 +32,7 @@ export default {
   },
   methods: {
     getProducts() {
-      axios.get("http://localhost:5000/api/product").then((response) => {
+      this.axios.get("/product").then((response) => {
         this.products = response.data.filter((product) => {
           const category = this.$route.params["id"];
           return category != 0 ? product.category_id == category : true;

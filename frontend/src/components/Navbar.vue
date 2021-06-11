@@ -52,6 +52,7 @@
             <router-link to="/contact" class="nav-link">Contact</router-link>
           </li>
         </ul>
+        <!--
         <form class="d-flex">
           <input
             class="form-control me-2"
@@ -61,14 +62,26 @@
           />
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
+        -->
+        <ul class="navbar-nav mb-2 mb-lg-0">
+          <li v-if="!loggedIn" class="nav-item">
+            <router-link to="/registration" class="nav-link">
+              Register
+            </router-link>
+          </li>
+          <li v-if="!loggedIn" class="nav-item">
+            <router-link to="/login" class="nav-link">Login</router-link>
+          </li>
+          <li v-if="loggedIn" class="nav-item">
+            <a @click="logout" class="nav-link" href="#">Logout</a>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   name: "Navbar",
   data() {
@@ -76,11 +89,19 @@ export default {
       categories: {},
     };
   },
+  computed: {
+    loggedIn() {
+      return localStorage.getItem("token");
+    },
+  },
   methods: {
     getCategories() {
-      axios.get("http://localhost:5000/api/category").then((response) => {
+      this.axios.get("/category").then((response) => {
         this.categories = response.data;
       });
+    },
+    logout() {
+      localStorage.removeItem("token");
     },
   },
   created() {

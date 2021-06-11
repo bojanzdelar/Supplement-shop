@@ -1,6 +1,13 @@
 <template>
   <div class="container">
-    <form class="row needs-validation" novalidate>
+    <div v-if="failed" class="col-lg-8 mx-auto alert alert-danger" role="alert">
+      Username is already taken.
+    </div>
+    <form
+      @submit.prevent="register(user)"
+      class="row needs-validation"
+      novalidate
+    >
       <div class="col-lg-8 mx-auto">
         <div>
           <label for="validationCustom01" class="form-label">First name</label>
@@ -91,7 +98,7 @@
           </div>
         </div>
         <div>
-          <button class="btn btn-success" type="submit">Register</button>
+          <input class="btn btn-success" type="submit" value="Register" />
         </div>
       </div>
     </form>
@@ -104,7 +111,20 @@ export default {
   data() {
     return {
       user: {},
+      failed: false,
     };
+  },
+  methods: {
+    register(user) {
+      this.axios
+        .post("/register", user)
+        .then(() => {
+          this.$router.push("/login");
+        })
+        .catch(() => {
+          this.failed = true;
+        });
+    },
   },
 };
 </script>

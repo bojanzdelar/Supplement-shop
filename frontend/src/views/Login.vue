@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-    <form class="row needs-validation" novalidate>
+    <div v-if="failed" class="col-lg-8 mx-auto alert alert-danger" role="alert">
+      Username and/or password is invalid.
+    </div>
+    <form @submit.prevent="login(user)" class="row needs-validation" novalidate>
       <div class="col-lg-8 mx-auto">
         <div>
           <label for="validationCustomUsername" class="form-label">
@@ -36,7 +39,7 @@
           </div>
         </div>
         <div>
-          <button class="btn btn-success" type="submit">Login</button>
+          <input class="btn btn-success" type="submit" value="Login" />
         </div>
       </div>
     </form>
@@ -49,7 +52,21 @@ export default {
   data() {
     return {
       user: {},
+      failed: false,
     };
+  },
+  methods: {
+    login(user) {
+      this.axios
+        .post("/login", user)
+        .then((response) => {
+          localStorage.setItem("token", response.data);
+          this.$router.push("/");
+        })
+        .catch(() => {
+          this.failed = true;
+        });
+    },
   },
 };
 </script>
