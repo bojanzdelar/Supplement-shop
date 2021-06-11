@@ -9,7 +9,7 @@
           :name="product.name"
           :description="product.description"
           :thumbnail="product.thumbnail"
-          @details="view_details"
+          @details="viewDetails"
           class="col-lg-2"
         />
       </div>
@@ -32,23 +32,20 @@ export default {
     };
   },
   methods: {
-    get_products() {
+    getProducts() {
       axios.get("http://localhost:5000/api/product").then((response) => {
         this.products = response.data.filter((product) => {
           const category = this.$route.params["id"];
-          // if category equals to 0 display all products
-          return category != 0
-            ? product.category_id == this.$route.params["id"]
-            : true;
+          return category != 0 ? product.category_id == category : true;
         });
       });
     },
-    view_details(id) {
+    viewDetails(id) {
       this.$router.push(`/products/${id}`);
     },
   },
   created() {
-    this.get_products();
+    this.getProducts();
   },
   updated() {
     this.get_products();
