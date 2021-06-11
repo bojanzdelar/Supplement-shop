@@ -5,7 +5,7 @@
       <h5 class="card-title">{{ name }}</h5>
       <!-- <p class="card-text">{{description}}</p> -->
 
-      <button @click="$emit('details', id)" class="btn btn-primary">
+      <button @click="$emit('details', id)" class="btn btn-success">
         View details
       </button>
     </div>

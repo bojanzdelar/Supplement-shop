@@ -13,7 +13,7 @@ from api.user import user
 app = Flask(__name__, static_url_path="")
 mysql.init_app(app)
 jwt = JWTManager(app)
-CORS(app)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 app.config["MYSQL_DATABASE_USER"] = "root"
 app.config["MYSQL_DATABASE_PASSWORD"] = "root"
