@@ -17,6 +17,13 @@ def get_product(id):
     product = cursor.fetchone()
     return flask.jsonify(product) if product else ("", 404)
 
+@product.route("/search/<string:query>", methods=["GET"])
+def search_product(query):
+    query = f"%{query}%"
+    cursor = mysql.get_db().cursor()
+    cursor.execute("SELECT * FROM product WHERE name LIKE %s", (query,))
+    return flask.jsonify(cursor.fetchall())
+
 @product.route("/", methods=["POST"])
 def create_product():
     db = mysql.get_db()

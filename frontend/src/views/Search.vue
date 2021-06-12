@@ -19,7 +19,7 @@
 import Product from "@/components/Product.vue";
 
 export default {
-  name: "Category",
+  name: "Search",
   components: {
     Product,
   },
@@ -30,21 +30,22 @@ export default {
   },
   methods: {
     getProducts() {
-      this.axios.get("/product").then((response) => {
-        this.products = response.data.filter((product) => {
-          const category = this.$route.params["id"];
-          return category != 0 ? product.category_id == category : true;
+      this.axios
+        .get(`/product/search/${this.$route.query.q}`)
+        .then((response) => {
+          this.products = response.data;
         });
-      });
     },
     viewDetails(id) {
       this.$router.push(`/products/${id}`);
     },
   },
-  created() {
-    this.getProducts();
+  watch: {
+    $route() {
+      this.getProducts();
+    },
   },
-  updated() {
+  created() {
     this.getProducts();
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div>
     <Carousel />
     <div class="container">
       <div class="row">
