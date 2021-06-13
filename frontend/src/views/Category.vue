@@ -7,6 +7,7 @@
         :id="product.id"
         :name="product.name"
         :description="product.description"
+        :price="product.price"
         :thumbnail="product.thumbnail"
         class="col-sm-6 col-md-4 col-lg-3 col-xl-2"
       />

@@ -78,15 +78,15 @@
             </li>
           </ul>
           <ul class="navbar-nav mb-2 mb-lg-0">
-            <li v-if="!loggedIn" class="nav-item">
+            <li v-if="!token" class="nav-item">
               <router-link to="/registration" class="nav-link">
                 Register
               </router-link>
             </li>
-            <li v-if="!loggedIn" class="nav-item">
+            <li v-if="!token" class="nav-item">
               <router-link to="/login" class="nav-link">Login</router-link>
             </li>
-            <li v-if="loggedIn" class="nav-item">
+            <li v-if="token" class="nav-item">
               <a @click="logout" class="nav-link" href="#">Logout</a>
             </li>
           </ul>
@@ -109,12 +109,10 @@ export default {
   data() {
     return {
       categories: [],
+      get token() {
+        return localStorage.getItem("token");
+      },
     };
-  },
-  computed: {
-    loggedIn() {
-      return localStorage.getItem("token");
-    },
   },
   methods: {
     getCategories() {

@@ -2,8 +2,6 @@
 
 ## Project setup
 
----
-
 ### Creates virtual enviorement
 
 ```

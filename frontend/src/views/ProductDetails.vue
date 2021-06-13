@@ -8,7 +8,23 @@
         <h2>{{ product.name }}</h2>
         <p>${{ product.price }}</p>
         <p>{{ product.description }}</p>
-        <button @click="addToCart" class="btn btn-success">Add to cart</button>
+        <div class="row">
+          <div class="col-3">
+            <input
+              v-model="cart.quantity"
+              type="number"
+              min="1"
+              :max="product.quantity"
+              class="form-control"
+              required
+            />
+          </div>
+          <div class="col-9 d-grid">
+            <button @click="addToCart" class="btn btn-success">
+              Add to cart
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <CommentSection />
@@ -26,6 +42,11 @@ export default {
   data() {
     return {
       product: {},
+      cart: {
+        product_id: this.$route.params["id"],
+        quantity: 1,
+      },
+      token: localStorage.getItem("token"),
     };
   },
   methods: {
@@ -37,7 +58,21 @@ export default {
         });
     },
     addToCart() {
-      window.alert("Added to cart! To be implemented!");
+      if (!this.token) {
+        window.alert("You must be signed in to add products to cart!");
+        return;
+      }
+      if (this.cart.quantity < 1) {
+        window.alert("Quantity of product must be at least 1");
+        return;
+      }
+      if (this.cart.quantity > this.product.quantity) {
+        window.alert(
+          "There aren't enough products for you! Please pick a smaller quantity"
+        );
+        return;
+      }
+      this.axios.post("/cart", this.cart);
     },
   },
   created() {
