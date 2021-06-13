@@ -1,13 +1,13 @@
 <template>
   <div class="card">
-    <img :src="thumbnail" class="card-img-top" :alt="name" />
+    <a @click="viewDetails" href="#">
+      <img :src="thumbnail" class="card-img-top" :alt="name" />
+    </a>
     <div class="card-body">
-      <h5 class="card-title">{{ name }}</h5>
-      <!-- <p class="card-text">{{description}}</p> -->
-
-      <button @click="$emit('details', id)" class="btn btn-success">
-        View details
-      </button>
+      <a @click="viewDetails" href="#" class="text-body text-decoration-none">
+        <h5 class="card-title">{{ name }}</h5>
+      </a>
+      <p class="card-text">${{ price }}</p>
     </div>
   </div>
 </template>
@@ -15,15 +15,17 @@
 <script>
 export default {
   name: "Product",
-  emits: ["details"],
   props: {
     id: Number,
     name: String,
     description: String,
     price: Number,
-    quantity: Number,
     thumbnail: String,
-    category: String,
+  },
+  methods: {
+    viewDetails() {
+      this.$router.push(`/products/${this.id}`);
+    },
   },
 };
 </script>

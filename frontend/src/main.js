@@ -8,9 +8,21 @@ import "bootstrap";
 const app = createApp(App);
 
 const instance = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "http://127.0.0.1:5000/api",
+});
+
+instance.interceptors.request.use((req) => {
+  const token = localStorage.getItem("token");
+  req.headers.Authorization = `Bearer ${token}`;
+  return req;
 });
 
 app.use(router);
 app.config.globalProperties.axios = instance;
 app.mount("#app");
+
+// instance.interceptors.request.use((config) => {
+//   let token = localStorage.getItem("token");
+//   Object.assign(config.headers, { Authorization: `Bearer ${token}` });
+//   return config;
+// });

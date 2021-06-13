@@ -1,5 +1,6 @@
 import flask
 from flask import Blueprint
+from flask_jwt_extended import jwt_required, get_jwt_identity   
 from app import mysql
 
 cart = Blueprint('cart', __name__)
@@ -16,6 +17,15 @@ def get_cart(id):
     cursor.execute("SELECT * FROM cart WHERE id=%s", (id,))
     cart = cursor.fetchone()
     return flask.jsonify(cart) if cart else ("", 404)
+
+@cart.route("/user", methods=["GET"])
+@jwt_required()
+def get_user_cart():
+    cursor = mysql.get_db().cursor()
+    cursor.execute("SELECT cart.*, product.name, product.price, product.thumbnail FROM cart "
+            "LEFT JOIN product ON cart.product_id=product.id WHERE username=%s", (get_jwt_identity(), ))
+    cart = cursor.fetchall()
+    return flask.jsonify(cart) if cart else("", 404)
 
 @cart.route("/", methods=["POST"])
 def create_cart():
@@ -39,9 +49,14 @@ def update_cart(id):
     return flask.jsonify(cursor.fetchone()), 200
 
 @cart.route("/<int:id>", methods=["DELETE"])
+@jwt_required()
 def delete_cart(id):
     db = mysql.get_db()
     cursor = db.cursor()
+    cursor.execute("SELECT * FROM cart WHERE id=%s")
+    user = cursor.fetchone()
+    if user["username"] != get_jwt_identity():
+        return "Unauthorized", 401
     cursor.execute("DELETE FROM cart WHERE id=%s", (id,))
     db.commit()
     return ""

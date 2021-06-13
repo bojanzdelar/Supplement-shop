@@ -1,9 +1,10 @@
 <template>
   <div>
     <SearchBar />
+    <CartBar />
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
-        <router-link to="/" class="navbar-brand">Navbar</router-link>
+        <router-link to="/" class="navbar-brand">Musclepharm</router-link>
         <button
           class="navbar-toggler"
           type="button"
@@ -64,6 +65,17 @@
                 Search
               </a>
             </li>
+            <li class="nav-item">
+              <a
+                href="#"
+                class="nav-link"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#cartBar"
+                aria-controls="cartBar"
+              >
+                Cart
+              </a>
+            </li>
           </ul>
           <ul class="navbar-nav mb-2 mb-lg-0">
             <li v-if="!loggedIn" class="nav-item">
@@ -86,15 +98,17 @@
 
 <script>
 import SearchBar from "@/components/SearchBar.vue";
+import CartBar from "@/components/CartBar.vue";
 
 export default {
   name: "Navbar",
   components: {
     SearchBar,
+    CartBar,
   },
   data() {
     return {
-      categories: {},
+      categories: [],
     };
   },
   computed: {
@@ -104,7 +118,7 @@ export default {
   },
   methods: {
     getCategories() {
-      this.axios.get("/category").then((response) => {
+      this.axios.get("/category/").then((response) => {
         this.categories = response.data;
       });
     },

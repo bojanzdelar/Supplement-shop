@@ -9,8 +9,8 @@
           :id="product.id"
           :name="product.name"
           :description="product.description"
+          :price="product.price"
           :thumbnail="product.thumbnail"
-          @details="viewDetails"
           class="col-sm-6 col-md-4 col-lg-3 col-xl-2"
         />
       </div>
@@ -30,7 +30,7 @@ export default {
   },
   data() {
     return {
-      products: {},
+      products: [],
     };
   },
   methods: {
@@ -38,9 +38,6 @@ export default {
       this.axios.get("/product").then((response) => {
         this.products = response.data;
       });
-    },
-    viewDetails(id) {
-      this.$router.push(`/products/${id}`);
     },
   },
   created() {

@@ -8,7 +8,6 @@
         :name="product.name"
         :description="product.description"
         :thumbnail="product.thumbnail"
-        @details="viewDetails"
         class="col-sm-6 col-md-4 col-lg-3 col-xl-2"
       />
     </div>
@@ -36,9 +35,6 @@ export default {
           return category != 0 ? product.category_id == category : true;
         });
       });
-    },
-    viewDetails(id) {
-      this.$router.push(`/products/${id}`);
     },
   },
   created() {
