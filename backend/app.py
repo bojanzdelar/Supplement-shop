@@ -16,7 +16,7 @@ jwt = JWTManager(app)
 cors = CORS(app, resources={r"/api/*": {"origins": "http://127.0.0.1:8080"}},
         supports_credentials=True)
 
-app.url_map.strict_slashes = False # preventing 308 status code for CORS preflight
+app.url_map.strict_slashes = False # prevents 308 status code for CORS preflight
 
 app.config["MYSQL_DATABASE_USER"] = "root"
 app.config["MYSQL_DATABASE_PASSWORD"] = "root"

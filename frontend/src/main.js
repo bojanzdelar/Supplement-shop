@@ -2,8 +2,10 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import axios from "axios";
 import router from "./router";
-import "bootstrap/dist/css/bootstrap.min.css";
+import mitt from "mitt";
 import "bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 const app = createApp(App);
 
@@ -17,12 +19,9 @@ instance.interceptors.request.use((req) => {
   return req;
 });
 
+const emitter = mitt();
+
 app.use(router);
 app.config.globalProperties.axios = instance;
+app.config.globalProperties.emitter = emitter;
 app.mount("#app");
-
-// instance.interceptors.request.use((config) => {
-//   let token = localStorage.getItem("token");
-//   Object.assign(config.headers, { Authorization: `Bearer ${token}` });
-//   return config;
-// });

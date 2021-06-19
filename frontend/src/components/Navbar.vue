@@ -1,7 +1,5 @@
 <template>
   <div>
-    <SearchBar />
-    <CartBar />
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
         <router-link to="/" class="navbar-brand">Musclepharm</router-link>
@@ -22,14 +20,14 @@
               <a
                 class="nav-link dropdown-toggle"
                 href="#"
-                id="navbarDropdown"
+                id="shopDropdown"
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
                 Shop
               </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <ul class="dropdown-menu" aria-labelledby="shopDropdown">
                 <li>
                   <router-link to="/category/0" class="dropdown-item"
                     >All Products</router-link
@@ -54,6 +52,8 @@
             <li class="nav-item">
               <router-link to="/contact" class="nav-link">Contact</router-link>
             </li>
+          </ul>
+          <ul class="navbar-nav mb-2 mb-lg-0">
             <li class="nav-item">
               <a
                 href="#"
@@ -62,8 +62,37 @@
                 data-bs-target="#searchBar"
                 aria-controls="searchBar"
               >
-                Search
+                <i class="bi bi-search"></i>
               </a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="settingsDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="bi bi-gear"></i>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="settingsDropdown">
+                <li v-if="!logged">
+                  <div class="d-grid">
+                    <router-link to="/login" class="btn btn-success">
+                      Login
+                    </router-link>
+                  </div>
+                </li>
+                <li v-if="!logged">
+                  <router-link to="/register" class="dropdown-item">
+                    New user? <u>Register now</u>
+                  </router-link>
+                </li>
+                <li v-if="logged" @click="logout" class="dropdown-item">
+                  Logout
+                </li>
+              </ul>
             </li>
             <li class="nav-item">
               <a
@@ -73,21 +102,8 @@
                 data-bs-target="#cartBar"
                 aria-controls="cartBar"
               >
-                Cart
+                <i class="bi bi-cart"></i>
               </a>
-            </li>
-          </ul>
-          <ul class="navbar-nav mb-2 mb-lg-0">
-            <li v-if="!token" class="nav-item">
-              <router-link to="/registration" class="nav-link">
-                Register
-              </router-link>
-            </li>
-            <li v-if="!token" class="nav-item">
-              <router-link to="/login" class="nav-link">Login</router-link>
-            </li>
-            <li v-if="token" class="nav-item">
-              <a @click="logout" class="nav-link" href="#">Logout</a>
             </li>
           </ul>
         </div>
@@ -97,21 +113,12 @@
 </template>
 
 <script>
-import SearchBar from "@/components/SearchBar.vue";
-import CartBar from "@/components/CartBar.vue";
-
 export default {
   name: "Navbar",
-  components: {
-    SearchBar,
-    CartBar,
-  },
   data() {
     return {
       categories: [],
-      get token() {
-        return localStorage.getItem("token");
-      },
+      logged: false,
     };
   },
   methods: {
@@ -121,11 +128,20 @@ export default {
       });
     },
     logout() {
+      this.emitter.emit("loggedOut");
       localStorage.removeItem("token");
     },
   },
   created() {
     this.getCategories();
+
+    this.emitter.on("loggedIn", () => {
+      this.logged = true;
+    });
+
+    this.emitter.on("loggedOut", () => {
+      this.logged = false;
+    });
   },
 };
 </script>

@@ -21,7 +21,7 @@ def get_product(id):
 def search_product(query):
     query = f"%{query}%"
     cursor = mysql.get_db().cursor()
-    cursor.execute("SELECT * FROM product WHERE name LIKE %s", (query,))
+    cursor.execute("SELECT * FROM product WHERE name LIKE %s OR description LIKE %s", (query, query))
     return flask.jsonify(cursor.fetchall())
 
 @product.route("/", methods=["POST"])

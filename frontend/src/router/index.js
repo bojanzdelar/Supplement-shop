@@ -44,7 +44,7 @@ const routes = [
     component: Contact,
   },
   {
-    path: "/registration",
+    path: "/register",
     name: "Registration",
     component: Registration,
   },

@@ -1,105 +1,62 @@
 <template>
   <div class="container">
-    <div v-if="failed" class="col-lg-8 mx-auto alert alert-danger" role="alert">
+    <div v-if="failed" class="alert alert-danger" role="alert">
       Username is already taken.
     </div>
-    <form
-      @submit.prevent="register(user)"
-      class="row needs-validation"
-      novalidate
-    >
-      <div class="col-lg-8 mx-auto">
-        <div>
-          <label for="validationCustom01" class="form-label">First name</label>
-          <input
-            v-model="user.first_name"
-            type="text"
-            class="form-control"
-            id="validationCustom01"
-            required
-          />
-          <div class="valid-feedback">Looks good!</div>
-        </div>
-        <div>
-          <label for="validationCustom02" class="form-label">Last name</label>
-          <input
-            v-model="user.last_name"
-            type="text"
-            class="form-control"
-            id="validationCustom02"
-            required
-          />
-          <div class="valid-feedback">Looks good!</div>
-        </div>
-        <div>
-          <label for="validationCustomUsername" class="form-label">
-            Username
-          </label>
-          <div class="input-group has-validation">
-            <span class="input-group-text" id="inputGroupPrepend">@</span>
-            <input
-              v-model="user.username"
-              type="text"
-              class="form-control"
-              id="validationCustomUsername"
-              aria-describedby="inputGroupPrepend"
-              required
-            />
-            <div class="invalid-feedback">Please choose a username.</div>
-          </div>
-        </div>
-        <div>
-          <label for="validationCustomPassword" class="form-label">
-            Password
-          </label>
-          <div class="input-group has-validation">
-            <input
-              v-model="user.password"
-              type="password"
-              class="form-control"
-              id="validationCustomPassword"
-              aria-describedby="inputGroupPrepend"
-              required
-            />
-            <div class="invalid-feedback">Please enter a password.</div>
-          </div>
-        </div>
-        <div>
-          <label for="validationCustomPasswordConfirmation" class="form-label">
-            Password confirmation
-          </label>
-          <div class="input-group has-validation">
-            <input
-              v-model="user.password_confirmation"
-              type="password"
-              class="form-control"
-              id="validationCustomPasswordConfirmation"
-              aria-describedby="inputGroupPrepend"
-              required
-            />
-            <div class="invalid-feedback">Please confirm your password.</div>
-          </div>
-        </div>
-        <div>
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value=""
-              id="invalidCheck"
-              required
-            />
-            <label class="form-check-label" for="invalidCheck">
-              Agree to terms and conditions
-            </label>
-            <div class="invalid-feedback">
-              You must agree before submitting.
-            </div>
-          </div>
-        </div>
-        <div>
-          <input class="btn btn-success" type="submit" value="Register" />
-        </div>
+    <form @submit.prevent="register(user)" class="text-center">
+      <div>
+        <input
+          v-model="user.first_name"
+          type="text"
+          class="form-control"
+          placeholder="First Name"
+          aria-describedby="firstName"
+          required
+        />
+      </div>
+      <div>
+        <input
+          v-model="user.last_name"
+          type="text"
+          class="form-control"
+          placeholder="Last Name"
+          aria-describedby="lastName"
+          required
+        />
+      </div>
+      <div>
+        <input
+          v-model="user.email"
+          type="text"
+          class="form-control"
+          placeholder="Email"
+          aria-describedby="email"
+          required
+        />
+      </div>
+      <div>
+        <input
+          v-model="user.password"
+          type="password"
+          class="form-control"
+          id="validationCustomPassword"
+          aria-describedby="inputGroupPrepend"
+          required
+        />
+      </div>
+      <div>
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value=""
+          id="subscribe"
+        />
+        <label class="form-check-label" for="subscribe">
+          Subscribe to stay updated with new products and offers!
+        </label>
+      </div>
+      <div>
+        <input class="btn btn-success" type="submit" value="Submit" />
       </div>
     </form>
   </div>

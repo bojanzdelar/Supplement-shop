@@ -81,9 +81,18 @@ export default {
   },
   created() {
     this.getCart();
+
+    this.emitter.on("loggedIn", () => {
+      this.getCart();
+    });
+
+    this.emitter.on("loggedOut", () => {
+      this.cart = [];
+    });
+
+    this.emitter.on("addedToCart", () => {
+      this.getCart();
+    });
   },
-  // updated() {
-  //   this.getCart();
-  // },
 };
 </script>

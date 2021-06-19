@@ -5,7 +5,7 @@
     id="searchBar"
     aria-labelledby="searchBarLabel"
   >
-    <div class="offcanvas-header">
+    <div class="offcanvas-header mt-2">
       <h5 id="searchBarLabel">What are you looking for?</h5>
       <button
         type="button"
@@ -16,20 +16,25 @@
     </div>
     <div class="offcanvas-body">
       <form @submit.prevent="search(query)">
-        <input
-          v-model="query"
-          type="text"
-          class="form-control"
-          placeholder="Search for products, brands and more"
-          aria-label="Query"
-        />
-        <input
-          class="btn btn-outline-success"
-          type="submit"
-          value="Search"
-          data-bs-dismiss="offcanvas"
-          arial-label="Search"
-        />
+        <div class="input-group">
+          <input
+            v-model="query"
+            type="text"
+            class="form-control"
+            placeholder="Search for products, brands and more"
+            aria-label="Query"
+          />
+          <span class="input-group-text">
+            <button
+              class="btn"
+              type="submit"
+              data-bs-dismiss="offcanvas"
+              aria-label="Search"
+            >
+              <i class="bi bi-search"></i>
+            </button>
+          </span>
+        </div>
       </form>
     </div>
   </div>
@@ -50,3 +55,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.offcanvas-top {
+  height: 20vh;
+}
+</style>

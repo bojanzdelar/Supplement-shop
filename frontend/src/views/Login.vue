@@ -1,48 +1,53 @@
 <template>
   <div class="container">
-    <div v-if="failed" class="col-lg-8 mx-auto alert alert-danger" role="alert">
-      Username and/or password is invalid.
-    </div>
-    <form @submit.prevent="login(user)" class="row needs-validation" novalidate>
-      <div class="col-lg-8 mx-auto">
-        <div>
-          <label for="validationCustomUsername" class="form-label">
-            Username
-          </label>
-          <div class="input-group has-validation">
-            <span class="input-group-text" id="inputGroupPrepend">@</span>
+    <h3 class="text-center">My account</h3>
+    <div class="row justify-content-center">
+      <div class="col-md-4">
+        <h5>Login</h5>
+        <p>If you have an account with us, please log in.</p>
+        <div v-if="failed" class="alert alert-danger" role="alert">
+          Username and/or password is invalid.
+        </div>
+        <form @submit.prevent="login(user)" class="text-center">
+          <div>
             <input
-              v-model="user.username"
+              v-model="user.email"
               type="text"
               class="form-control"
-              id="validationCustomUsername"
-              aria-describedby="inputGroupPrepend"
+              placeholder="Email"
+              aria-describedby="email"
               required
             />
-            <div class="invalid-feedback">Please choose a username.</div>
           </div>
-        </div>
-        <div>
-          <label for="validationCustomPassword" class="form-label">
-            Password
-          </label>
-          <div class="input-group has-validation">
+          <div>
             <input
               v-model="user.password"
               type="password"
               class="form-control"
-              id="validationCustomPassword"
-              aria-describedby="inputGroupPrepend"
+              placeholder="Password"
+              aria-describedby="password"
               required
             />
-            <div class="invalid-feedback">Please enter a password.</div>
           </div>
-        </div>
-        <div>
-          <input class="btn btn-success" type="submit" value="Login" />
-        </div>
+          <div>
+            <input class="btn btn-success" type="submit" value="Sign in" />
+          </div>
+          <p>Forgot your password?</p>
+        </form>
       </div>
-    </form>
+      <div class="col-md-4">
+        <h5>New customer?</h5>
+        <p>
+          Registering for this site allows you to access your order status and
+          history. We’ll get a new account set up for you in no time. For this
+          will only ask you for information necessary to make the purchase
+          process faster and easier
+        </p>
+        <router-link to="/register" class="btn btn-success">
+          Create an account
+        </router-link>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -61,6 +66,7 @@ export default {
         .post("/login", user)
         .then((response) => {
           localStorage.setItem("token", response.data);
+          this.emitter.emit("loggedIn");
           this.$router.push("/");
         })
         .catch(() => {

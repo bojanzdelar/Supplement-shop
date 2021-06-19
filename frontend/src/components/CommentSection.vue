@@ -35,7 +35,6 @@ export default {
   methods: {
     getComments() {
       this.axios.get("/comment").then((response) => {
-        console.log(response.data);
         this.comments = response.data.filter((comment) => {
           return comment.product_id == this.$route.params["id"];
         });

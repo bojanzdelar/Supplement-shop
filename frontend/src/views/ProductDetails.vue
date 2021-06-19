@@ -11,7 +11,7 @@
         <div class="row">
           <div class="col-3">
             <input
-              v-model="cart.quantity"
+              v-model.number="cart.quantity"
               type="number"
               min="1"
               :max="product.quantity"
@@ -46,7 +46,7 @@ export default {
         product_id: this.$route.params["id"],
         quantity: 1,
       },
-      token: localStorage.getItem("token"),
+      logged: false,
     };
   },
   methods: {
@@ -73,10 +73,19 @@ export default {
         return;
       }
       this.axios.post("/cart", this.cart);
+      this.emitter.emit("addedToCart");
     },
   },
   created() {
     this.getProduct();
+
+    this.emitter.on("loggedIn", () => {
+      this.logged = true;
+    });
+
+    this.emitter.on("loggedOut", () => {
+      this.logged = false;
+    });
   },
 };
 </script>

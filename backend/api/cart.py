@@ -29,15 +29,24 @@ def get_user_cart():
 
 @cart.route("/", methods=["POST"])
 @jwt_required()
-def create_cart():
-    cart = flask.request.json
-    cart["username"] = get_jwt_identity()
+def add_to_cart():
+    item = flask.request.json
+    item["username"] = get_jwt_identity()
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("INSERT INTO cart(username, product_id, quantity) "
-            "VALUES(%(username)s, %(product_id)s, %(quantity)s)", flask.request.json)
+    cursor.execute("SELECT * FROM cart WHERE username=%(username)s AND product_id=%(product_id)s", item)
+    item_in_cart = cursor.fetchone()
+
+    if item_in_cart:
+        item_in_cart["quantity"] += item["quantity"]
+        cursor.execute("UPDATE cart SET quantity=%(quantity)s WHERE id=%(id)s", item_in_cart)
+    else:
+        cursor.execute("INSERT INTO cart(username, product_id, quantity) "
+                "VALUES(%(username)s, %(product_id)s, %(quantity)s)", item)
+
     db.commit()
-    return flask.jsonify(flask.request.json), 201
+    cursor.execute("SELECT * FROM cart WHERE username=%(username)s AND product_id=%(product_id)s", item)
+    return flask.jsonify(cursor.fetchone()), 201
 
 @cart.route("/<int:id>", methods=["PUT"])
 def update_cart(id):

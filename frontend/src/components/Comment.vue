@@ -29,7 +29,7 @@ export default {
   props: {
     username: String,
     content: String,
-    created: String, // change to datetime
+    created: Date,
   },
 };
 </script>
