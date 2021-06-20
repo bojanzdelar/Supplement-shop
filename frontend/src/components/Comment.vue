@@ -27,7 +27,7 @@
 export default {
   name: "Comment",
   props: {
-    username: String,
+    email: String,
     content: String,
     created: Date,
   },

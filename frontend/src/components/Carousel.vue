@@ -41,35 +41,35 @@
     <div class="carousel-inner">
       <div class="carousel-item active">
         <img
-          src="../assets/images/carousel/FFRIDAY_SHIRT_900x.jpg"
+          src="../assets/images/carousel/FFRIDAY_SHIRT.jpg"
           class="d-block w-100"
           alt="..."
         />
       </div>
       <div class="carousel-item">
         <img
-          src="../assets/images/carousel/2020-white_900x.jpg"
+          src="../assets/images/carousel/2020-white.jpg"
           class="d-block w-100"
           alt="..."
         />
       </div>
       <div class="carousel-item">
         <img
-          src="../assets/images/carousel/davey-nynsprogram2_900x.png"
+          src="../assets/images/carousel/davey-nynsprogram2.png"
           class="d-block w-100"
           alt="..."
         />
       </div>
       <div class="carousel-item">
         <img
-          src="../assets/images/carousel/nyny20taylor_900x.png"
+          src="../assets/images/carousel/nyny20taylor.png"
           class="d-block w-100"
           alt="..."
         />
       </div>
       <div class="carousel-item">
         <img
-          src="../assets/images/carousel/swag-newtheme_900x.jpg"
+          src="../assets/images/carousel/swag-newtheme.jpg"
           class="d-block w-100"
           alt="..."
         />
@@ -101,3 +101,16 @@ export default {
   name: "Carousel",
 };
 </script>
+
+<style scoped>
+.carousel .carousel-item img {
+  height: 320px;
+  object-fit: cover;
+}
+
+@media (min-width: 768px) {
+  .carousel .carousel-item img {
+    height: 640px;
+  }
+}
+</style>

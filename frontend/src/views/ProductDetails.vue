@@ -46,8 +46,13 @@ export default {
         product_id: this.$route.params["id"],
         quantity: 1,
       },
-      logged: false,
+      logged: localStorage.getItem("token") !== null,
     };
+  },
+  watch: {
+    $route() {
+      this.getProduct();
+    },
   },
   methods: {
     getProduct() {
@@ -58,7 +63,7 @@ export default {
         });
     },
     addToCart() {
-      if (!this.token) {
+      if (!this.logged) {
         window.alert("You must be signed in to add products to cart!");
         return;
       }
@@ -79,9 +84,9 @@ export default {
   created() {
     this.getProduct();
 
-    this.emitter.on("loggedIn", () => {
-      this.logged = true;
-    });
+    // this.emitter.on("loggedIn", () => {
+    //   this.logged = true;
+    // });
 
     this.emitter.on("loggedOut", () => {
       this.logged = false;

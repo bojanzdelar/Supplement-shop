@@ -1,8 +1,9 @@
 <template>
   <div>
     <Carousel />
-    <div class="container">
-      <div class="row">
+    <div class="container mt-5">
+      <h3 class="text-center text-uppercase">Featured products</h3>
+      <div class="row mt-5">
         <Product
           v-for="product in products"
           :key="product.id"

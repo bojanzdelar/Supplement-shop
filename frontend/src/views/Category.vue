@@ -28,20 +28,22 @@ export default {
       products: {},
     };
   },
+  watch: {
+    $route() {
+      this.getProducts();
+    },
+  },
   methods: {
     getProducts() {
-      this.axios.get("/product").then((response) => {
-        this.products = response.data.filter((product) => {
-          const category = this.$route.params["id"];
-          return category != 0 ? product.category_id == category : true;
-        });
+      const id = this.$route.params["id"];
+      const path = id == "all" ? "/product" : `/category/${id}/products`;
+
+      this.axios.get(path).then((response) => {
+        this.products = response.data;
       });
     },
   },
   created() {
-    this.getProducts();
-  },
-  updated() {
     this.getProducts();
   },
 };

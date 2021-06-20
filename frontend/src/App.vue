@@ -23,9 +23,18 @@ export default {
     if (localStorage.getItem("token")) {
       this.emitter.emit("loggedIn");
     } else {
-      console.log("out");
       this.emitter.emit("loggedOut");
     }
   },
 };
 </script>
+
+<style>
+.btn {
+  border: 0 !important;
+}
+
+.btn-success {
+  background-color: #87d700 !important;
+}
+</style>

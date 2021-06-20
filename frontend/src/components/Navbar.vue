@@ -29,7 +29,7 @@
               </a>
               <ul class="dropdown-menu" aria-labelledby="shopDropdown">
                 <li>
-                  <router-link to="/category/0" class="dropdown-item"
+                  <router-link to="/category/all" class="dropdown-item"
                     >All Products</router-link
                   >
                 </li>
@@ -77,21 +77,27 @@
                 <i class="bi bi-gear"></i>
               </a>
               <ul class="dropdown-menu" aria-labelledby="settingsDropdown">
-                <li v-if="!logged">
-                  <div class="d-grid">
-                    <router-link to="/login" class="btn btn-success">
-                      Login
-                    </router-link>
-                  </div>
-                </li>
-                <li v-if="!logged">
-                  <router-link to="/register" class="dropdown-item">
-                    New user? <u>Register now</u>
-                  </router-link>
-                </li>
                 <li v-if="logged" @click="logout" class="dropdown-item">
                   Logout
                 </li>
+                <div v-else>
+                  <li>
+                    <div class="d-grid">
+                      <router-link
+                        to="/login"
+                        tag="button"
+                        class="btn btn-success"
+                      >
+                        Login
+                      </router-link>
+                    </div>
+                  </li>
+                  <li>
+                    <router-link to="/register" class="dropdown-item">
+                      New user? <u>Register now</u>
+                    </router-link>
+                  </li>
+                </div>
               </ul>
             </li>
             <li class="nav-item">
