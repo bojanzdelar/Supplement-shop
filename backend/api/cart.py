@@ -23,29 +23,29 @@ def get_cart(id):
 def get_user_cart():
     cursor = mysql.get_db().cursor()
     cursor.execute("SELECT cart.*, product.name, product.price, product.thumbnail FROM cart "
-            "LEFT JOIN product ON cart.product_id=product.id WHERE username=%s", (get_jwt_identity(), ))
+            "LEFT JOIN product ON cart.product_id=product.id WHERE user_id=%s", (get_jwt_identity(), ))
     cart = cursor.fetchall()
-    return flask.jsonify(cart) if cart else("", 404)
+    return flask.jsonify(cart) if cart else ""
 
 @cart.route("/", methods=["POST"])
 @jwt_required()
 def add_to_cart():
     item = flask.request.json
-    item["username"] = get_jwt_identity()
+    item["user_id"] = get_jwt_identity()
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("SELECT * FROM cart WHERE username=%(username)s AND product_id=%(product_id)s", item)
+    cursor.execute("SELECT * FROM cart WHERE user_id=%(user_id)s AND product_id=%(product_id)s", item)
     item_in_cart = cursor.fetchone()
 
     if item_in_cart:
         item_in_cart["quantity"] += item["quantity"]
         cursor.execute("UPDATE cart SET quantity=%(quantity)s WHERE id=%(id)s", item_in_cart)
     else:
-        cursor.execute("INSERT INTO cart(username, product_id, quantity) "
-                "VALUES(%(username)s, %(product_id)s, %(quantity)s)", item)
+        cursor.execute("INSERT INTO cart(user_id, product_id, quantity) "
+                "VALUES(%(user_id)s, %(product_id)s, %(quantity)s)", item)
 
     db.commit()
-    cursor.execute("SELECT * FROM cart WHERE username=%(username)s AND product_id=%(product_id)s", item)
+    cursor.execute("SELECT * FROM cart WHERE user_id=%(user_id)s AND product_id=%(product_id)s", item)
     return flask.jsonify(cursor.fetchone()), 201
 
 @cart.route("/<int:id>", methods=["PUT"])
@@ -54,7 +54,7 @@ def update_cart(id):
     cart["id"] = id
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("UPDATE cart SET username=%(username)s, product_id=%(product_id)s, quantity=%(quantity)s "
+    cursor.execute("UPDATE cart SET user_id=%(user_id)s, product_id=%(product_id)s, quantity=%(quantity)s "
             "WHERE id=%(id)s", cart)
     db.commit()
     cursor.execute("SELECT * FROM cart WHERE id=%s", (id,))
@@ -66,8 +66,10 @@ def delete_cart(id):
     db = mysql.get_db()
     cursor = db.cursor()
     cursor.execute("SELECT * FROM cart WHERE id=%s", (id,))
-    user = cursor.fetchone()
-    if user["username"] != get_jwt_identity():
+    cart = cursor.fetchone()
+    if not cart:
+        return "", 404
+    if cart["user_id"] != get_jwt_identity():
         return "Unauthorized", 401
     cursor.execute("DELETE FROM cart WHERE id=%s", (id,))
     db.commit()

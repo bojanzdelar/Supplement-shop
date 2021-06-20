@@ -10,12 +10,19 @@ def get_all_product():
     cursor.execute("SELECT * FROM product")
     return flask.jsonify(cursor.fetchall())
 
-@product.route("/<int:id>", methods=["GET"])
+@product.route("/<string:id>", methods=["GET"])
 def get_product(id):
     cursor = mysql.get_db().cursor()
     cursor.execute("SELECT * FROM product WHERE id=%s", (id,))
     product = cursor.fetchone()
     return flask.jsonify(product) if product else ("", 404)
+
+@product.route("/<string:id>/quantity", methods=["GET"])
+def get_product_quantity(id):
+    cursor = mysql.get_db().cursor()
+    cursor.execute("SELECT quantity FROM product WHERE id=%s", (id,))
+    quantity = cursor.fetchone()
+    return flask.jsonify(quantity) if quantity else ("", 404)
 
 @product.route("/search/<string:query>", methods=["GET"])
 def search_product(query):
@@ -33,7 +40,7 @@ def create_product():
     db.commit()
     return flask.jsonify(flask.request.json), 201
 
-@product.route("/<int:id>", methods=["PUT"])
+@product.route("/<string:id>", methods=["PUT"])
 def update_product(id):
     product = flask.request.json
     product["id"] = id
@@ -45,7 +52,7 @@ def update_product(id):
     cursor.execute("SELECT * FROM product WHERE id=%s", (id,))
     return flask.jsonify(cursor.fetchone()), 200
 
-@product.route("/<int:id>", methods=["DELETE"])
+@product.route("/<string:id>", methods=["DELETE"])
 def delete_product(id):
     db = mysql.get_db()
     cursor = db.cursor()

@@ -25,5 +25,5 @@ def login():
     user = cursor.fetchone()
     if not user:
         return "User doesn't exist", 401
-    token = create_access_token(identity=user["email"])
+    token = create_access_token(identity=user["id"])
     return flask.jsonify(token), 200   

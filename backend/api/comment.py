@@ -21,8 +21,8 @@ def get_comment(id):
 def create_comment():
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("INSERT INTO comment(username, product_id, title, content, created) "
-            "VALUES(%(username)s, %(product_id)s, %(title)s, %(content)s, %(created)s)", flask.request.json)
+    cursor.execute("INSERT INTO comment(user_id, product_id, title, content, created) "
+            "VALUES(%(user_id)s, %(product_id)s, %(title)s, %(content)s, %(created)s)", flask.request.json)
     db.commit()
     return flask.jsonify(flask.request.json), 201
 
@@ -32,7 +32,7 @@ def update_comment(id):
     comment["id"] = id
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("UPDATE comment SET username=%(username)s, product_id=%(product_id)s, title=%(title)s, content=%(content)s, created=%(created)s "
+    cursor.execute("UPDATE comment SET user_id=%(user_id)s, product_id=%(product_id)s, title=%(title)s, content=%(content)s, created=%(created)s "
             "WHERE id=%(id)s", comment)
     db.commit()
     cursor.execute("SELECT * FROM comment WHERE id=%s", (id,))
