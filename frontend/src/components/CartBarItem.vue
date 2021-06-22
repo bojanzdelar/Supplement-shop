@@ -33,10 +33,10 @@
 
 <script>
 export default {
-  name: "CartItem",
+  name: "CartBarItem",
   props: {
     id: Number,
-    productId: Number,
+    productId: String,
     name: String,
     quantity: Number,
     price: Number,

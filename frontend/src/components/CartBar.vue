@@ -15,7 +15,7 @@
       ></button>
     </div>
     <div class="offcanvas-body">
-      <CartItem
+      <CartBarItem
         v-for="item in cart"
         :key="item.id"
         :id="item.id"
@@ -32,19 +32,27 @@
         <button class="btn btn-success text-uppercase">
           Proceed to checkout
         </button>
-        <button class="btn btn-success text-uppercase">View cart</button>
+        <router-link
+          to="/cart"
+          tag="button"
+          class="btn btn-success text-uppercase"
+          data-bs-dismiss="offcanvas"
+          aria-label="viewCart"
+        >
+          View cart
+        </router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import CartItem from "@/components/CartItem.vue";
+import CartBarItem from "@/components/CartBarItem.vue";
 
 export default {
   name: "CartBar",
   components: {
-    CartItem,
+    CartBarItem,
   },
   data() {
     return {
@@ -68,15 +76,20 @@ export default {
         this.cart = response.data;
       });
     },
+
     removeItem(id) {
       this.axios.delete(`/cart/${id}`).then(() => {
-        for (let i = 0; i < this.cart.length; i++) {
-          if (this.cart[i].id == id) {
-            this.cart.splice(i, 1);
-            break;
-          }
-        }
+        this.emitter.emit("removedFromCart", id);
       });
+    },
+
+    removeRemovedItem(id) {
+      for (let i = 0; i < this.cart.length; i++) {
+        if (this.cart[i].id == id) {
+          this.cart.splice(i, 1);
+          break;
+        }
+      }
     },
   },
   created() {
@@ -92,6 +105,10 @@ export default {
 
     this.emitter.on("addedToCart", () => {
       this.getCart();
+    });
+
+    this.emitter.on("removedFromCart", (id) => {
+      this.removeRemovedItem(id);
     });
   },
 };
