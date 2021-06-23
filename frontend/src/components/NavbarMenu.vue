@@ -69,7 +69,7 @@
 
         <li>
           <router-link
-            to="/about"
+            to="/contact"
             class="list-group-item list-group-item-action text-uppercase"
           >
             Contact

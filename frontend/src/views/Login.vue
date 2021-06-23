@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container mt-5">
     <h3 class="text-center">My account</h3>
     <div class="row justify-content-center">
       <div class="col-md-4">
@@ -65,11 +65,14 @@ export default {
       this.axios
         .post("/login", user)
         .then((response) => {
-          localStorage.setItem("token", response.data);
+          console.log(response);
+          localStorage.setItem("access_token", response.data["access_token"]);
+          localStorage.setItem("refresh_token", response.data["refresh_token"]);
           this.emitter.emit("loggedIn");
           this.$router.push("/");
         })
-        .catch(() => {
+        .catch((error) => {
+          console.log(error);
           this.failed = true;
         });
     },

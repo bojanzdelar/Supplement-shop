@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container mt-5">
     <div class="row">
       <div class="col-md-6">
         <img :src="product.image" alt="product.name" class="img-fluid" />
@@ -46,12 +46,14 @@ export default {
         product_id: this.$route.params["id"],
         quantity: 1,
       },
-      logged: localStorage.getItem("token") !== null,
+      logged: localStorage.getItem("access_token") !== null,
     };
   },
   watch: {
     $route() {
-      this.getProduct();
+      if (this.$route.name == this.$options.name) {
+        this.getProduct();
+      }
     },
   },
   methods: {
@@ -62,11 +64,8 @@ export default {
           this.product = response.data;
         });
     },
+
     addToCart() {
-      if (!this.logged) {
-        window.alert("You must be signed in to add products to cart!");
-        return;
-      }
       if (this.cart.quantity < 1) {
         window.alert("Quantity of product must be at least 1");
         return;
@@ -77,16 +76,28 @@ export default {
         );
         return;
       }
-      this.axios.post("/cart", this.cart);
+      if (this.logged) {
+        this.axios.post("/cart", this.cart);
+      } else {
+        let updatedCart = JSON.parse(localStorage.getItem("cart")) || [];
+        updatedCart.push({
+          product_id: this.product.id,
+          name: this.product.name,
+          price: this.product.price,
+          quantity: this.cart.quantity,
+          thumbnail: this.product.thumbnail,
+        });
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+      }
       this.emitter.emit("addedToCart");
     },
   },
   created() {
     this.getProduct();
 
-    // this.emitter.on("loggedIn", () => {
-    //   this.logged = true;
-    // });
+    this.emitter.on("loggedIn", () => {
+      this.logged = true;
+    });
 
     this.emitter.on("loggedOut", () => {
       this.logged = false;

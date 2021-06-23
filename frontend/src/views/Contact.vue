@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container mt-5">
     <h1>We Would Like to Hear From You</h1>
     <p>Customer Service Contact Form</p>
     <form>

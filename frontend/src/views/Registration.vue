@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container mt-5">
     <div v-if="failed" class="alert alert-danger" role="alert">
       Username is already taken.
     </div>

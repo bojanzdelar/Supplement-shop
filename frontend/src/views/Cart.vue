@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container mt-5">
     <div v-if="cartIsEmpty">
       <p>You don't have any items in your cart.</p>
       <router-link to="/" class="btn btn-success">
@@ -57,6 +57,7 @@ export default {
   data() {
     return {
       cart: [],
+      logged: localStorage.getItem("access_token") !== null,
     };
   },
   computed: {
@@ -75,9 +76,13 @@ export default {
   },
   methods: {
     getCart() {
-      this.axios.get("/cart/user").then((response) => {
-        this.cart = response.data;
-      });
+      if (this.logged) {
+        this.axios.get("/cart/user").then((response) => {
+          this.cart = response.data;
+        });
+      } else {
+        this.cart = JSON.parse(localStorage.getItem("cart")) || [];
+      }
     },
 
     changeQuantity(id, quantity) {
@@ -90,31 +95,55 @@ export default {
     },
 
     updateQuantity() {
-      for (let item of this.cart) {
-        console.log(item);
+      if (this.logged) {
+        for (let item of this.cart) {
+          if ("newQuantity" in item) {
+            item.quantity = item.newQuantity;
+            delete item.newQuantity;
+            this.axios.put(`/cart/${item.id}`, item);
+          }
+        }
+      } else {
+        for (let item of this.cart) {
+          if ("newQuantity" in item) {
+            item.quantity = item.newQuantity;
+            delete item.newQuantity;
+          }
+        }
+        localStorage.setItem("cart", JSON.stringify(this.cart));
       }
+      this.emitter.emit("updatedCart");
     },
 
     removeItem(id) {
-      this.axios.delete(`/cart/${id}`).then(() => {
+      if (this.logged) {
+        this.axios.delete(`/cart/${id}`).then(() => {
+          this.emitter.emit("removedFromCart", id);
+        });
+      } else {
+        let updatedCart = JSON.parse(localStorage.getItem("cart"));
+        updatedCart.splice(
+          updatedCart.findIndex((item) => item.id == id),
+          1
+        );
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
         this.emitter.emit("removedFromCart", id);
-      });
+      }
     },
 
     removeRemovedItem(id) {
-      for (let i = 0; i < this.cart.length; i++) {
-        if (this.cart[i].id == id) {
-          this.cart.splice(i, 1);
-          break;
-        }
-      }
+      this.cart.splice(
+        this.cart.findIndex((item) => item.id == id),
+        1
+      );
     },
   },
   created() {
     this.getCart();
 
     this.emitter.on("loggedOut", () => {
-      this.cart = [];
+      this.logged = false;
+      this.getCart();
     });
 
     this.emitter.on("removedFromCart", (id) => {

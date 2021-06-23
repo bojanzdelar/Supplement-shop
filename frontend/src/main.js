@@ -13,13 +13,23 @@ const instance = axios.create({
   baseURL: "http://127.0.0.1:5000/api",
 });
 
+const emitter = mitt();
+
 instance.interceptors.request.use((req) => {
-  const token = localStorage.getItem("token");
-  req.headers.Authorization = `Bearer ${token}`;
+  const access_token = localStorage.getItem("access_token");
+  req.headers.Authorization = `Bearer ${access_token}`;
   return req;
 });
 
-const emitter = mitt();
+// instance.interceptors.response.use(
+//   (res) => res,
+//   (error) => {
+//     if (error.response.data.msg == "Token has expired") {
+//       emitter.emit("loggedOut"); // FIXME: should refresh token and log out only if refresh token has expired
+//     }
+//     return error;
+//   }
+// );
 
 app.use(router);
 app.config.globalProperties.axios = instance;

@@ -149,7 +149,8 @@ export default {
     },
     logout() {
       this.emitter.emit("loggedOut");
-      localStorage.removeItem("token");
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
     },
   },
   created() {

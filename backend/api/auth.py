@@ -1,7 +1,7 @@
 import flask
 from flask import Blueprint
 from flaskext.mysql import pymysql
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity
 from db import mysql
 
 auth = Blueprint("auth", __name__)
@@ -25,5 +25,15 @@ def login():
     user = cursor.fetchone()
     if not user:
         return "User doesn't exist", 401
-    token = create_access_token(identity=user["id"])
-    return flask.jsonify(token), 200   
+    access_token = create_access_token(identity=user["id"])
+    refresh_token = create_refresh_token(identity=user["id"])
+    return flask.jsonify(access_token=access_token, refresh_token=refresh_token), 200   
+
+# We are using the `refresh=True` options in jwt_required to only allow
+# refresh tokens to access this route.
+@auth.route("/refresh", methods=["POST"])
+@jwt_required(refresh=True)
+def refresh():
+    identity = get_jwt_identity()
+    access_token = create_access_token(identity=identity)
+    return flask.jsonify(access_token=access_token)

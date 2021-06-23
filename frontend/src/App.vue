@@ -20,11 +20,22 @@ export default {
     CartBar,
   },
   mounted() {
-    if (localStorage.getItem("token")) {
+    if (localStorage.getItem("access_token")) {
       this.emitter.emit("loggedIn");
     } else {
       this.emitter.emit("loggedOut");
     }
+
+    this.emitter.on("loggedIn", () => {
+      const cart = JSON.parse(localStorage.getItem("cart"));
+      if (!cart) return;
+
+      this.axios.delete("/cart/user");
+      cart.forEach((item) => {
+        this.axios.post("/cart", item);
+      });
+      localStorage.removeItem("cart");
+    });
   },
 };
 </script>

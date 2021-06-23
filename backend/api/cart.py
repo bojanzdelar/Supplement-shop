@@ -6,12 +6,14 @@ from app import mysql
 cart = Blueprint('cart', __name__)
 
 @cart.route("/", methods=["GET"])
+@jwt_required()
 def get_all_cart():
     cursor = mysql.get_db().cursor()
     cursor.execute("SELECT * FROM cart")
     return flask.jsonify(cursor.fetchall())
 
 @cart.route("/<int:id>", methods=["GET"])
+@jwt_required()
 def get_cart(id):
     cursor = mysql.get_db().cursor()
     cursor.execute("SELECT * FROM cart WHERE id=%s", (id,))
@@ -49,6 +51,7 @@ def add_to_cart():
     return flask.jsonify(cursor.fetchone()), 201
 
 @cart.route("/<int:id>", methods=["PUT"])
+@jwt_required()
 def update_cart(id):
     cart = flask.request.json
     cart["id"] = id
@@ -72,5 +75,14 @@ def delete_cart(id):
     if cart["user_id"] != get_jwt_identity():
         return "Unauthorized", 401
     cursor.execute("DELETE FROM cart WHERE id=%s", (id,))
+    db.commit()
+    return ""
+
+@cart.route("/user", methods=["DELETE"])
+@jwt_required()
+def delete_user_cart():
+    db = mysql.get_db()
+    cursor = db.cursor()
+    cursor.execute("DELETE FROM cart WHERE user_id=%s", (get_jwt_identity(), ))
     db.commit()
     return ""

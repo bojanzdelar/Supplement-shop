@@ -57,6 +57,7 @@ export default {
   data() {
     return {
       cart: [],
+      logged: localStorage.getItem("access_token") !== null,
     };
   },
   computed: {
@@ -72,38 +73,63 @@ export default {
   },
   methods: {
     getCart() {
-      this.axios.get("/cart/user").then((response) => {
-        this.cart = response.data;
-      });
+      console.log("pozvana metoda getCart");
+
+      if (this.logged) {
+        console.log("proveren uslov da je prijavljen korisnik");
+
+        this.axios.get("/cart/user").then((response) => {
+          this.cart = response.data;
+          console.log("api dobavio");
+          console.log(this.cart);
+        });
+      } else {
+        this.cart = JSON.parse(localStorage.getItem("cart")) || [];
+      }
     },
 
     removeItem(id) {
-      this.axios.delete(`/cart/${id}`).then(() => {
+      if (this.logged) {
+        this.axios.delete(`/cart/${id}`).then(() => {
+          this.emitter.emit("removedFromCart", id);
+        });
+      } else {
+        let updatedCart = JSON.parse(localStorage.getItem("cart"));
+        updatedCart.splice(
+          updatedCart.findIndex((item) => item.id == id),
+          1
+        );
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
         this.emitter.emit("removedFromCart", id);
-      });
+      }
     },
 
     removeRemovedItem(id) {
-      for (let i = 0; i < this.cart.length; i++) {
-        if (this.cart[i].id == id) {
-          this.cart.splice(i, 1);
-          break;
-        }
-      }
+      this.cart.splice(
+        this.cart.findIndex((item) => item.id == id),
+        1
+      );
     },
   },
   created() {
     this.getCart();
 
     this.emitter.on("loggedIn", () => {
+      this.logged = true;
       this.getCart();
     });
 
     this.emitter.on("loggedOut", () => {
-      this.cart = [];
+      this.logged = false;
+      this.getCart();
     });
 
     this.emitter.on("addedToCart", () => {
+      console.log("primljen signal");
+      this.getCart();
+    });
+
+    this.emitter.on("updatedCart", () => {
       this.getCart();
     });
 

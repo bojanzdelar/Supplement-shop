@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container mt-5">
     <div class="row">
       <Product
         v-for="product in products"
@@ -30,7 +30,9 @@ export default {
   },
   watch: {
     $route() {
-      this.getProducts();
+      if (this.$route.name == this.$options.name) {
+        this.getProducts();
+      }
     },
   },
   methods: {
