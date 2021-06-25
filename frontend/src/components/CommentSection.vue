@@ -9,7 +9,7 @@
           <Comment
             v-for="comment in comments"
             :key="comment.id"
-            :username="comment.email"
+            :email="comment.email"
             :content="comment.content"
             :created="comment.created"
           />

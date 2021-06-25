@@ -65,9 +65,9 @@ export default {
       this.axios
         .post("/login", user)
         .then((response) => {
-          console.log(response);
           localStorage.setItem("access_token", response.data["access_token"]);
           localStorage.setItem("refresh_token", response.data["refresh_token"]);
+          this.saveCart();
           this.emitter.emit("loggedIn");
           this.$router.push("/");
         })
@@ -75,6 +75,17 @@ export default {
           console.log(error);
           this.failed = true;
         });
+    },
+
+    saveCart() {
+      const cart = JSON.parse(localStorage.getItem("cart"));
+      if (!cart) return;
+
+      this.axios.delete("/cart/user");
+      cart.forEach((item) => {
+        this.axios.post("/cart", item);
+      });
+      localStorage.removeItem("cart");
     },
   },
 };

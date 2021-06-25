@@ -73,15 +73,9 @@ export default {
   },
   methods: {
     getCart() {
-      console.log("pozvana metoda getCart");
-
       if (this.logged) {
-        console.log("proveren uslov da je prijavljen korisnik");
-
         this.axios.get("/cart/user").then((response) => {
           this.cart = response.data;
-          console.log("api dobavio");
-          console.log(this.cart);
         });
       } else {
         this.cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -112,8 +106,6 @@ export default {
     },
   },
   created() {
-    this.getCart();
-
     this.emitter.on("loggedIn", () => {
       this.logged = true;
       this.getCart();
@@ -125,7 +117,6 @@ export default {
     });
 
     this.emitter.on("addedToCart", () => {
-      console.log("primljen signal");
       this.getCart();
     });
 
