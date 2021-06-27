@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import axios from "@/service/index.js";
 import Product from "@/components/Product.vue";
 
 export default {
@@ -40,7 +41,7 @@ export default {
       const id = this.$route.params["id"];
       const path = id == "all" ? "/product" : `/category/${id}/products`;
 
-      this.axios.get(path).then((response) => {
+      axios.get(path).then((response) => {
         this.products = response.data;
       });
     },

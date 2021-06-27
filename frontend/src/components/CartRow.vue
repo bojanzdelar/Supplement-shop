@@ -34,6 +34,8 @@
 </template>
 
 <script>
+import axios from "@/service/index.js";
+
 export default {
   name: "CartRow",
   props: {
@@ -68,7 +70,7 @@ export default {
   },
   methods: {
     getQuantityAvailable() {
-      this.axios.get(`/product/${this.productId}/quantity`).then((response) => {
+      axios.get(`/product/${this.productId}/quantity`).then((response) => {
         this.quantityAvailable = response.data.quantity;
       });
     },

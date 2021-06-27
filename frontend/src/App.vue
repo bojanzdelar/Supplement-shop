@@ -19,12 +19,8 @@ export default {
     SearchBar,
     CartBar,
   },
-  mounted() {
-    if (localStorage.getItem("access_token")) {
-      this.emitter.emit("loggedIn");
-    } else {
-      this.emitter.emit("loggedOut");
-    }
+  created() {
+    this.$store.dispatch("getCart");
   },
 };
 </script>

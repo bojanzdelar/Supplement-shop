@@ -15,8 +15,8 @@ from api.user import user
 app = Flask(__name__, static_url_path="")
 mysql.init_app(app)
 jwt = JWTManager(app)
-cors = CORS(app, resources={r"/api/*": {"origins": "http://127.0.0.1:8080"}},
-        supports_credentials=True)
+cors = CORS(app, resources={r"/api/*": {"origins": [
+        "http://127.0.0.1:8080", "http://localhost:8080"]}}, supports_credentials=True)
 
 app.url_map.strict_slashes = False # prevents 308 status code for CORS preflight
 

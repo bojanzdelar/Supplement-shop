@@ -70,6 +70,7 @@
         <li>
           <router-link
             to="/contact"
+            data-bs-dismiss="offcanvas"
             class="list-group-item list-group-item-action text-uppercase"
           >
             Contact

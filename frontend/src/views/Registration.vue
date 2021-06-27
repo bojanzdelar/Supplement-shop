@@ -63,6 +63,8 @@
 </template>
 
 <script>
+import axios from "@/service/index.js";
+
 export default {
   name: "Registration",
   data() {
@@ -73,7 +75,7 @@ export default {
   },
   methods: {
     register(user) {
-      this.axios
+      axios
         .post("/register", user)
         .then(() => {
           this.$router.push("/login");

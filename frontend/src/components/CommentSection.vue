@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import axios from "@/service/index.js";
 import Comment from "@/components/Comment.vue";
 
 export default {
@@ -34,7 +35,7 @@ export default {
   },
   methods: {
     getComments() {
-      this.axios.get("/comment").then((response) => {
+      axios.get("/comment").then((response) => {
         this.comments = response.data.filter((comment) => {
           return comment.product_id == this.$route.params["id"];
         });

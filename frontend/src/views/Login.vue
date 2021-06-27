@@ -52,6 +52,8 @@
 </template>
 
 <script>
+import axios from "@/service/index.js";
+
 export default {
   name: "Login",
   data() {
@@ -62,30 +64,18 @@ export default {
   },
   methods: {
     login(user) {
-      this.axios
+      axios
         .post("/login", user)
         .then((response) => {
-          localStorage.setItem("access_token", response.data["access_token"]);
-          localStorage.setItem("refresh_token", response.data["refresh_token"]);
-          this.saveCart();
-          this.emitter.emit("loggedIn");
+          this.$store.dispatch("logIn", [
+            response.data["access_token"],
+            response.data["refresh_token"],
+          ]);
           this.$router.push("/");
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
           this.failed = true;
         });
-    },
-
-    saveCart() {
-      const cart = JSON.parse(localStorage.getItem("cart"));
-      if (!cart) return;
-
-      this.axios.delete("/cart/user");
-      cart.forEach((item) => {
-        this.axios.post("/cart", item);
-      });
-      localStorage.removeItem("cart");
     },
   },
 };

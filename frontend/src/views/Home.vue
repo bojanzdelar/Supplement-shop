@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import axios from "@/service/index.js";
 import Carousel from "@/components/Carousel.vue";
 import Product from "@/components/Product.vue";
 
@@ -36,7 +37,7 @@ export default {
   },
   methods: {
     getProducts() {
-      this.axios.get("/product").then((response) => {
+      axios.get("/product").then((response) => {
         this.products = response.data;
       });
     },

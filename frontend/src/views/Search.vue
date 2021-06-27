@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import axios from "@/service/index.js";
 import Product from "@/components/Product.vue";
 
 export default {
@@ -31,11 +32,9 @@ export default {
   },
   methods: {
     getProducts() {
-      this.axios
-        .get(`/product/search/${this.$route.query.q}`)
-        .then((response) => {
-          this.products = response.data;
-        });
+      axios.get(`/product/search/${this.$route.query.q}`).then((response) => {
+        this.products = response.data;
+      });
     },
     viewDetails(id) {
       this.$router.push(`/products/${id}`);

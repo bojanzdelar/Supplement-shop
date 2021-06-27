@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import axios from "@/service/index.js";
 import CommentSection from "@/components/CommentSection.vue";
 
 export default {
@@ -46,7 +47,6 @@ export default {
         product_id: this.$route.params["id"],
         quantity: 1,
       },
-      logged: localStorage.getItem("access_token") !== null,
     };
   },
   watch: {
@@ -58,11 +58,9 @@ export default {
   },
   methods: {
     getProduct() {
-      this.axios
-        .get(`/product/${this.$route.params["id"]}`)
-        .then((response) => {
-          this.product = response.data;
-        });
+      axios.get(`/product/${this.$route.params["id"]}`).then((response) => {
+        this.product = response.data;
+      });
     },
 
     addToCart() {
@@ -76,32 +74,11 @@ export default {
         );
         return;
       }
-      if (this.logged) {
-        this.axios.post("/cart", this.cart);
-      } else {
-        let updatedCart = JSON.parse(localStorage.getItem("cart")) || [];
-        updatedCart.push({
-          product_id: this.product.id,
-          name: this.product.name,
-          price: this.product.price,
-          quantity: this.cart.quantity,
-          thumbnail: this.product.thumbnail,
-        });
-        localStorage.setItem("cart", JSON.stringify(updatedCart));
-      }
-      this.emitter.emit("addedToCart");
+      this.$store.dispatch("addToCart", [this.product, this.cart.quantity]);
     },
   },
   created() {
     this.getProduct();
-
-    this.emitter.on("loggedIn", () => {
-      this.logged = true;
-    });
-
-    this.emitter.on("loggedOut", () => {
-      this.logged = false;
-    });
   },
 };
 </script>

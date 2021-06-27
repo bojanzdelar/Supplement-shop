@@ -87,7 +87,11 @@
               <i class="bi bi-gear"></i>
             </a>
             <ul class="dropdown-menu" aria-labelledby="settingsDropdown">
-              <li v-if="logged" @click="logout" class="dropdown-item">
+              <li
+                v-if="$store.state.logged"
+                @click="$store.dispatch('logOut')"
+                class="dropdown-item"
+              >
                 Logout
               </li>
               <div v-else>
@@ -128,6 +132,7 @@
 </template>
 
 <script>
+import axios from "@/service/index.js";
 import NavbarMenu from "@/components/NavbarMenu.vue";
 
 export default {
@@ -138,31 +143,17 @@ export default {
   data() {
     return {
       categories: [],
-      logged: false,
     };
   },
   methods: {
     getCategories() {
-      this.axios.get("/category/").then((response) => {
+      axios.get("/category/").then((response) => {
         this.categories = response.data;
       });
-    },
-    logout() {
-      this.emitter.emit("loggedOut");
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("refresh_token");
     },
   },
   created() {
     this.getCategories();
-
-    this.emitter.on("loggedIn", () => {
-      this.logged = true;
-    });
-
-    this.emitter.on("loggedOut", () => {
-      this.logged = false;
-    });
   },
 };
 </script>
