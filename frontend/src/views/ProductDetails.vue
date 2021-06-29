@@ -27,19 +27,15 @@
         </div>
       </div>
     </div>
-    <CommentSection />
+    <!-- <CommentSection /> -->
   </div>
 </template>
 
 <script>
 import axios from "@/service/index.js";
-import CommentSection from "@/components/CommentSection.vue";
 
 export default {
   name: "ProductDetails",
-  components: {
-    CommentSection,
-  },
   data() {
     return {
       product: {},
