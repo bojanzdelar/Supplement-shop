@@ -4,10 +4,12 @@ import Category from "../views/Category.vue";
 import ProductDetails from "../views/ProductDetails.vue";
 import Search from "../views/Search.vue";
 import Cart from "../views/Cart.vue";
+import Checkout from "../views/Checkout.vue";
 // import About from "../views/About.vue";
 import Contact from "../views/Contact.vue";
 import Registration from "../views/Registration.vue";
 import Login from "../views/Login.vue";
+import NotFound from "../views/NotFound.vue";
 
 const routes = [
   {
@@ -36,6 +38,11 @@ const routes = [
     component: Cart,
   },
   {
+    path: "/checkout",
+    name: "Checkout",
+    component: Checkout,
+  },
+  {
     path: "/about",
     name: "About",
     // route level code-splitting
@@ -59,11 +66,11 @@ const routes = [
     name: "Login",
     component: Login,
   },
-  // {
-  //   path: '/:catchAll(.*)',
-  //   component: NotFoundComponent,
-  //   name: 'NotFound'
-  // }
+  {
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: NotFound,
+  },
 ];
 
 const router = createRouter({
