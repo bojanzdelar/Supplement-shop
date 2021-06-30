@@ -16,7 +16,7 @@
     </div>
     <div class="offcanvas-body">
       <CartBarItem
-        v-for="item in $store.state.cart"
+        v-for="item in cart"
         :key="item.id"
         :id="item.id"
         :product-id="item.product_id"
@@ -24,14 +24,20 @@
         :quantity="item.quantity"
         :price="item.price"
         :thumbnail="item.thumbnail"
-        @remove="$store.dispatch('removeFromCart', item.id)"
+        @remove="remove(item.id)"
         class="mb-1"
       />
       <div class="d-grid gap-2">
-        <p>Subtotal: ${{ $store.getters.cartSubtotal }}</p>
-        <button class="btn btn-success text-uppercase">
+        <p>Subtotal: ${{ subtotal }}</p>
+        <router-link
+          to="/checkout"
+          tag="button"
+          class="btn btn-success text-uppercase"
+          data-bs-dismiss="offcanvas"
+          aria-label="checkout"
+        >
           Proceed to checkout
-        </button>
+        </router-link>
         <router-link
           to="/cart"
           tag="button"
@@ -47,12 +53,22 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from "vuex";
 import CartBarItem from "@/components/CartBarItem.vue";
+
+const { mapState, mapGetters, mapActions } = createNamespacedHelpers("cart");
 
 export default {
   name: "CartBar",
   components: {
     CartBarItem,
+  },
+  computed: {
+    ...mapState(["cart"]),
+    ...mapGetters(["subtotal"]),
+  },
+  methods: {
+    ...mapActions(["remove"]),
   },
 };
 </script>

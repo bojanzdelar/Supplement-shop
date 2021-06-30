@@ -20,19 +20,21 @@
             />
           </div>
           <div class="col-9 d-grid">
-            <button @click="addToCart" class="btn btn-success">
+            <button @click="validate" class="btn btn-success">
               Add to cart
             </button>
           </div>
         </div>
       </div>
     </div>
-    <!-- <CommentSection /> -->
   </div>
 </template>
 
 <script>
+import { createNamespacedHelpers } from "vuex";
 import axios from "@/service/index.js";
+
+const { mapActions } = createNamespacedHelpers("cart");
 
 export default {
   name: "ProductDetails",
@@ -59,7 +61,7 @@ export default {
       });
     },
 
-    addToCart() {
+    validate() {
       if (this.cart.quantity < 1) {
         window.alert("Quantity of product must be at least 1");
         return;
@@ -70,8 +72,11 @@ export default {
         );
         return;
       }
-      this.$store.dispatch("addToCart", [this.product, this.cart.quantity]);
+
+      this.add([this.product, this.cart.quantity]);
     },
+
+    ...mapActions(["add"]),
   },
   created() {
     this.getProduct();

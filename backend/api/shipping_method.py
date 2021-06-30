@@ -21,8 +21,8 @@ def get_shipping_method(id):
 def create_shipping_method():
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("INSERT INTO shipping_method(method, price) "
-            "VALUES(%(method)s, %(price)s)", flask.request.json)
+    cursor.execute("INSERT INTO shipping_method(name, price) "
+            "VALUES(%(name)s, %(price)s)", flask.request.json)
     db.commit()
     return flask.jsonify(flask.request.json), 201
 
@@ -32,7 +32,7 @@ def update_shipping_method(id):
     shipping_method["id"] = id
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("UPDATE shipping_method SET method=%(method)s, price=%(price)s "
+    cursor.execute("UPDATE shipping_method SET name=%(name)s, price=%(price)s "
             "WHERE id=%(id)s", shipping_method)
     db.commit()
     cursor.execute("SELECT * FROM shipping_method WHERE id=%s", (id,))

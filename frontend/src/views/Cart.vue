@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-5">
-    <div v-if="$store.getters.cartIsEmpty">
+    <div v-if="isEmpty">
       <p>You don't have any items in your cart.</p>
       <router-link to="/" class="btn btn-success">
         Continue shopping<i class="bi bi-chevron-right"></i>
@@ -22,7 +22,7 @@
             </thead>
             <tbody>
               <CartRow
-                v-for="item in $store.state.cart"
+                v-for="item in cart"
                 :key="item.id"
                 :id="item.id"
                 :product-id="item.product_id"
@@ -30,60 +30,50 @@
                 :quantity="item.quantity"
                 :price="item.price"
                 :thumbnail="item.thumbnail"
-                @changed="changeQuantity"
-                @remove="$store.dispatch('removeFromCart', item.id)"
+                @changed="changeItemQuantity"
+                @remove="remove(item.id)"
                 class="mb-1"
               />
             </tbody>
           </table>
-          <button @click="updateQuantity" class="btn btn-success">
-            Update
-          </button>
+          <button @click="update" class="btn btn-success">Update</button>
         </div>
-        <div class="col-lg-4"></div>
+        <div class="col-lg-4 bg-light">
+          <p>Subtotal ${{ subtotal }}</p>
+          <p>Shipping & taxes calculated at checkout</p>
+          <router-link
+            to="/checkout"
+            tag="button"
+            class="btn btn-success text-uppercase"
+            aria-label="checkout"
+          >
+            Proceed to checkout
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import axios from "@/service/index.js";
+import { createNamespacedHelpers } from "vuex";
 import CartRow from "@/components/CartRow.vue";
+
+const { mapState, mapGetters, mapMutations, mapActions } =
+  createNamespacedHelpers("cart");
 
 export default {
   name: "Cart",
   components: {
     CartRow,
   },
+  computed: {
+    ...mapState(["cart"]),
+    ...mapGetters(["isEmpty", "subtotal"]),
+  },
   methods: {
-    changeQuantity(id, quantity) {
-      for (let i = 0; i < this.cart.length; i++) {
-        if (this.cart[i].id == id) {
-          this.cart[i].newQuantity = quantity;
-          break;
-        }
-      }
-    },
-
-    updateQuantity() {
-      if (this.$store.state.logged) {
-        for (let item of this.cart) {
-          if ("newQuantity" in item) {
-            item.quantity = item.newQuantity;
-            delete item.newQuantity;
-            axios.put(`/cart/${item.id}`, item);
-          }
-        }
-      } else {
-        for (let item of this.cart) {
-          if ("newQuantity" in item) {
-            item.quantity = item.newQuantity;
-            delete item.newQuantity;
-          }
-        }
-        localStorage.setItem("cart", JSON.stringify(this.cart));
-      }
-    },
+    ...mapMutations(["changeItemQuantity"]),
+    ...mapActions(["update", "remove"]),
   },
 };
 </script>

@@ -87,11 +87,7 @@
               <i class="bi bi-gear"></i>
             </a>
             <ul class="dropdown-menu" aria-labelledby="settingsDropdown">
-              <li
-                v-if="$store.state.logged"
-                @click="$store.dispatch('logOut')"
-                class="dropdown-item"
-              >
+              <li v-if="logged" @click="logOut" class="dropdown-item">
                 Logout
               </li>
               <div v-else>
@@ -132,8 +128,11 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from "vuex";
 import axios from "@/service/index.js";
 import NavbarMenu from "@/components/NavbarMenu.vue";
+
+const { mapState, mapActions } = createNamespacedHelpers("auth");
 
 export default {
   name: "Navbar",
@@ -145,12 +144,16 @@ export default {
       categories: [],
     };
   },
+  computed: {
+    ...mapState(["logged"]),
+  },
   methods: {
     getCategories() {
       axios.get("/category/").then((response) => {
         this.categories = response.data;
       });
     },
+    ...mapActions(["logOut"]),
   },
   created() {
     this.getCategories();

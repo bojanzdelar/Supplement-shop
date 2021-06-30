@@ -52,7 +52,10 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from "vuex";
 import axios from "@/service/index.js";
+
+const { mapActions } = createNamespacedHelpers("auth");
 
 export default {
   name: "Login",
@@ -67,16 +70,14 @@ export default {
       axios
         .post("/login", user)
         .then((response) => {
-          this.$store.dispatch("logIn", [
-            response.data["access_token"],
-            response.data["refresh_token"],
-          ]);
+          this.loggedIn(response.data);
           this.$router.push("/");
         })
         .catch(() => {
           this.failed = true;
         });
     },
+    ...mapActions(["loggedIn"]),
   },
 };
 </script>

@@ -5,6 +5,9 @@ import ProductDetails from "../views/ProductDetails.vue";
 import Search from "../views/Search.vue";
 import Cart from "../views/Cart.vue";
 import Checkout from "../views/Checkout.vue";
+import CheckoutInformation from "../components/CheckoutInformation.vue";
+import CheckoutShipping from "../components/CheckoutShipping.vue";
+import CheckoutPayment from "../components/CheckoutPayment.vue";
 import About from "../views/About.vue";
 import Contact from "../views/Contact.vue";
 import Registration from "../views/Registration.vue";
@@ -39,8 +42,26 @@ const routes = [
   },
   {
     path: "/checkout",
+    redirect: "/checkout/information",
     name: "Checkout",
     component: Checkout,
+    children: [
+      {
+        path: "information",
+        name: "CheckoutInformation",
+        component: CheckoutInformation,
+      },
+      {
+        path: "shipping",
+        name: "CheckoutShipping",
+        component: CheckoutShipping,
+      },
+      {
+        path: "payment",
+        name: "CheckoutPayment",
+        component: CheckoutPayment,
+      },
+    ],
   },
   {
     path: "/about",

@@ -21,8 +21,8 @@ def get_payment_method(id):
 def create_payment_method():
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("INSERT INTO payment_method(method) "
-            "VALUES(%(method)s)", flask.request.json)
+    cursor.execute("INSERT INTO payment_method(name) "
+            "VALUES(%(name)s)", flask.request.json)
     db.commit()
     return flask.jsonify(flask.request.json), 201
 
@@ -32,7 +32,7 @@ def update_payment_method(id):
     payment_method["id"] = id
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("UPDATE payment_method SET method=%(method)s "
+    cursor.execute("UPDATE payment_method SET name=%(name)s "
             "WHERE id=%(id)s", payment_method)
     db.commit()
     cursor.execute("SELECT * FROM payment_method WHERE id=%s", (id,))

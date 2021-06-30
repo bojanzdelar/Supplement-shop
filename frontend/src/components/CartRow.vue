@@ -59,7 +59,7 @@ export default {
   watch: {
     newQuantity(val) {
       if (val <= this.quantityAvailable) {
-        this.$emit("changed", this.id, val);
+        this.$emit("changed", [this.productId, val]);
       } else {
         window.alert(
           "There aren't enough products for you! Please pick a smaller quantity"

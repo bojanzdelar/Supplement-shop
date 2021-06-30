@@ -8,9 +8,12 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from "vuex";
 import Navbar from "@/components/Navbar.vue";
 import SearchBar from "@/components/SearchBar.vue";
 import CartBar from "@/components/CartBar.vue";
+
+const { mapActions } = createNamespacedHelpers("cart");
 
 export default {
   name: "App",
@@ -19,8 +22,11 @@ export default {
     SearchBar,
     CartBar,
   },
+  methods: {
+    ...mapActions(["get"]),
+  },
   created() {
-    this.$store.dispatch("getCart");
+    this.get();
   },
 };
 </script>
