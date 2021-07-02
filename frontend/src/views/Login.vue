@@ -71,7 +71,7 @@ export default {
         .post("/login", user)
         .then((response) => {
           this.loggedIn(response.data);
-          this.$router.push("/");
+          this.$router.back();
         })
         .catch(() => {
           this.failed = true;

@@ -27,7 +27,8 @@ def login():
         return "User doesn't exist", 401
     access_token = create_access_token(identity=user["id"])
     refresh_token = create_refresh_token(identity=user["id"])
-    return flask.jsonify(access_token=access_token, refresh_token=refresh_token), 200   
+    user.pop("password")
+    return flask.jsonify(access_token=access_token, refresh_token=refresh_token, user=user), 200   
 
 # We are using the `refresh=True` options in jwt_required to only allow
 # refresh tokens to access this route.

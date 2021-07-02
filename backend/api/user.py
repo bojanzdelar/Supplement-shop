@@ -21,8 +21,8 @@ def get_user(id):
 def add_user():
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("INSERT INTO user(email, password, first_name, last_name) "
-            "VALUES(%(email)s, %(password)s, %(first_name)s, %(last_name)s)", flask.request.json)
+    cursor.execute("INSERT INTO user(email, password, first_name, last_name, user_type_id) "
+            "VALUES(%(email)s, %(password)s, %(first_name)s, %(last_name)s, %(user_type_id))", flask.request.json)
     db.commit()
     return flask.jsonify(flask.request.json), 201
 
@@ -32,7 +32,7 @@ def update_user(id):
     user["id"] = id
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("UPDATE user SET email=%(email)s, password=%(password)s, first_name=%(first_name)s, last_name=%(last_name)s "
+    cursor.execute("UPDATE user SET email=%(email)s, password=%(password)s, first_name=%(first_name)s, last_name=%(last_name)s, user_type_id=%(user_type_id)s "
             "WHERE id=%(id)s", user)
     db.commit()
     cursor.execute("SELECT * FROM user WHERE id=%s", (id,))

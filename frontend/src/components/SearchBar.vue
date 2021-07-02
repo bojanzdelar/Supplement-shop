@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     search(query) {
-      this.$router.push(`/search/?q=${query}`);
+      this.$router.push(`/search?q=${query}`);
     },
   },
 };
