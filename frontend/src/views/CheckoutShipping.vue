@@ -71,7 +71,7 @@ export default {
   },
   computed: {
     ...mapState("auth", ["logged", "user"]),
-    ...mapState("order", ["contact", "shippingAddress"]),
+    ...mapState("checkout", ["contact", "shippingAddress"]),
   },
   methods: {
     getShippingMethods() {
@@ -85,7 +85,7 @@ export default {
       this.$router.push("/checkout/payment");
     },
 
-    ...mapMutations("order", ["setShippingMethod"]),
+    ...mapMutations("checkout", ["setShippingMethod"]),
   },
   created() {
     this.getShippingMethods();

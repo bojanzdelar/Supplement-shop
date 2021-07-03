@@ -117,7 +117,7 @@ export default {
   computed: {
     billingAddress: {
       get() {
-        return this.$store.state.order.billingAddress;
+        return this.$store.state.checkout.billingAddress;
       },
       set(value) {
         this.setBillingAddress(value);
@@ -125,7 +125,7 @@ export default {
     },
 
     ...mapState("auth", ["logged", "user"]),
-    ...mapState("order", ["contact", "shippingAddress", "shippingMethod"]),
+    ...mapState("checkout", ["contact", "shippingAddress", "shippingMethod"]),
   },
   methods: {
     getPaymentMethods() {
@@ -141,7 +141,7 @@ export default {
       // this.$router.push("/");
     },
 
-    ...mapMutations("order", [
+    ...mapMutations("checkout", [
       "setPaymentMethod",
       "setBillingAddress",
       "setSameAddress",

@@ -13,11 +13,13 @@ const cart = {
     subtotal(state, getters) {
       if (getters.cartIsEmpty) return;
 
-      return state.cart
-        .reduce((sum, curr) => {
-          return sum + curr.price * curr.quantity;
-        }, 0)
-        .toFixed(2);
+      return parseFloat(
+        state.cart
+          .reduce((sum, curr) => {
+            return sum + curr.price * curr.quantity;
+          }, 0)
+          .toFixed(2)
+      );
     },
   },
   mutations: {

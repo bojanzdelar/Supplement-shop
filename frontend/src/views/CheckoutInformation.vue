@@ -60,7 +60,7 @@ export default {
   computed: {
     contact: {
       get() {
-        return this.$store.state.order.contact;
+        return this.$store.state.checkout.contact;
       },
       set(value) {
         this.setContact(value);
@@ -69,7 +69,7 @@ export default {
 
     shippingAddress: {
       get() {
-        return this.$store.state.order.shippingAddress;
+        return this.$store.state.checkout.shippingAddress;
       },
       set(value) {
         this.setShippingAddress(value);
@@ -83,7 +83,7 @@ export default {
       this.$router.push("/checkout/shipping");
     },
 
-    ...mapMutations("order", ["setContact", "setShippingAddress"]),
+    ...mapMutations("checkout", ["setContact", "setShippingAddress"]),
     ...mapActions("auth", ["logOut"]),
   },
 };

@@ -7,7 +7,7 @@
         <router-view />
       </div>
       <div class="col-lg-5">
-        <CheckoutOrder />
+        <CheckoutCart />
       </div>
     </div>
   </div>
@@ -15,13 +15,13 @@
 
 <script>
 import CheckoutNav from "@/components/CheckoutNav.vue";
-import CheckoutOrder from "@/components/CheckoutOrder.vue";
+import CheckoutCart from "@/components/CheckoutCart.vue";
 
 export default {
   name: "Checkout",
   components: {
     CheckoutNav,
-    CheckoutOrder,
+    CheckoutCart,
   },
 };
 </script>

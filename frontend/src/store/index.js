@@ -1,13 +1,13 @@
 import { createStore } from "vuex";
 import auth from "./modules/auth.js";
 import cart from "./modules/cart.js";
-import order from "./modules/order.js";
+import checkout from "./modules/checkout.js";
 
 const store = createStore({
   modules: {
     auth,
     cart,
-    order,
+    checkout,
   },
 });
 
@@ -18,8 +18,8 @@ store.subscribe((mutation, state) => {
 });
 
 store.subscribe((mutation, state) => {
-  if (mutation.type.startsWith("order")) {
-    localStorage.setItem("order", JSON.stringify(state.order));
+  if (mutation.type.startsWith("checkout")) {
+    localStorage.setItem("order", JSON.stringify(state.checkout));
   }
 });
 

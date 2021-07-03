@@ -1,6 +1,6 @@
-const order = {
+const checkout = {
   namespaced: true,
-  state: JSON.parse(localStorage.getItem("order")),
+  state: JSON.parse(localStorage.getItem("checkout")),
   getters: {},
   mutations: {
     setContact(state, contact) {
@@ -33,4 +33,4 @@ const order = {
   },
 };
 
-export default order;
+export default checkout;
