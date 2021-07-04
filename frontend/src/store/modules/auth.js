@@ -24,11 +24,13 @@ const auth = {
     },
   },
   actions: {
-    loggedIn({ commit, dispatch }, { access_token, refresh_token, user }) {
+    async loggedIn(
+      { commit, dispatch },
+      { access_token, refresh_token, user }
+    ) {
       commit("loggedIn", [access_token, refresh_token, user]);
-      dispatch("cart/save", null, { root: true }).then(() => {
-        dispatch("cart/get", null, { root: true });
-      });
+      await dispatch("cart/save", null, { root: true });
+      await dispatch("cart/get", null, { root: true });
     },
 
     logOut({ commit, dispatch }) {

@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 import axios from "@/service/index.js";
 import CheckoutAddressForm from "@/components/CheckoutAddressForm.vue";
 
@@ -128,17 +128,21 @@ export default {
     ...mapState("checkout", ["contact", "shippingAddress", "shippingMethod"]),
   },
   methods: {
-    getPaymentMethods() {
-      axios.get("/payment-method").then((response) => {
-        this.methods = response.data;
-      });
+    async getPaymentMethods() {
+      this.methods = await axios.get("/payment-method").data;
     },
 
-    finishOrder() {
+    async finishOrder() {
       this.setPaymentMethod(this.payment);
       this.setSameAddress(this.sameAddress);
-      window.alert("Your order has been received!");
-      // this.$router.push("/");
+
+      try {
+        this.checkout();
+        window.alert("Your order has been received!");
+        this.$router.push("/");
+      } catch (error) {
+        window.alert(error);
+      }
     },
 
     ...mapMutations("checkout", [
@@ -146,6 +150,7 @@ export default {
       "setBillingAddress",
       "setSameAddress",
     ]),
+    ...mapActions("checkout", ["checkout"]),
   },
   created() {
     this.getPaymentMethods();

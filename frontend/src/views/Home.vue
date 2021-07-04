@@ -36,10 +36,9 @@ export default {
     };
   },
   methods: {
-    getProducts() {
-      axios.get("/product").then((response) => {
-        this.products = response.data;
-      });
+    async getProducts() {
+      const response = await axios.get("/product");
+      this.products = response.data;
     },
   },
   created() {

@@ -66,16 +66,14 @@ export default {
     };
   },
   methods: {
-    login(user) {
-      axios
-        .post("/login", user)
-        .then((response) => {
-          this.loggedIn(response.data);
-          this.$router.back();
-        })
-        .catch(() => {
-          this.failed = true;
-        });
+    async login(user) {
+      try {
+        const response = await axios.post("/login", user);
+        this.loggedIn(response.data);
+        this.$router.back();
+      } catch {
+        this.failed = true;
+      }
     },
     ...mapActions(["loggedIn"]),
   },

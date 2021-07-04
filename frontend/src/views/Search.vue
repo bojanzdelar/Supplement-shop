@@ -31,10 +31,11 @@ export default {
     };
   },
   methods: {
-    getProducts() {
-      axios.get(`/product/search/${this.$route.query.q}`).then((response) => {
-        this.products = response.data;
-      });
+    async getProducts() {
+      const response = await axios.get(
+        `/product/search/${this.$route.query.q}`
+      );
+      this.products = response.data;
     },
     viewDetails(id) {
       this.$router.push(`/products/${id}`);

@@ -68,61 +68,64 @@ const cart = {
         1
       );
     },
+
+    clear(state) {
+      state.cart = [];
+    },
   },
   actions: {
-    save({ state }) {
-      if (!state.cart) return Promise.resolve();
+    async save({ state }) {
+      if (!state.cart) return;
 
-      axios.delete("/cart/user").then(() => {
-        state.cart.forEach((item) => {
-          axios.post("/cart", item).then();
-        });
+      await axios.delete("/cart/user");
 
-        return Promise.resolve();
-      });
+      for (let item of cart) {
+        await axios.post("/cart", item);
+      }
     },
 
-    get({ commit, state }) {
+    async get({ commit, state }) {
       if (state.logged) {
-        axios.get("/cart/user").then((response) => {
-          commit("set", response.data);
-        });
+        const response = await axios.get("/cart/user");
+        commit("set", response.data);
       } else {
         commit("set", JSON.parse(localStorage.getItem("cart")) || []);
       }
     },
 
-    add({ commit, state }, [product, quantity]) {
+    async add({ commit, state }, [product, quantity]) {
       if (state.logged) {
-        axios
-          .post("/cart", { product_id: product.id, quantity: quantity })
-          .then(() => {
-            commit("add", [product, quantity]);
-          });
-      } else {
-        commit("add", [product, quantity]);
+        await axios.post("/cart", {
+          product_id: product.id,
+          quantity: quantity,
+        });
       }
+      commit("add", [product, quantity]);
     },
 
-    update({ commit, state }) {
+    async update({ commit, state }) {
       if (state.logged) {
         for (let item of state.cart) {
           if ("newQuantity" in item) {
-            axios.put(`/cart/${item.id}`, item);
+            await axios.put(`/cart/${item.id}`, item);
           }
         }
       }
       commit("update");
     },
 
-    remove({ commit, state }, id) {
+    async remove({ commit, state }, id) {
       if (state.logged) {
-        axios.delete(`/cart/${id}`).then(() => {
-          commit("remove", id);
-        });
-      } else {
-        commit("remove", id);
+        await axios.delete(`/cart/${id}`);
       }
+      commit("remove", id);
+    },
+
+    async clear({ commit, state }) {
+      if (state.logged) {
+        await axios.delete("/cart");
+      }
+      commit("clear");
     },
   },
 };

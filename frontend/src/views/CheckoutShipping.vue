@@ -74,10 +74,9 @@ export default {
     ...mapState("checkout", ["contact", "shippingAddress"]),
   },
   methods: {
-    getShippingMethods() {
-      axios.get("/shipping-method").then((response) => {
-        this.methods = response.data;
-      });
+    async getShippingMethods() {
+      const response = await axios.get("/shipping-method");
+      this.methods = response.data;
     },
 
     continueToPayment() {

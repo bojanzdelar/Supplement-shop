@@ -74,15 +74,13 @@ export default {
     };
   },
   methods: {
-    register(user) {
-      axios
-        .post("/register", user)
-        .then(() => {
-          this.$router.push("/login");
-        })
-        .catch(() => {
-          this.failed = true;
-        });
+    async register(user) {
+      try {
+        await axios.post("/register", user);
+        this.$router.push("/login");
+      } catch {
+        this.failed = true;
+      }
     },
   },
 };

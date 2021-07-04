@@ -37,13 +37,11 @@ export default {
     },
   },
   methods: {
-    getProducts() {
+    async getProducts() {
       const id = this.$route.params["id"];
       const path = id == "all" ? "/product" : `/category/${id}/products`;
 
-      axios.get(path).then((response) => {
-        this.products = response.data;
-      });
+      this.products = await axios.get(path);
     },
   },
   created() {

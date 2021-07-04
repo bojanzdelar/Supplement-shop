@@ -19,7 +19,7 @@ store.subscribe((mutation, state) => {
 
 store.subscribe((mutation, state) => {
   if (mutation.type.startsWith("checkout")) {
-    localStorage.setItem("order", JSON.stringify(state.checkout));
+    localStorage.setItem("checkout", JSON.stringify(state.checkout));
   }
 });
 

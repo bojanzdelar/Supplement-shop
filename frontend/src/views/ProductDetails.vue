@@ -55,10 +55,9 @@ export default {
     },
   },
   methods: {
-    getProduct() {
-      axios.get(`/product/${this.$route.params["id"]}`).then((response) => {
-        this.product = response.data;
-      });
+    async getProduct() {
+      const response = await axios.get(`/product/${this.$route.params["id"]}`);
+      this.product = response.data;
     },
 
     validate() {

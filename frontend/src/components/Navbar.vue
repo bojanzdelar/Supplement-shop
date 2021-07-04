@@ -148,10 +148,8 @@ export default {
     ...mapState(["logged"]),
   },
   methods: {
-    getCategories() {
-      axios.get("/category/").then((response) => {
-        this.categories = response.data;
-      });
+    async getCategories() {
+      this.categories = await axios.get("/category").data;
     },
     ...mapActions(["logOut"]),
   },
