@@ -1,104 +1,88 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "../views/Home.vue";
-import Category from "../views/Category.vue";
-import ProductDetails from "../views/ProductDetails.vue";
-import Search from "../views/Search.vue";
-import Cart from "../views/Cart.vue";
-import Checkout from "../views/Checkout.vue";
-import CheckoutInformation from "../views/CheckoutInformation.vue";
-import CheckoutShipping from "../views/CheckoutShipping.vue";
-import CheckoutPayment from "../views/CheckoutPayment.vue";
-import About from "../views/About.vue";
-import Contact from "../views/Contact.vue";
-import Registration from "../views/Registration.vue";
-import Login from "../views/Login.vue";
-import Account from "../views/Account.vue";
-import Addresses from "../views/Addresses.vue";
-import NotFound from "../views/NotFound.vue";
 
 const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home,
+    component: () => import("../views/Home.vue"),
   },
   {
     path: "/category/:id",
     name: "Category",
-    component: Category,
+    component: () => import("../views/Category.vue"),
   },
   {
     path: "/products/:id",
     name: "ProductDetails",
-    component: ProductDetails,
+    component: () => import("../views/ProductDetails.vue"),
   },
   {
     path: "/search",
     name: "Search",
-    component: Search,
+    component: () => import("../views/Search.vue"),
   },
   {
     path: "/cart",
     name: "Cart",
-    component: Cart,
+    component: () => import("../views/ProductDetails.vue"),
   },
   {
     path: "/checkout",
     redirect: "/checkout/information",
     name: "Checkout",
-    component: Checkout,
+    component: () => import("../views/Checkout.vue"),
     children: [
       {
         path: "information",
         name: "CheckoutInformation",
-        component: CheckoutInformation,
+        component: () => import("../views/CheckoutInformation.vue"),
       },
       {
         path: "shipping",
         name: "CheckoutShipping",
-        component: CheckoutShipping,
+        component: () => import("../views/CheckoutShipping.vue"),
       },
       {
         path: "payment",
         name: "CheckoutPayment",
-        component: CheckoutPayment,
+        component: () => import("../views/CheckoutPayment.vue"),
       },
     ],
   },
   {
     path: "/account",
     name: "Account",
-    component: Account,
+    component: () => import("../views/Account.vue"),
   },
   {
     path: "/account/register",
     name: "Registration",
-    component: Registration,
+    component: () => import("../views/Registration.vue"),
   },
   {
     path: "/account/login",
     name: "Login",
-    component: Login,
+    component: () => import("../views/Login.vue"),
   },
   {
     path: "/account/addresses",
     name: "Addresses",
-    component: Addresses,
+    component: () => import("../views/Addresses.vue"),
   },
   {
     path: "/about",
     name: "About",
-    component: About,
+    component: () => import("../views/About.vue"),
   },
   {
     path: "/contact",
     name: "Contact",
-    component: Contact,
+    component: () => import("../views/Contact.vue"),
   },
   {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
-    component: NotFound,
+    component: () => import("../views/NotFound.vue"),
   },
 ];
 
