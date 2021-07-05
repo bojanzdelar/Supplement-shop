@@ -77,7 +77,7 @@ export default {
     async register(user) {
       try {
         await axios.post("/register", user);
-        this.$router.push("/login");
+        this.$router.push("/account/login");
       } catch {
         this.failed = true;
       }

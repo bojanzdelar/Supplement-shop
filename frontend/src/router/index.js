@@ -12,6 +12,8 @@ import About from "../views/About.vue";
 import Contact from "../views/Contact.vue";
 import Registration from "../views/Registration.vue";
 import Login from "../views/Login.vue";
+import Account from "../views/Account.vue";
+import Addresses from "../views/Addresses.vue";
 import NotFound from "../views/NotFound.vue";
 
 const routes = [
@@ -64,6 +66,26 @@ const routes = [
     ],
   },
   {
+    path: "/account",
+    name: "Account",
+    component: Account,
+  },
+  {
+    path: "/account/register",
+    name: "Registration",
+    component: Registration,
+  },
+  {
+    path: "/account/login",
+    name: "Login",
+    component: Login,
+  },
+  {
+    path: "/account/addresses",
+    name: "Addresses",
+    component: Addresses,
+  },
+  {
     path: "/about",
     name: "About",
     component: About,
@@ -72,16 +94,6 @@ const routes = [
     path: "/contact",
     name: "Contact",
     component: Contact,
-  },
-  {
-    path: "/register",
-    name: "Registration",
-    component: Registration,
-  },
-  {
-    path: "/login",
-    name: "Login",
-    component: Login,
   },
   {
     path: "/:pathMatch(.*)*",

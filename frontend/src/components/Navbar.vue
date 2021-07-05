@@ -86,15 +86,25 @@
             >
               <i class="bi bi-gear"></i>
             </a>
-            <ul class="dropdown-menu" aria-labelledby="settingsDropdown">
-              <li v-if="logged" @click="logOut" class="dropdown-item">
-                Logout
-              </li>
+            <ul
+              class="dropdown-menu text-center"
+              aria-labelledby="settingsDropdown"
+            >
+              <div v-if="logged">
+                <li @click="logOut" class="dropdown-item">Logout</li>
+                <li>
+                  <div class="d-grid">
+                    <router-link to="/account" class="btn btn-success">
+                      My account
+                    </router-link>
+                  </div>
+                </li>
+              </div>
               <div v-else>
                 <li>
                   <div class="d-grid">
                     <router-link
-                      to="/login"
+                      to="/account/login"
                       tag="button"
                       class="btn btn-success"
                     >
@@ -103,7 +113,7 @@
                   </div>
                 </li>
                 <li>
-                  <router-link to="/register" class="dropdown-item">
+                  <router-link to="/account/register" class="dropdown-item">
                     New user? <u>Register now</u>
                   </router-link>
                 </li>
@@ -149,7 +159,8 @@ export default {
   },
   methods: {
     async getCategories() {
-      this.categories = await axios.get("/category").data;
+      const response = await axios.get("/category");
+      this.categories = response.data;
     },
     ...mapActions(["logOut"]),
   },

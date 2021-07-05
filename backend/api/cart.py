@@ -26,8 +26,7 @@ def get_user_cart():
     cursor = mysql.get_db().cursor()
     cursor.execute("SELECT cart.*, product.name, product.price, product.thumbnail FROM cart "
             "LEFT JOIN product ON cart.product_id=product.id WHERE user_id=%s", (get_jwt_identity(), ))
-    cart = cursor.fetchall()
-    return flask.jsonify(cart) if cart else ""
+    return flask.jsonify(cursor.fetchall())
 
 @cart.route("/", methods=["POST"])
 @jwt_required()
@@ -53,10 +52,17 @@ def add_to_cart():
 @cart.route("/<int:id>", methods=["PUT"])
 @jwt_required()
 def update_cart(id):
-    cart = flask.request.json
-    cart["id"] = id
     db = mysql.get_db()
     cursor = db.cursor()
+    cursor.execute("SELECT * FROM cart WHERE id=%s", (id, ))
+    cart = cursor.fetchone()
+    if not cart:
+        return "", 404
+    if cart["user_id"] != get_jwt_identity():
+        return "Unauthorized", 401
+
+    cart = flask.request.json
+    cart["id"] = id
     cursor.execute("UPDATE cart SET user_id=%(user_id)s, product_id=%(product_id)s, quantity=%(quantity)s "
             "WHERE id=%(id)s", cart)
     db.commit()

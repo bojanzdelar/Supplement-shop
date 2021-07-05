@@ -70,9 +70,8 @@ export default {
   },
   methods: {
     async getQuantityAvailable() {
-      this.quantityAvailable = await axios.get(
-        `/product/${this.productId}/quantity`
-      ).data.quantity;
+      const response = await axios.get(`/product/${this.productId}/quantity`);
+      this.quantityAvailable = response.data.quantity;
     },
 
     viewDetails() {

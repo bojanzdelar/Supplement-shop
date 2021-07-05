@@ -1,14 +1,14 @@
 <template>
   <div class="container mt-5">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-6 mb-4">
         <img :src="product.image" alt="product.name" class="img-fluid" />
       </div>
       <div class="col-md-6">
         <h2>{{ product.name }}</h2>
         <p>${{ product.price }}</p>
         <p>{{ product.description }}</p>
-        <div class="row">
+        <div class="row mt-4">
           <div class="col-3">
             <input
               v-model.number="cart.quantity"

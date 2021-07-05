@@ -40,8 +40,8 @@ export default {
     async getProducts() {
       const id = this.$route.params["id"];
       const path = id == "all" ? "/product" : `/category/${id}/products`;
-
-      this.products = await axios.get(path);
+      const response = await axios.get(path);
+      this.products = response.data;
     },
   },
   created() {

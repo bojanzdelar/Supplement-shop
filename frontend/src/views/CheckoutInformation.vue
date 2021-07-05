@@ -5,7 +5,7 @@
         <h5>Contact information</h5>
         <p v-if="!logged">
           Already have an account?
-          <router-link to="/login" class="text-decoration-none">
+          <router-link to="/account/login" class="text-decoration-none">
             Log in
           </router-link>
         </p>

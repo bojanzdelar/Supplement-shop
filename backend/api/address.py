@@ -19,6 +19,13 @@ def get_address(id):
     address = cursor.fetchone()
     return flask.jsonify(address) if address else ("", 404)
 
+@address.route("/user", methods=["GET"])
+@jwt_required()
+def get_user_adresses():
+    cursor = mysql.get_db().cursor()
+    cursor.execute("SELECT * FROM address WHERE user_id=%s", (get_jwt_identity(),))
+    return flask.jsonify(cursor.fetchall())
+
 @address.route("/", methods=["POST"])
 @jwt_required(optional=True)
 def create_address():
@@ -38,13 +45,20 @@ def create_address():
 @address.route("/<int:id>", methods=["PUT"])
 @jwt_required()
 def update_address(id):
+    db = mysql.get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM address WHERE id=%s", (id,))
+    address = cursor.fetchone()
+    if not address:
+        return "", 404
+    if address["user_id"] != get_jwt_identity():
+        return "Unauthorized", 401
+
     address = flask.request.json
     address["id"] = id
     address.setdefault("company", None)
     address.setdefault("apartment", None)
     address.setdefault("phone", None)
-    db = mysql.get_db()
-    cursor = db.cursor()
     cursor.execute("UPDATE address SET user_id=%(user_id)s, first_name=%(first_name)s, last_name=%(last_name)s, company=%(company)s, "
             "address=%(address)s, apartment=%(apartment)s, city=%(city)s, country=%(country)s, state=%(state)s, ZIP_code=%(ZIP_code)s, phone=%(phone)s "
             "WHERE id=%(id)s", address)
@@ -57,6 +71,12 @@ def update_address(id):
 def delete_address(id):
     db = mysql.get_db()
     cursor = db.cursor()
+    cursor.execute("SELECT * FROM address WHERE id=%s", (id,))
+    address = cursor.fetchone()
+    if not address:
+        return "", 404
+    if address["user_id"] != get_jwt_identity():
+        return "Unauthorized", 401
     cursor.execute("DELETE FROM address WHERE id=%s", (id,))
     db.commit()
     return ""

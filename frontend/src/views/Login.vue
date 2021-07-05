@@ -43,7 +43,7 @@
           will only ask you for information necessary to make the purchase
           process faster and easier
         </p>
-        <router-link to="/register" class="btn btn-success">
+        <router-link to="/account/register" class="btn btn-success">
           Create an account
         </router-link>
       </div>
