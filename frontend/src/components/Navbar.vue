@@ -61,6 +61,11 @@
             <li class="nav-item text-uppercase">
               <router-link to="/contact" class="nav-link">Contact</router-link>
             </li>
+            <li class="nav-item text-uppercase">
+              <router-link to="/dashboard" class="nav-link">
+                Dashboard
+              </router-link>
+            </li>
           </ul>
         </div>
         <ul class="navbar-nav list-group-horizontal mb-2 mb-lg-0">
