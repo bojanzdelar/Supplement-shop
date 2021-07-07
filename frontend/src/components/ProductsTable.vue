@@ -3,31 +3,19 @@
     <table class="table table-striped table-hover">
       <thead>
         <tr>
-          <th>First name</th>
-          <th>Last name</th>
-          <th>Company</th>
-          <th>Address</th>
-          <th>Apartment</th>
-          <th>City</th>
-          <th>County</th>
-          <th>State</th>
-          <th>ZIP code</th>
-          <th>Phone</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Total</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="address in addresses" :key="address.id">
-          <td>{{ address.first_name }}</td>
-          <td>{{ address.last_name }}</td>
-          <td>{{ address.company }}</td>
-          <td>{{ address.address }}</td>
-          <td>{{ address.apartment }}</td>
-          <td>{{ address.city }}</td>
-          <td>{{ address.country }}</td>
-          <td>{{ address.state }}</td>
-          <td>{{ address.ZIP_code }}</td>
-          <td>{{ address.phone }}</td>
+        <tr v-for="product in products" :key="product.id">
+          <td>{{ product.name }}</td>
+          <td>${{ product.price }}</td>
+          <td>{{ product.quantity }}</td>
+          <td>${{ product.price * product.quantity }}</td>
           <td>
             <button
               @click="edit(address.id)"
@@ -54,9 +42,9 @@
 
 <script>
 export default {
-  name: "AddressesTable",
+  name: "ProductsTable",
   props: {
-    addresses: Array,
+    products: Array,
   },
   emits: {
     edit: null,

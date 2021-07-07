@@ -5,6 +5,13 @@
     <div class="row">
       <div class="col-md-6">
         <h4>Order history</h4>
+        <router-link
+          to="/account/orders"
+          tag="button"
+          class="btn btn-success text-uppercase text-dark"
+        >
+          View orders
+        </router-link>
       </div>
       <div class="col-md-6">
         <h4>Account details</h4>
