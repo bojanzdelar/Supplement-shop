@@ -1,5 +1,6 @@
 import flask
 from flask import Blueprint
+from api.auth import admin_required
 from app import mysql
 
 payment_method = Blueprint('payment_method', __name__)
@@ -18,6 +19,7 @@ def get_payment_method(id):
     return flask.jsonify(payment_method) if payment_method else ("", 404)
 
 @payment_method.route("/", methods=["POST"])
+@admin_required()
 def create_payment_method():
     db = mysql.get_db()
     cursor = db.cursor()
@@ -27,6 +29,7 @@ def create_payment_method():
     return flask.jsonify(flask.request.json), 201
 
 @payment_method.route("/<int:id>", methods=["PUT"])
+@admin_required()
 def update_payment_method(id):
     payment_method = flask.request.json
     payment_method["id"] = id
@@ -39,6 +42,7 @@ def update_payment_method(id):
     return flask.jsonify(cursor.fetchone()), 200
 
 @payment_method.route("/<int:id>", methods=["DELETE"])
+@admin_required()
 def delete_payment_method(id):
     db = mysql.get_db()
     cursor = db.cursor()

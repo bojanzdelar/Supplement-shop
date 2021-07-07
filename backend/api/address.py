@@ -1,11 +1,13 @@
 import flask
 from flask import Blueprint
 from flask_jwt_extended import jwt_required, get_jwt_identity   
+from api.auth import admin_required
 from app import mysql
 
 address = Blueprint('address', __name__)
 
 @address.route("/", methods=["GET"])
+@admin_required()
 def get_all_address():
     cursor = mysql.get_db().cursor()
     cursor.execute("SELECT * FROM address")

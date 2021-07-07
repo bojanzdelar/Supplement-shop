@@ -1,16 +1,19 @@
 import flask
 from flask import Blueprint
+from api.auth import admin_required
 from app import mysql
 
 user = Blueprint('user', __name__)
 
 @user.route("/", methods=["GET"])
+@admin_required()
 def get_all_user():
     cursor = mysql.get_db().cursor()
     cursor.execute("SELECT * FROM user")
     return flask.jsonify(cursor.fetchall())
 
 @user.route("/<int:id>", methods=["GET"])
+@admin_required()
 def get_user(id):
     cursor = mysql.get_db().cursor()
     cursor.execute("SELECT * FROM user WHERE id=%s", (id,))
@@ -18,6 +21,7 @@ def get_user(id):
     return flask.jsonify(user) if user else ("", 404)
 
 @user.route("/", methods=["POST"])
+@admin_required()
 def add_user():
     db = mysql.get_db()
     cursor = db.cursor()
@@ -27,6 +31,7 @@ def add_user():
     return flask.jsonify(flask.request.json), 201
 
 @user.route("/<int:id>", methods=["PUT"])
+@admin_required()
 def update_user(id):
     user = flask.request.json
     user["id"] = id
@@ -39,6 +44,7 @@ def update_user(id):
     return flask.jsonify(cursor.fetchone()), 200
 
 @user.route("/<int:id>", methods=["DELETE"])
+@admin_required()
 def delete_user(id):
     db = mysql.get_db()
     cursor = db.cursor()

@@ -1,5 +1,6 @@
 import flask
 from flask import Blueprint
+from api.auth import admin_required
 from app import mysql
 
 product = Blueprint('product', __name__)
@@ -32,6 +33,7 @@ def search_product(query):
     return flask.jsonify(cursor.fetchall())
 
 @product.route("/", methods=["POST"])
+@admin_required()
 def create_product():
     db = mysql.get_db()
     cursor = db.cursor()
@@ -41,6 +43,7 @@ def create_product():
     return flask.jsonify(flask.request.json), 201
 
 @product.route("/<string:id>", methods=["PUT"])
+@admin_required()
 def update_product(id):
     product = flask.request.json
     product["id"] = id
@@ -53,6 +56,7 @@ def update_product(id):
     return flask.jsonify(cursor.fetchone()), 200
 
 @product.route("/<string:id>", methods=["DELETE"])
+@admin_required()
 def delete_product(id):
     db = mysql.get_db()
     cursor = db.cursor()

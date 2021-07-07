@@ -1,5 +1,6 @@
 import flask
 from flask import Blueprint
+from api.auth import admin_required
 from app import mysql
 
 shipping_method = Blueprint('shipping_method', __name__)
@@ -18,6 +19,7 @@ def get_shipping_method(id):
     return flask.jsonify(shipping_method) if shipping_method else ("", 404)
 
 @shipping_method.route("/", methods=["POST"])
+@admin_required()
 def create_shipping_method():
     db = mysql.get_db()
     cursor = db.cursor()
@@ -27,6 +29,7 @@ def create_shipping_method():
     return flask.jsonify(flask.request.json), 201
 
 @shipping_method.route("/<int:id>", methods=["PUT"])
+@admin_required()
 def update_shipping_method(id):
     shipping_method = flask.request.json
     shipping_method["id"] = id
@@ -39,6 +42,7 @@ def update_shipping_method(id):
     return flask.jsonify(cursor.fetchone()), 200
 
 @shipping_method.route("/<int:id>", methods=["DELETE"])
+@admin_required()
 def delete_shipping_method(id):
     db = mysql.get_db()
     cursor = db.cursor()

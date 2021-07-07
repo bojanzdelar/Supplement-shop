@@ -1,5 +1,6 @@
 import flask
 from flask import Blueprint
+from api.auth import admin_required   
 from app import mysql
 
 category = Blueprint('category', __name__)
@@ -27,6 +28,7 @@ def get_category_products(id):
     return flask.jsonify(products) if products else ""
 
 @category.route("/", methods=["POST"])
+@admin_required()
 def create_category():
     db = mysql.get_db()
     cursor = db.cursor()
@@ -36,6 +38,7 @@ def create_category():
     return flask.jsonify(flask.request.json), 201
 
 @category.route("/<string:id>", methods=["PUT"])
+@admin_required()
 def update_category(id):
     category = flask.request.json
     category["id"] = id
@@ -48,6 +51,7 @@ def update_category(id):
     return flask.jsonify(cursor.fetchone()), 200
 
 @category.route("/<string:id>", methods=["DELETE"])
+@admin_required()
 def delete_category(id):
     db = mysql.get_db()
     cursor = db.cursor()

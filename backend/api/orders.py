@@ -1,11 +1,13 @@
 import flask
 from flask import Blueprint
-from flask_jwt_extended import jwt_required, get_jwt_identity   
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from api.auth import admin_required   
 from app import mysql
 
 orders = Blueprint('orders', __name__)
 
 @orders.route("/", methods=["GET"])
+@admin_required()
 def get_all_order():
     cursor = mysql.get_db().cursor()
     cursor.execute("SELECT orders.*, shipping_method.name AS shipping_method_name, payment_method.name AS payment_method_name "
@@ -15,6 +17,7 @@ def get_all_order():
     return flask.jsonify(cursor.fetchall())
 
 @orders.route("/<int:id>", methods=["GET"])
+@jwt_required()
 def get_order(id):
     cursor = mysql.get_db().cursor()
     cursor.execute("SELECT orders.*, shipping_method.name AS shipping_method_name, payment_method.name AS payment_method_name "
@@ -50,6 +53,7 @@ def get_order_price(id):
     return flask.jsonify(cursor.fetchone())
 
 @orders.route("/<int:id>/products", methods=["GET"])
+@jwt_required()
 def get_order_products(id):
     cursor = mysql.get_db().cursor()
     cursor.execute("SELECT * FROM product_in_order "
@@ -71,6 +75,7 @@ def create_order():
     return flask.jsonify(cursor.fetchone()), 201
 
 @orders.route("/<int:id>", methods=["PUT"])
+@admin_required()
 def update_order(id):
     order = flask.request.json
     order["id"] = id
@@ -84,6 +89,7 @@ def update_order(id):
     return flask.jsonify(cursor.fetchone()), 200
 
 @orders.route("/<int:id>", methods=["DELETE"])
+@admin_required()
 def delete_order(id):
     db = mysql.get_db()
     cursor = db.cursor()

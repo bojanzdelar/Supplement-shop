@@ -1,7 +1,8 @@
+from functools import wraps
 import flask
 from flask import Blueprint
 from flaskext.mysql import pymysql
-from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import verify_jwt_in_request, get_jwt, create_access_token, create_refresh_token, jwt_required, get_jwt_identity
 from db import mysql
 
 auth = Blueprint("auth", __name__)
@@ -25,8 +26,9 @@ def login():
     user = cursor.fetchone()
     if not user:
         return "User doesn't exist", 401
-    access_token = create_access_token(identity=user["id"])
-    refresh_token = create_refresh_token(identity=user["id"])
+    additional_claims = {"is_administrator": user["user_type_id"] == 1 }
+    access_token = create_access_token(identity=user["id"], additional_claims=additional_claims)
+    refresh_token = create_refresh_token(identity=user["id"], additional_claims=additional_claims)
     user.pop("password")
     return flask.jsonify(access_token=access_token, refresh_token=refresh_token, user=user), 200   
 
@@ -36,5 +38,21 @@ def login():
 @jwt_required(refresh=True)
 def refresh():
     identity = get_jwt_identity()
-    access_token = create_access_token(identity=identity)
+    additional_claims = get_jwt()
+    access_token = create_access_token(identity=identity, additional_claims=additional_claims)
     return flask.jsonify(access_token=access_token)
+
+def admin_required():
+    def wrapper(fn):
+        @wraps(fn)
+        def decorator(*args, **kwargs):
+            verify_jwt_in_request()
+            claims = get_jwt()
+            if claims["is_administrator"]:
+                return fn(*args, **kwargs)
+            else:
+                return flask.jsonify(msg="Admins only!"), 403
+
+        return decorator
+
+    return wrapper

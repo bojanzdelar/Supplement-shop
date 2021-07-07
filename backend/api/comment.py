@@ -1,5 +1,7 @@
 import flask
 from flask import Blueprint
+from flask_jwt_extended import jwt_required
+from api.auth import admin_required
 from app import mysql
 
 comment = Blueprint('comment', __name__)
@@ -18,6 +20,7 @@ def get_comment(id):
     return flask.jsonify(comment) if comment else ("", 404)
 
 @comment.route("/", methods=["POST"])
+@jwt_required()
 def create_comment():
     db = mysql.get_db()
     cursor = db.cursor()
@@ -27,6 +30,7 @@ def create_comment():
     return flask.jsonify(flask.request.json), 201
 
 @comment.route("/<int:id>", methods=["PUT"])
+@jwt_required()
 def update_comment(id):
     comment = flask.request.json
     comment["id"] = id
@@ -39,6 +43,7 @@ def update_comment(id):
     return flask.jsonify(cursor.fetchone()), 200
 
 @comment.route("/<int:id>", methods=["DELETE"])
+@jwt_required()
 def delete_comment(id):
     db = mysql.get_db()
     cursor = db.cursor()
