@@ -30,24 +30,27 @@ def get_category_products(id):
 @category.route("/", methods=["POST"])
 @admin_required()
 def create_category():
+    category = flask.request.json
+    category["id"] = category["name"].replace(" ", "-").lower()
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("INSERT INTO category(name) "
-            "VALUES(%(name)s)", flask.request.json)
+    cursor.execute("INSERT INTO category(id, name) "
+            "VALUES(%(id)s, %(name)s)", category)
     db.commit()
-    return flask.jsonify(flask.request.json), 201
+    return flask.jsonify(category), 201
 
 @category.route("/<string:id>", methods=["PUT"])
 @admin_required()
 def update_category(id):
     category = flask.request.json
-    category["id"] = id
+    category["old_id"] = id
+    category["id"] = category["name"].replace(" ", "-").lower()
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("UPDATE category SET name=%(name)s "
-            "WHERE id=%(id)s", category)
+    cursor.execute("UPDATE category SET id=%(id)s, name=%(name)s "
+            "WHERE id=%(old_id)s", category)
     db.commit()
-    cursor.execute("SELECT * FROM category WHERE id=%s", (id,))
+    cursor.execute("SELECT * FROM category WHERE id=%s", (category["id"],))
     return flask.jsonify(cursor.fetchone()), 200
 
 @category.route("/<string:id>", methods=["DELETE"])

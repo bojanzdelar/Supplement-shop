@@ -93,8 +93,26 @@ const routes = [
   },
   {
     path: "/dashboard",
+    redirect: "/dashboard/orders",
     name: "Dashboard",
     component: () => import("../views/Dashboard.vue"),
+    children: [
+      {
+        path: "/dashboard/orders",
+        name: "DashboardOrders",
+        component: () => import("../views/DashboardOrders.vue"),
+      },
+      {
+        path: "/dashboard/products",
+        name: "DashboardProducts",
+        component: () => import("../views/DashboardProducts.vue"),
+      },
+      {
+        path: "/dashboard/categories",
+        name: "DashboardCategories",
+        component: () => import("../views/DashboardCategories.vue"),
+      },
+    ],
   },
   {
     path: "/:pathMatch(.*)*",

@@ -12,13 +12,13 @@
           </router-link>
         </div>
         <div class="nav-item">
-          <router-link to="/dashboard/orders" class="nav-link">
+          <router-link to="/dashboard/products" class="nav-link">
             <i class="bi bi-list-ul me-1"></i>
             Products
           </router-link>
         </div>
         <div class="nav-item">
-          <router-link to="/dashboard/orders" class="nav-link">
+          <router-link to="/dashboard/categories" class="nav-link">
             <i class="bi bi-cart me-1"></i>
             Categories
           </router-link>

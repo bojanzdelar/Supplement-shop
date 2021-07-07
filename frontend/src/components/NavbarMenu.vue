@@ -76,6 +76,16 @@
             Contact
           </router-link>
         </li>
+
+        <li>
+          <router-link
+            to="/dashboard"
+            data-bs-dismiss="offcanvas"
+            class="list-group-item list-group-item-action text-uppercase"
+          >
+            Dashboard
+          </router-link>
+        </li>
       </ul>
     </div>
   </div>

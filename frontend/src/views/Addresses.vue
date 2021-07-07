@@ -8,7 +8,7 @@
       </router-link>
       <button
         @click="create"
-        class="btn btntext-dark text-uppercase px-3 py-2"
+        class="btn px-3 py-2"
         data-bs-toggle="modal"
         data-bs-target="#modal"
       >
