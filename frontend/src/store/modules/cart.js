@@ -62,9 +62,9 @@ const cart = {
       });
     },
 
-    remove(state, id) {
+    remove(state, product_id) {
       state.cart.splice(
-        state.cart.findIndex((item) => item.product_id == id),
+        state.cart.findIndex((item) => item.product_id == product_id),
         1
       );
     },
@@ -107,18 +107,18 @@ const cart = {
       if (rootState.auth.logged) {
         for (let item of state.cart) {
           if ("newQuantity" in item) {
-            await axios.put(`/cart/${item.id}`, item);
+            await axios.put(`/cart/${item.product_id}`, item);
           }
         }
       }
       commit("update");
     },
 
-    async remove({ commit, rootState }, id) {
+    async remove({ commit, rootState }, productId) {
       if (rootState.auth.logged) {
-        await axios.delete(`/cart/${id}`);
+        await axios.delete(`/cart/${productId}`);
       }
-      commit("remove", id);
+      commit("remove", productId);
     },
 
     async clear({ commit, rootState }) {

@@ -12,11 +12,11 @@ def get_all_cart():
     cursor.execute("SELECT * FROM cart")
     return flask.jsonify(cursor.fetchall())
 
-@cart.route("/<int:id>", methods=["GET"])
+@cart.route("/<string:product_id>", methods=["GET"])
 @jwt_required()
-def get_cart(id):
+def get_cart(product_id):
     cursor = mysql.get_db().cursor()
-    cursor.execute("SELECT * FROM cart WHERE id=%s", (id,))
+    cursor.execute("SELECT * FROM cart WHERE user_id=%s AND product_id=%s", (get_jwt_identity(), product_id))
     cart = cursor.fetchone()
     return flask.jsonify(cart) if cart else ("", 404)
 
@@ -49,38 +49,26 @@ def add_to_cart():
     cursor.execute("SELECT * FROM cart WHERE user_id=%(user_id)s AND product_id=%(product_id)s", item)
     return flask.jsonify(cursor.fetchone()), 201
 
-@cart.route("/<int:id>", methods=["PUT"])
+@cart.route("/<string:product_id>", methods=["PUT"])
 @jwt_required()
-def update_cart(id):
+def update_cart(product_id):
+    cart = flask.request.json
+    cart["user_id"] = get_jwt_identity()
+    cart["product_id"] = product_id
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("SELECT * FROM cart WHERE id=%s", (id, ))
-    cart = cursor.fetchone()
-    if not cart:
-        return "", 404
-    if cart["user_id"] != get_jwt_identity():
-        return "Unauthorized", 401
-
-    cart = flask.request.json
-    cart["id"] = id
     cursor.execute("UPDATE cart SET user_id=%(user_id)s, product_id=%(product_id)s, quantity=%(quantity)s "
             "WHERE id=%(id)s", cart)
     db.commit()
     cursor.execute("SELECT * FROM cart WHERE id=%s", (id,))
     return flask.jsonify(cursor.fetchone()), 200
 
-@cart.route("/<int:id>", methods=["DELETE"])
+@cart.route("/<string:product_id>", methods=["DELETE"])
 @jwt_required()
-def delete_cart(id):
+def delete_cart(product_id):
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("SELECT * FROM cart WHERE id=%s", (id,))
-    cart = cursor.fetchone()
-    if not cart:
-        return "", 404
-    if cart["user_id"] != get_jwt_identity():
-        return "Unauthorized", 401
-    cursor.execute("DELETE FROM cart WHERE id=%s", (id,))
+    cursor.execute("DELETE FROM cart WHERE user_id=%s AND product_id=%s", (get_jwt_identity(), product_id))
     db.commit()
     return ""
 

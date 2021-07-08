@@ -1,5 +1,6 @@
 import flask
 from flask import Blueprint
+from flask_jwt_extended import jwt_required
 from api.auth import admin_required
 from app import mysql
 
@@ -47,5 +48,14 @@ def delete_product_in_category(id):
     db = mysql.get_db()
     cursor = db.cursor()
     cursor.execute("DELETE FROM product_in_category WHERE id=%s", (id,))
+    db.commit()
+    return ""
+
+@product_in_category.route("/<string:product_id>", methods=["DELETE"])
+@admin_required()
+def delete_product_categories(product_id):
+    db = mysql.get_db()
+    cursor = db.cursor()
+    cursor.execute("DELETE FROM product_in_category WHERE product_id=%s", (product_id,))
     db.commit()
     return ""

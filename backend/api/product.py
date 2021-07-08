@@ -25,6 +25,13 @@ def get_product_quantity(id):
     quantity = cursor.fetchone()
     return flask.jsonify(quantity) if quantity else ("", 404)
 
+@product.route("/<string:id>/categories", methods=["GET"])
+def get_products_categories(id):
+    cursor = mysql.get_db().cursor()
+    cursor.execute("SELECT category_id FROM product_in_category WHERE product_id=%s", (id,))
+    categories = cursor.fetchall()
+    return flask.jsonify(categories) if categories else ("", 404)
+
 @product.route("/search/<string:query>", methods=["GET"])
 def search_product(query):
     query = f"%{query}%"
@@ -35,24 +42,33 @@ def search_product(query):
 @product.route("/", methods=["POST"])
 @admin_required()
 def create_product():
+    product = flask.request.json
+    product["id"] = product["name"].replace(" ", "-").lower()
+    product.setdefault("description", None)
+    product.setdefault("thumbnail", None)
+    product.setdefault("image", None)
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("INSERT INTO product(name, description, price, quantity, image, category_id) "
-            "VALUES(%(name)s, %(description)s, %(price)s, %(quantity)s, %(image)s, %(category_id)s)", flask.request.json)
+    cursor.execute("INSERT INTO product(id, name, description, price, quantity, image) "
+            "VALUES(%(id)s, %(name)s, %(description)s, %(price)s, %(quantity)s, %(image)s)", product)
     db.commit()
-    return flask.jsonify(flask.request.json), 201
+    return flask.jsonify(product), 201
 
 @product.route("/<string:id>", methods=["PUT"])
 @admin_required()
 def update_product(id):
     product = flask.request.json
-    product["id"] = id
+    product["old_id"] = id
+    product["id"] = product["name"].replace(" ", "-").lower()
+    product.setdefault("description", None)
+    product.setdefault("thumbnail", None)
+    product.setdefault("image", None)
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("UPDATE product SET name=%(name)s, description=%(description)s, price=%(price)s, quantity=%(quantity)s, image=%(image)s, category_id=%(category_id)s "
-            "WHERE id=%(id)s", product)
+    cursor.execute("UPDATE product SET id=%(id)s, name=%(name)s, description=%(description)s, price=%(price)s, quantity=%(quantity)s, image=%(image)s "
+            "WHERE id=%(old_id)s", product)
     db.commit()
-    cursor.execute("SELECT * FROM product WHERE id=%s", (id,))
+    cursor.execute("SELECT * FROM product WHERE id=%s", (product["id"],))
     return flask.jsonify(cursor.fetchone()), 200
 
 @product.route("/<string:id>", methods=["DELETE"])

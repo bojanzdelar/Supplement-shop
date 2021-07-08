@@ -31,7 +31,7 @@
                 :price="item.price"
                 :thumbnail="item.thumbnail"
                 @changed="changeItemQuantity"
-                @remove="remove(item.id)"
+                @remove="remove(item.product_id)"
                 class="mb-1"
               />
             </tbody>

@@ -24,7 +24,7 @@
         :quantity="item.quantity"
         :price="item.price"
         :thumbnail="item.thumbnail"
-        @remove="remove(item.id)"
+        @remove="remove(item.product_id)"
         class="mb-1"
       />
       <div class="d-grid gap-2">

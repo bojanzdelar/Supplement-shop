@@ -18,7 +18,7 @@
           <td>${{ product.price * product.quantity }}</td>
           <td>
             <button
-              @click="edit(address.id)"
+              @click="edit(product.id)"
               class="btn text-dark text-uppercase me-2"
               data-bs-toggle="modal"
               data-bs-target="#modal"
@@ -26,7 +26,7 @@
               <i class="bi bi-pencil"></i>
             </button>
             <button
-              @click="remove(address.id)"
+              @click="remove(product.id)"
               class="btn text-uppercase"
               data-bs-toggle="modal"
               data-bs-target="#deleteModal"
