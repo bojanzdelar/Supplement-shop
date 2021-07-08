@@ -23,7 +23,7 @@
     <div class="d-flex justify-content-between">
       <span>Total: </span>
       <span v-if="shippingMethod">
-        USD ${{ subtotal + shippingMethod.price }}
+        USD ${{ (subtotal + shippingMethod.price).toFixed(2) }}
       </span>
       <span v-else> USD ${{ subtotal }} </span>
     </div>

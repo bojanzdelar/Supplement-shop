@@ -88,6 +88,36 @@ def update_order(id):
     cursor.execute("SELECT * FROM order WHERE id=%s", (id,))
     return flask.jsonify(cursor.fetchone()), 200
 
+@orders.route("/<int:id>/send", methods=["PATCH"])
+@admin_required()
+def send_order(id):
+    db = mysql.get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT sent FROM orders WHERE id=%s", (id,))
+    order = cursor.fetchone()
+    if not order:
+        return "", 404
+    order["sent"] = 0 if order["sent"] else 1
+    cursor.execute("UPDATE orders SET sent=%s WHERE id=%s", (order["sent"], id))
+    db.commit()
+    cursor.execute("SELECT * FROM orders WHERE id=%s", (id,))
+    return flask.jsonify(cursor.fetchone()), 200
+
+@orders.route("/<int:id>/deliver", methods=["PATCH"])
+@admin_required()
+def deliver_order(id):
+    db = mysql.get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT delivered FROM orders WHERE id=%s", (id,))
+    order = cursor.fetchone()
+    if not order:
+        return "", 404
+    order["delivered"] = 0 if order["delivered"] else 1
+    cursor.execute("UPDATE orders SET delivered=%s WHERE id=%s", (order["delivered"], id))
+    db.commit()
+    cursor.execute("SELECT * FROM orders WHERE id=%s", (id,))
+    return flask.jsonify(cursor.fetchone()), 200
+
 @orders.route("/<int:id>", methods=["DELETE"])
 @admin_required()
 def delete_order(id):

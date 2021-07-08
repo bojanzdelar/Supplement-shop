@@ -13,7 +13,6 @@
           aria-label="Toggle navigation"
         >
           <i class="bi bi-list"></i>
-          <!-- <span class="navbar-toggler-icon"></span> -->
         </div>
         <router-link to="/" class="navbar-brand">
           <img
@@ -61,7 +60,7 @@
             <li class="nav-item text-uppercase">
               <router-link to="/contact" class="nav-link">Contact</router-link>
             </li>
-            <li class="nav-item text-uppercase">
+            <li v-if="isAdmin" class="nav-item text-uppercase">
               <router-link to="/dashboard" class="nav-link">
                 Dashboard
               </router-link>
@@ -160,7 +159,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["logged"]),
+    ...mapState(["logged", "isAdmin"]),
   },
   methods: {
     async getCategories() {

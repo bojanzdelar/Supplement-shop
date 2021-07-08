@@ -12,6 +12,7 @@
             <th>Total price</th>
             <th>Sent</th>
             <th>Delivered</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -33,6 +34,16 @@
             <td>
               <span v-if="order.delivered">Yes</span>
               <span v-else>No</span>
+            </td>
+            <td>
+              <button @click="send(order.id)" class="btn btn-secondary me-2">
+                <span v-if="order.sent">Mark as unsent</span>
+                <span v-else>Mark as sent</span>
+              </button>
+              <button @click="deliver(order.id)" class="btn btn-secondary">
+                <span v-if="order.delivered">Mark as undelivered</span>
+                <span v-else>Mark as delivered</span>
+              </button>
             </td>
           </tr>
         </tbody>
@@ -65,6 +76,10 @@ export default {
   props: {
     orders: Array,
   },
+  emits: {
+    send: null,
+    deliver: null,
+  },
   data() {
     return {
       selectedOrder: {},
@@ -89,13 +104,14 @@ export default {
 
       this.selectedOrder.products = await this.getProducts(order.id);
     },
-  },
-  mounted() {
-    // if (this.orders) {
-    //   console.log(this.orders);
-    //   console.log(this.orders[0]);
-    //   this.select(this.orders[0]);
-    // }
+
+    send(orderId) {
+      this.$emit("send", orderId);
+    },
+
+    deliver(orderId) {
+      this.$emit("deliver", orderId);
+    },
   },
 };
 </script>

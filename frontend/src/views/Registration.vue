@@ -1,9 +1,10 @@
 <template>
-  <div class="container mt-5">
+  <div class="container mt-5 text-center">
+    <h1 class="mb-3">Create an account</h1>
     <div v-if="failed" class="alert alert-danger" role="alert">
       Username is already taken.
     </div>
-    <form @submit.prevent="register(user)" class="text-center">
+    <form @submit.prevent="register(user)" class="row g-4">
       <div>
         <input
           v-model="user.first_name"
@@ -39,6 +40,7 @@
           v-model="user.password"
           type="password"
           class="form-control"
+          placeholder="Password"
           id="validationCustomPassword"
           aria-describedby="inputGroupPrepend"
           required

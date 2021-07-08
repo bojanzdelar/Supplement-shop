@@ -77,7 +77,7 @@
           </router-link>
         </li>
 
-        <li>
+        <li v-if="isAdmin">
           <router-link
             to="/dashboard"
             data-bs-dismiss="offcanvas"
@@ -92,10 +92,17 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from "vuex";
+
+const { mapState } = createNamespacedHelpers("auth");
+
 export default {
   name: "NavbarMenu",
   props: {
     categories: Array,
+  },
+  computed: {
+    ...mapState(["isAdmin"]),
   },
 };
 </script>

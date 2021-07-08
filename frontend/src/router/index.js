@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import store from "../store/index.js";
 
 const routes = [
   {
@@ -58,26 +59,31 @@ const routes = [
         path: "/account",
         name: "Account",
         component: () => import("../views/Account.vue"),
+        meta: { requiresAuth: true },
       },
       {
         path: "/account/register",
         name: "Registration",
         component: () => import("../views/Registration.vue"),
+        meta: { requiresGuest: true },
       },
       {
         path: "/account/login",
         name: "Login",
         component: () => import("../views/Login.vue"),
+        meta: { requiresGuest: true },
       },
       {
         path: "/account/orders",
         name: "Orders",
         component: () => import("../views/Orders.vue"),
+        meta: { requiresAuth: true },
       },
       {
         path: "/account/addresses",
         name: "Addresses",
         component: () => import("../views/Addresses.vue"),
+        meta: { requiresAuth: true },
       },
       {
         path: "/about",
@@ -89,6 +95,11 @@ const routes = [
         name: "Contact",
         component: () => import("../views/Contact.vue"),
       },
+      {
+        path: "/:pathMatch(.*)*",
+        name: "NotFound",
+        component: () => import("../views/NotFound.vue"),
+      },
     ],
   },
   {
@@ -96,6 +107,7 @@ const routes = [
     redirect: "/dashboard/orders",
     name: "Dashboard",
     component: () => import("../views/Dashboard.vue"),
+    meta: { requiresAdmin: true },
     children: [
       {
         path: "/dashboard/orders",
@@ -114,16 +126,25 @@ const routes = [
       },
     ],
   },
-  {
-    path: "/:pathMatch(.*)*",
-    name: "NotFound",
-    component: () => import("../views/NotFound.vue"),
-  },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to) => {
+  if (
+    (to.meta.requiresAuth || to.meta.requiresAdmin) &&
+    !store.state.auth.logged
+  ) {
+    return "/account/login";
+  } else if (
+    (to.meta.requiresAdmin || to.meta.requiresGuest) &&
+    store.state.auth.logged
+  ) {
+    return "/";
+  }
 });
 
 export default router;

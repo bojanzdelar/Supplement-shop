@@ -19,7 +19,7 @@
     <input
       class="form-control form-control-dark w-100"
       type="text"
-      placeholder="Search"
+      placeholder="Search (not working yet)"
       aria-label="Search"
     />
     <div class="navbar-nav">
