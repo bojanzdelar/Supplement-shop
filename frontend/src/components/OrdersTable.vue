@@ -12,7 +12,7 @@
             <th>Total price</th>
             <th>Sent</th>
             <th>Delivered</th>
-            <th>Actions</th>
+            <th v-if="isAdmin">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -35,7 +35,7 @@
               <span v-if="order.delivered">Yes</span>
               <span v-else>No</span>
             </td>
-            <td>
+            <td v-if="isAdmin">
               <button @click="send(order.id)" class="btn btn-secondary me-2">
                 <span v-if="order.sent">Mark as unsent</span>
                 <span v-else>Mark as sent</span>
@@ -63,9 +63,12 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from "vuex";
 import AddressesTable from "@/components/AddressesTable.vue";
 import ProductsTable from "@/components/ProductsTable.vue";
 import axios from "@/service/index.js";
+
+const { mapState } = createNamespacedHelpers("auth");
 
 export default {
   name: "OrdersTable",
@@ -84,6 +87,9 @@ export default {
     return {
       selectedOrder: {},
     };
+  },
+  computed: {
+    ...mapState(["isAdmin"]),
   },
   methods: {
     async getAddress(addressId) {

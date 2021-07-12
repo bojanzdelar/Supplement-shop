@@ -5,6 +5,10 @@ const checkout = {
   state: JSON.parse(localStorage.getItem("checkout")),
   getters: {},
   mutations: {
+    setCheckout(state, checkout) {
+      state = checkout;
+    },
+
     setContact(state, contact) {
       state.contact = contact;
     },
@@ -38,9 +42,11 @@ const checkout = {
       return axios.post("/address", state.billingAddress);
     },
 
-    saveOrder({ state }, [shippingAdressId, billingAddressId]) {
+    saveOrder({ state, rootState }, [shippingAdressId, billingAddressId]) {
       return axios.post("/orders", {
-        email: state.contact,
+        email: rootState.auth.logged
+          ? rootState.auth.user.email
+          : state.contact,
         shipping_address_id: shippingAdressId,
         billing_address_id: billingAddressId,
         shipping_method_id: state.shippingMethod.id,
@@ -60,20 +66,42 @@ const checkout = {
       }
     },
 
-    async checkout({ dispatch }) {
-      const [shippingAddress, billingAddress] = await Promise.all([
-        dispatch("saveShippingAddress"),
-        dispatch("saveBillingAddress"),
-      ]);
+    async clear({ commit }) {
+      commit("setCheckout", {});
+    },
+
+    async checkout({ dispatch, state }) {
+      // check whether:
+      // - shipping address already has an ID
+      // - check whether billing address already has an ID
+      // - shipping address is same as billing
+
+      let shippingAddressId = state.shippingAddress.id;
+      let billingAddressId = state.sameAddress
+        ? shippingAddressId
+        : state.billingAddress.id;
+
+      if (shippingAddressId === undefined) {
+        const response = await dispatch("saveShippingAddress");
+        shippingAddressId = response.data.id;
+        if (state.sameAddress) {
+          billingAddressId = shippingAddressId;
+        }
+      }
+
+      if (billingAddressId === undefined) {
+        const response = await dispatch("saveBillingAddress");
+        billingAddressId = response.data.id;
+      }
 
       const order = await dispatch("saveOrder", [
-        shippingAddress.data.id,
-        billingAddress.data.id,
+        shippingAddressId,
+        billingAddressId,
       ]);
 
       await dispatch("saveProductsInOrder", order.data.id);
-
       await dispatch("cart/clear", null, { root: true });
+      await dispatch("clear");
     },
   },
 };

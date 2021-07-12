@@ -11,12 +11,23 @@ def get_all_product():
     cursor.execute("SELECT * FROM product")
     return flask.jsonify(cursor.fetchall())
 
+@product.route("/popular/<int:limit>", methods=["GET"])
+def get_popular_product(limit):
+    cursor = mysql.get_db().cursor()
+    cursor.execute("SELECT * FROM product ORDER BY views DESC LIMIT %s", (limit,))
+    return flask.jsonify(cursor.fetchall())
+
 @product.route("/<string:id>", methods=["GET"])
 def get_product(id):
-    cursor = mysql.get_db().cursor()
+    db = mysql.get_db()
+    cursor = db.cursor()
     cursor.execute("SELECT * FROM product WHERE id=%s", (id,))
     product = cursor.fetchone()
-    return flask.jsonify(product) if product else ("", 404)
+    if not product:
+        return "", 404
+    cursor.execute("UPDATE product SET views=%s WHERE id=%s", (product["views"] + 1, id))
+    db.commit()
+    return flask.jsonify(product)
 
 @product.route("/<string:id>/quantity", methods=["GET"])
 def get_product_quantity(id):

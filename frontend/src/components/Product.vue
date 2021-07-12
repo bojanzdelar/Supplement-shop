@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card p-2">
     <a @click="viewDetails" href="#">
       <img :src="thumbnail" class="card-img-top" :alt="name" />
     </a>

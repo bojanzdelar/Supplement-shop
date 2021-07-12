@@ -91,7 +91,7 @@
               <i class="bi bi-gear"></i>
             </a>
             <ul
-              class="dropdown-menu text-center"
+              class="dropdown-menu no-collapse text-center p-3"
               aria-labelledby="settingsDropdown"
             >
               <div v-if="logged">

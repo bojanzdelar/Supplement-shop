@@ -7,7 +7,7 @@
       </router-link>
     </div>
     <div v-else>
-      <h5 class="text-center">Your cart</h5>
+      <h3 class="text-center mb-4">Your cart</h3>
       <div class="row">
         <div class="col-lg-8">
           <table class="table align-middle">
@@ -36,19 +36,38 @@
               />
             </tbody>
           </table>
-          <button @click="update" class="btn btn-success">Update</button>
+          <div class="d-flex justify-content-between my-4">
+            <router-link to="/" tag="button" class="btn">
+              <i class="bi bi-arrow-left-circle"></i> Continue shopping
+            </router-link>
+            <button @click="update" class="btn">
+              <i class="bi bi-arrow-repeat"></i> Update
+            </button>
+          </div>
+          <p>
+            We processes all orders in USD. While the content of your cart is
+            currently displayed in USD, the checkout will use USD at the most
+            current exchange rate.
+          </p>
         </div>
-        <div class="col-lg-4 bg-light">
-          <p>Subtotal ${{ subtotal }}</p>
-          <p>Shipping & taxes calculated at checkout</p>
-          <router-link
-            to="/checkout"
-            tag="button"
-            class="btn btn-success text-uppercase"
-            aria-label="checkout"
+        <div class="col-lg-4 bg-light p-4 h-100">
+          <div
+            class="d-flex justify-content-between fw-bold text-uppercase mb-3"
           >
-            Proceed to checkout
-          </router-link>
+            <span>Subtotal</span>
+            <span>${{ subtotal }}</span>
+          </div>
+          <p>Shipping & taxes calculated at checkout</p>
+          <div class="d-grid">
+            <router-link
+              to="/checkout"
+              tag="button"
+              class="btn btn-success text-uppercase text-dark"
+              aria-label="checkout"
+            >
+              Proceed to checkout
+            </router-link>
+          </div>
         </div>
       </div>
     </div>

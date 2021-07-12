@@ -1,14 +1,14 @@
 <template>
   <form @submit.prevent="finishOrder">
-    <ul class="list-group">
-      <li class="list-group-item d-flex justify-content-between">
+    <ul class="list-group mb-4">
+      <li class="list-group-item d-flex justify-content-between p-3">
         <span v-if="logged">Contact: {{ user.email }}</span>
         <span v-else>Contact: {{ contact }}</span>
         <router-link to="/checkout/information" class="text-decoration-none">
           Change
         </router-link>
       </li>
-      <li class="list-group-item d-flex justify-content-between">
+      <li class="list-group-item d-flex justify-content-between p-3">
         <span>
           Ship to: {{ shippingAddress.address }}, {{ shippingAddress.city }}
           {{ shippingAddress.ZIP_code }}, {{ shippingAddress.country }}
@@ -17,7 +17,7 @@
           Change
         </router-link>
       </li>
-      <li class="list-group-item d-flex justify-content-between">
+      <li class="list-group-item d-flex justify-content-between p-3">
         <span>
           Method: {{ shippingMethod.name }} ·
           <b>${{ shippingMethod.price }}</b>
@@ -29,8 +29,12 @@
     </ul>
     <h4>Payment method</h4>
     <p>All transactions are secure and encrypted.</p>
-    <div class="list-group">
-      <label v-for="method in methods" :key="method.id" class="list-group-item">
+    <div class="list-group mb-4">
+      <label
+        v-for="method in methods"
+        :key="method.id"
+        class="list-group-item p-3"
+      >
         <input
           type="radio"
           name="method"
@@ -39,13 +43,13 @@
           v-model="payment"
           required
         />
-        <span>{{ method.name }}</span>
+        <span class="ms-2">{{ method.name }}</span>
       </label>
     </div>
     <h4>Billing address</h4>
     <p>Select the address that matches your card or payment method.</p>
-    <div class="list-group">
-      <label class="list-group-item">
+    <div class="list-group mb-4">
+      <label class="list-group-item p-3">
         <input
           type="radio"
           name="address"
@@ -56,7 +60,7 @@
         />
         Same as shipping address
       </label>
-      <label class="list-group-item">
+      <label class="list-group-item p-3">
         <input
           type="radio"
           name="address"
@@ -67,7 +71,7 @@
         />
         Use a different billing address
       </label>
-      <div v-if="!sameAddress" class="list-group-item">
+      <div v-if="!sameAddress" class="list-group-item bg-light p-4">
         <CheckoutAddressForm
           :address="billingAddress"
           :required="!sameAddress"

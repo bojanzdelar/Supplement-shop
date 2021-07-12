@@ -123,7 +123,7 @@ const cart = {
 
     async clear({ commit, rootState }) {
       if (rootState.auth.logged) {
-        await axios.delete("/cart");
+        await axios.delete("/cart/user");
       }
       commit("clear");
     },

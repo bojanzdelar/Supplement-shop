@@ -10,7 +10,7 @@
           </router-link>
         </p>
       </div>
-      <div v-if="!logged" class="form-floating">
+      <div v-if="!logged" class="form-floating mb-4">
         <input
           v-model="contact"
           id="email"
@@ -20,7 +20,7 @@
         />
         <label for="email">Email</label>
       </div>
-      <div v-else>
+      <div v-else class="mb-4">
         <div>{{ user.first_name }} {{ user.last_name }} ({{ user.email }})</div>
         <a @click="logOut" href="#" class="text-decoration-none">Log out</a>
       </div>
@@ -29,6 +29,7 @@
         :address="shippingAddress"
         :required="true"
         @changed="shippingAddress = $event"
+        class="mb-4"
       />
       <div class="col-md-6 text-md-max-center">
         <router-link to="/cart" class="text-decoration-none text-md-max-center">

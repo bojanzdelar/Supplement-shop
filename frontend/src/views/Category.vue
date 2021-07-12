@@ -1,16 +1,21 @@
 <template>
-  <div class="container mt-5">
-    <div class="row">
-      <Product
-        v-for="product in products"
-        :key="product.id"
-        :id="product.id"
-        :name="product.name"
-        :description="product.description"
-        :price="product.price"
-        :thumbnail="product.thumbnail"
-        class="col-6 col-md-4 col-lg-3 col-xl-2"
-      />
+  <div>
+    <div class="bg-light text-center p-3">
+      <h3 class="text-uppercase">{{ category.name }}</h3>
+    </div>
+    <div class="container mt-4">
+      <div class="row">
+        <Product
+          v-for="product in products"
+          :key="product.id"
+          :id="product.id"
+          :name="product.name"
+          :description="product.description"
+          :price="product.price"
+          :thumbnail="product.thumbnail"
+          class="col-6 col-md-4 col-lg-3 col-xl-2"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -26,17 +31,29 @@ export default {
   },
   data() {
     return {
-      products: {},
+      category: {},
+      products: [],
     };
   },
   watch: {
     $route() {
       if (this.$route.name == this.$options.name) {
+        this.getCategory();
         this.getProducts();
       }
     },
   },
   methods: {
+    async getCategory() {
+      const id = this.$route.params["id"];
+      if (id !== "all") {
+        const response = await axios.get(`/category/${id}`);
+        this.category = response.data;
+      } else {
+        this.category.name = "Products";
+      }
+    },
+
     async getProducts() {
       const id = this.$route.params["id"];
       const path = id == "all" ? "/product" : `/category/${id}/products`;
@@ -45,6 +62,7 @@ export default {
     },
   },
   created() {
+    this.getCategory();
     this.getProducts();
   },
 };

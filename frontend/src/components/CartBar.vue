@@ -15,39 +15,42 @@
       ></button>
     </div>
     <div class="offcanvas-body">
-      <CartBarItem
-        v-for="item in cart"
-        :key="item.id"
-        :id="item.id"
-        :product-id="item.product_id"
-        :name="item.name"
-        :quantity="item.quantity"
-        :price="item.price"
-        :thumbnail="item.thumbnail"
-        @remove="remove(item.product_id)"
-        class="mb-1"
-      />
-      <div class="d-grid gap-2">
-        <p>Subtotal: ${{ subtotal }}</p>
-        <router-link
-          to="/checkout"
-          tag="button"
-          class="btn btn-success text-uppercase"
-          data-bs-dismiss="offcanvas"
-          aria-label="checkout"
-        >
-          Proceed to checkout
-        </router-link>
-        <router-link
-          to="/cart"
-          tag="button"
-          class="btn btn-success text-uppercase"
-          data-bs-dismiss="offcanvas"
-          aria-label="viewCart"
-        >
-          View cart
-        </router-link>
+      <div v-if="!isEmpty">
+        <CartBarItem
+          v-for="item in cart"
+          :key="item.id"
+          :id="item.id"
+          :product-id="item.product_id"
+          :name="item.name"
+          :quantity="item.quantity"
+          :price="item.price"
+          :thumbnail="item.thumbnail"
+          @remove="remove(item.product_id)"
+          class="mb-1"
+        />
+        <div class="d-grid gap-2">
+          <p>Subtotal: ${{ subtotal }}</p>
+          <router-link
+            to="/checkout"
+            tag="button"
+            class="btn btn-success text-uppercase"
+            data-bs-dismiss="offcanvas"
+            aria-label="checkout"
+          >
+            Proceed to checkout
+          </router-link>
+          <router-link
+            to="/cart"
+            tag="button"
+            class="btn btn-success text-uppercase"
+            data-bs-dismiss="offcanvas"
+            aria-label="viewCart"
+          >
+            View cart
+          </router-link>
+        </div>
       </div>
+      <div v-else>You don't have any items in your cart.</div>
     </div>
   </div>
 </template>
@@ -65,7 +68,7 @@ export default {
   },
   computed: {
     ...mapState(["cart"]),
-    ...mapGetters(["subtotal"]),
+    ...mapGetters(["isEmpty", "subtotal"]),
   },
   methods: {
     ...mapActions(["remove"]),

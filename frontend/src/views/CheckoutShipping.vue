@@ -1,14 +1,14 @@
 <template>
   <form @submit.prevent="continueToPayment">
-    <ul class="list-group">
-      <li class="list-group-item d-flex justify-content-between">
+    <ul class="list-group mb-4">
+      <li class="list-group-item d-flex justify-content-between p-3">
         <span v-if="logged">Contact: {{ user.email }}</span>
         <span v-else>Contact: {{ contact }}</span>
         <router-link to="/checkout/information" class="text-decoration-none">
           Change
         </router-link>
       </li>
-      <li class="list-group-item d-flex justify-content-between">
+      <li class="list-group-item d-flex justify-content-between p-3">
         <span>
           Ship to: {{ shippingAddress.address }}, {{ shippingAddress.city }}
           {{ shippingAddress.ZIP_code }}, {{ shippingAddress.country }}
@@ -19,8 +19,12 @@
       </li>
     </ul>
     <h4>Shipping method</h4>
-    <div class="list-group">
-      <label v-for="method in methods" :key="method.id" class="list-group-item">
+    <div class="list-group mb-4">
+      <label
+        v-for="method in methods"
+        :key="method.id"
+        class="list-group-item p-3"
+      >
         <input
           type="radio"
           name="method"

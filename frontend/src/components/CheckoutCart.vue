@@ -20,12 +20,18 @@
       <span v-else>Calculated at next step</span>
     </div>
     <hr />
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between align-middle">
       <span>Total: </span>
       <span v-if="shippingMethod">
-        USD ${{ (subtotal + shippingMethod.price).toFixed(2) }}
+        USD
+        <span class="fs-4 fw-bold">
+          ${{ (subtotal + shippingMethod.price).toFixed(2) }}
+        </span>
       </span>
-      <span v-else> USD ${{ subtotal }} </span>
+      <span v-else>
+        USD
+        <span class="fs-4 fw-bold">${{ subtotal }}</span>
+      </span>
     </div>
   </div>
 </template>

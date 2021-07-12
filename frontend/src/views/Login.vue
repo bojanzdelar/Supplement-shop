@@ -1,14 +1,14 @@
 <template>
   <div class="container mt-5">
-    <h3 class="text-center">My account</h3>
+    <h3 class="text-center mb-4">My account</h3>
     <div class="row justify-content-center">
-      <div class="col-md-4">
+      <div class="col-md-4 border p-4 me-md-4 mb-4">
         <h5>Login</h5>
         <p>If you have an account with us, please log in.</p>
         <div v-if="failed" class="alert alert-danger" role="alert">
           Username and/or password is invalid.
         </div>
-        <form @submit.prevent="login(user)" class="text-center">
+        <form @submit.prevent="login(user)" class="text-center row g-3">
           <div>
             <input
               v-model="user.email"
@@ -30,12 +30,16 @@
             />
           </div>
           <div>
-            <input class="btn btn-success" type="submit" value="Sign in" />
+            <input
+              class="btn btn-success text-dark text-uppercase"
+              type="submit"
+              value="Sign in"
+            />
           </div>
           <p>Forgot your password?</p>
         </form>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-4 border p-4 mb-4">
         <h5>New customer?</h5>
         <p>
           Registering for this site allows you to access your order status and
@@ -43,7 +47,10 @@
           will only ask you for information necessary to make the purchase
           process faster and easier
         </p>
-        <router-link to="/account/register" class="btn btn-success">
+        <router-link
+          to="/account/register"
+          class="btn btn-success text-dark text-uppercase"
+        >
           Create an account
         </router-link>
       </div>
