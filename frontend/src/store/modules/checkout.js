@@ -9,12 +9,20 @@ const checkout = {
       state = checkout;
     },
 
+    setShippingProvided(state, provided) {
+      state.shippingProvided = provided;
+    },
+
     setContact(state, contact) {
       state.contact = contact;
     },
 
     setShippingAddress(state, address) {
       state.shippingAddress = address;
+    },
+
+    setShippingAddressComplete(state, complete) {
+      state.shippingAddress.complete = complete;
     },
 
     setBillingAddress(state, address) {

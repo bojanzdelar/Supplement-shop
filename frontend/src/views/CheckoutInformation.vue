@@ -81,10 +81,15 @@ export default {
   },
   methods: {
     continueToShipping() {
+      this.setShippingAddressComplete(true);
       this.$router.push("/checkout/shipping");
     },
 
-    ...mapMutations("checkout", ["setContact", "setShippingAddress"]),
+    ...mapMutations("checkout", [
+      "setContact",
+      "setShippingAddress",
+      "setShippingAddressComplete",
+    ]),
     ...mapActions("auth", ["logOut"]),
   },
 };

@@ -1,7 +1,7 @@
 import flask
 from flask import Blueprint
 from flask_jwt_extended import jwt_required, get_jwt_identity   
-from app import mysql
+from db import mysql
 
 cart = Blueprint('cart', __name__)
 

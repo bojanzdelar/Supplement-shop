@@ -31,7 +31,6 @@
         class="form-control"
         aria-describedby="firstName"
         :required="required"
-        :disabled="disabled"
       />
       <label for="firstName">First name</label>
     </div>
@@ -44,7 +43,6 @@
         class="form-control"
         aria-describedby="lastName"
         :required="required"
-        :disabled="disabled"
       />
       <label for="lastName">Last name</label>
     </div>
@@ -56,7 +54,6 @@
         id="company"
         class="form-control"
         aria-describedby="company"
-        :disabled="disabled"
       />
       <label for="company">Company (optional)</label>
     </div>
@@ -69,7 +66,6 @@
         class="form-control"
         aria-describedby="address"
         :required="required"
-        :disabled="disabled"
       />
       <label for="address">Address</label>
     </div>
@@ -81,7 +77,6 @@
         id="apartment"
         class="form-control"
         aria-describedby="apartment"
-        :disabled="disabled"
       />
       <label for="apartment">Apartment, suite, etc. (optional)</label>
     </div>
@@ -94,7 +89,6 @@
         class="form-control"
         aria-describedby="city"
         :required="required"
-        :disabled="disabled"
       />
       <label for="city">City</label>
     </div>
@@ -107,7 +101,6 @@
         class="form-control"
         aria-describedby="country"
         :required="required"
-        :disabled="disabled"
       />
       <label for="country">Country/region</label>
     </div>
@@ -120,7 +113,6 @@
         class="form-control"
         aria-describedby="state"
         :required="required"
-        :disabled="disabled"
       />
       <label for="state">State</label>
     </div>
@@ -133,7 +125,6 @@
         class="form-control"
         aria-describedby="zipCode"
         :required="required"
-        :disabled="disabled"
       />
       <label for="zipCode">ZIP code</label>
     </div>
@@ -145,7 +136,6 @@
         id="phone"
         class="form-control"
         aria-describedby="phone"
-        :disabled="disabled"
       />
       <label for="phone">Phone (optional)</label>
     </div>
@@ -202,7 +192,7 @@ export default {
         return;
       }
 
-      address["key"] = event.target.value;
+      address[key] = event.target.value;
     },
   },
   created() {

@@ -1,7 +1,7 @@
 import flask
 from flask import Blueprint
 from api.auth import admin_required
-from app import mysql
+from db import mysql
 
 payment_method = Blueprint('payment_method', __name__)
 

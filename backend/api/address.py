@@ -2,7 +2,7 @@ import flask
 from flask import Blueprint
 from flask_jwt_extended import jwt_required, get_jwt_identity   
 from api.auth import admin_required
-from app import mysql
+from db import mysql
 
 address = Blueprint('address', __name__)
 

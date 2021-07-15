@@ -1,7 +1,7 @@
 import flask
 from flask import Blueprint
 from api.auth import admin_required
-from app import mysql
+from db import mysql
 
 shipping_method = Blueprint('shipping_method', __name__)
 

@@ -1,7 +1,7 @@
 import flask
 from flask import Blueprint
 from api.auth import admin_required
-from app import mysql
+from db import mysql
 
 product_in_order = Blueprint('product_in_order', __name__)
 

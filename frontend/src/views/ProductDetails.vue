@@ -49,7 +49,10 @@ export default {
   },
   watch: {
     $route() {
-      if (this.$route.name == this.$options.name) {
+      if (
+        this.$route.name === this.$options.name &&
+        Object.keys(this.product).length
+      ) {
         this.getProduct();
       }
     },
@@ -58,6 +61,7 @@ export default {
     async getProduct() {
       const response = await axios.get(`/product/${this.$route.params["id"]}`);
       this.product = response.data;
+      document.title += ` - ${this.product.name}`;
     },
 
     validate() {

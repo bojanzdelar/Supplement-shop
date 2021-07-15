@@ -2,7 +2,7 @@ import flask
 from flask import Blueprint
 from flask_jwt_extended import jwt_required
 from api.auth import admin_required
-from app import mysql
+from db import mysql
 
 comment = Blueprint('comment', __name__)
 

@@ -37,7 +37,10 @@ export default {
   },
   watch: {
     $route() {
-      if (this.$route.name == this.$options.name) {
+      if (
+        this.$route.name == this.$options.name &&
+        Object.keys(this.category).length
+      ) {
         this.getCategory();
         this.getProducts();
       }
@@ -52,6 +55,7 @@ export default {
       } else {
         this.category.name = "Products";
       }
+      document.title += ` - ${this.category.name}`;
     },
 
     async getProducts() {

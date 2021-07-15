@@ -1,7 +1,7 @@
 import flask
 from flask import Blueprint
 from api.auth import admin_required   
-from app import mysql
+from db import mysql
 
 category = Blueprint('category', __name__)
 

@@ -2,26 +2,56 @@
   <div class="container mt-5">
     <h1>We Would Like to Hear From You</h1>
     <p>Customer Service Contact Form</p>
-    <form>
+    <form @submit.prevent="sendMail">
       <div class="mb-3">
         <label for="firstName" class="form-label">First name</label>
-        <input type="text" class="form-control" id="firstName" />
+        <input
+          v-model="mail.first_name"
+          type="text"
+          class="form-control"
+          id="firstName"
+          required
+        />
       </div>
       <div class="mb-3">
         <label for="lastName" class="form-label">Last name</label>
-        <input type="text" class="form-control" id="lastName" />
+        <input
+          v-model="mail.last_name"
+          type="text"
+          class="form-control"
+          id="lastName"
+          required
+        />
       </div>
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" />
+        <input
+          v-model="mail.email"
+          type="email"
+          class="form-control"
+          id="email"
+          required
+        />
       </div>
       <div class="mb-3">
         <label for="subject" class="form-label">Subject</label>
-        <input type="text" class="form-control" id="subject" />
+        <input
+          v-model="mail.subject"
+          type="text"
+          class="form-control"
+          id="subject"
+          required
+        />
       </div>
       <div class="mb-3">
         <label for="message" class="form-label">Message</label>
-        <textarea class="form-control" id="message" rows="3"></textarea>
+        <textarea
+          v-model="mail.message"
+          class="form-control"
+          id="message"
+          rows="3"
+          required
+        ></textarea>
       </div>
       <div class="mb-3">
         <input type="submit" class="btn btn-success" value="Submit" />
@@ -29,3 +59,23 @@
     </form>
   </div>
 </template>
+
+<script>
+import axios from "@/service/index.js";
+
+export default {
+  name: "Contact",
+  data() {
+    return {
+      mail: {},
+    };
+  },
+  methods: {
+    async sendMail() {
+      await axios.post("/mail", this.mail);
+      window.alert("Mail sent!");
+      this.mail = {};
+    },
+  },
+};
+</script>
