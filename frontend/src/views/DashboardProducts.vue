@@ -2,14 +2,16 @@
   <div>
     <h1>Products</h1>
     <hr />
-    <button
-      @click="create"
-      class="btn px-3 py-2"
-      data-bs-toggle="modal"
-      data-bs-target="#modal"
-    >
-      <i class="bi bi-plus-lg"></i>
-    </button>
+    <div class="text-end">
+      <button
+        @click="create"
+        class="btn px-3 py-2"
+        data-bs-toggle="modal"
+        data-bs-target="#modal"
+      >
+        <i class="bi bi-plus-lg"></i> (Create new)
+      </button>
+    </div>
     <ProductsModal
       :product="modal.product"
       :categories="categories"
@@ -17,7 +19,13 @@
       :button="modal.button"
       @submitted="modal.handler"
     />
-    <ProductsTable :products="products" @edit="edit" @remove="remove" />
+    <ProductsTable
+      :products="products"
+      :displayTotal="false"
+      :actionsAvailable="true"
+      @edit="edit"
+      @remove="remove"
+    />
     <DeleteModal :entity="'product'" @confirmed="deleteProduct(id)" />
   </div>
 </template>

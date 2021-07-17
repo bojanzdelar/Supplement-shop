@@ -166,7 +166,7 @@ const routes = [
         name: "DashboardOrders",
         component: () => import("../views/DashboardOrders.vue"),
         meta: {
-          title: "Dashboard - orders",
+          title: "Dashboard - Orders",
         },
       },
       {
@@ -174,7 +174,7 @@ const routes = [
         name: "DashboardProducts",
         component: () => import("../views/DashboardProducts.vue"),
         meta: {
-          title: "Dashboard - products",
+          title: "Dashboard - Products",
         },
       },
       {
@@ -182,7 +182,7 @@ const routes = [
         name: "DashboardCategories",
         component: () => import("../views/DashboardCategories.vue"),
         meta: {
-          title: "Dashboard - categories",
+          title: "Dashboard - Categories",
         },
       },
     ],

@@ -104,7 +104,7 @@
                 <label for="zipCode">ZIP code</label>
                 <input
                   v-model="newAddress.ZIP_code"
-                  type="text"
+                  type="number"
                   id="zipCode"
                   class="form-control"
                   aria-describedby="zipCode"
@@ -130,8 +130,6 @@
                 tag="button"
                 class="btn btn-success text-dark text-uppercase me-2"
                 :value="button"
-                data-bs-toggle="modal"
-                data-bs-target="#modal"
               />
               <a
                 href="#"
@@ -150,6 +148,8 @@
 </template>
 
 <script>
+import { Modal } from "bootstrap";
+
 export default {
   name: "AddressesModal",
   props: {
@@ -162,6 +162,7 @@ export default {
   },
   data() {
     return {
+      modal: {},
       newAddress: this.address ? { ...this.address } : {},
     };
   },
@@ -173,7 +174,14 @@ export default {
   methods: {
     submit() {
       this.$emit("submitted", this.newAddress);
+      this.modal.hide();
     },
+  },
+  mounted() {
+    /* bad practice to use JS DOM methods when using frontend 
+      framework, should be done with wrapper library like BootstrapVue 
+      (at the time it wasnt available for Vue 3) */
+    this.modal = new Modal(document.querySelector("#modal"));
   },
 };
 </script>

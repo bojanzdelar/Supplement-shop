@@ -2,14 +2,16 @@
   <div>
     <h1>Categories</h1>
     <hr />
-    <button
-      @click="create"
-      class="btn px-3 py-2"
-      data-bs-toggle="modal"
-      data-bs-target="#modal"
-    >
-      <i class="bi bi-plus-lg"></i>
-    </button>
+    <div class="text-end">
+      <button
+        @click="create"
+        class="btn px-3 py-2"
+        data-bs-toggle="modal"
+        data-bs-target="#modal"
+      >
+        <i class="bi bi-plus-lg"></i> (Create new)
+      </button>
+    </div>
     <CategoriesModal
       :category="modal.category"
       :heading="modal.heading"

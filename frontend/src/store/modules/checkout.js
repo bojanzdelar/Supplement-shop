@@ -53,7 +53,7 @@ const checkout = {
     saveOrder({ state, rootState }, [shippingAdressId, billingAddressId]) {
       return axios.post("/orders", {
         email: rootState.auth.logged
-          ? rootState.auth.user.email
+          ? rootState.auth.data.email
           : state.contact,
         shipping_address_id: shippingAdressId,
         billing_address_id: billingAddressId,

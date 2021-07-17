@@ -13,7 +13,7 @@
           <th>State</th>
           <th>ZIP code</th>
           <th>Phone</th>
-          <th>Actions</th>
+          <th v-if="actionsAvailable">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -28,7 +28,7 @@
           <td>{{ address.state }}</td>
           <td>{{ address.ZIP_code }}</td>
           <td>{{ address.phone }}</td>
-          <td>
+          <td v-if="actionsAvailable">
             <button
               @click="edit(address.id)"
               class="btn text-dark text-uppercase me-2"
@@ -57,6 +57,7 @@ export default {
   name: "AddressesTable",
   props: {
     addresses: Array,
+    actionsAvailable: Boolean,
   },
   emits: {
     edit: null,

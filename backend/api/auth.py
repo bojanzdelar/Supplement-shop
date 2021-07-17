@@ -56,7 +56,7 @@ def admin_required():
         def decorator(*args, **kwargs):
             verify_jwt_in_request()
             claims = get_jwt()
-            if claims["is_administrator"]:
+            if claims["admin"]:
                 return fn(*args, **kwargs)
             else:
                 return flask.jsonify(msg="Admins only!"), 403

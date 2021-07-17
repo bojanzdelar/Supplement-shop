@@ -28,10 +28,8 @@
               <input
                 type="submit"
                 tag="button"
-                class="btn btn-success text-dark text-uppercase me-2"
+                class="btn btn-secondary text-uppercase me-2"
                 :value="button"
-                data-bs-toggle="modal"
-                data-bs-target="#modal"
               />
               <a
                 href="#"
@@ -50,6 +48,8 @@
 </template>
 
 <script>
+import { Modal } from "bootstrap";
+
 export default {
   name: "CategoriesModal",
   props: {
@@ -62,6 +62,7 @@ export default {
   },
   data() {
     return {
+      modal: {},
       newCategory: this.category ? { ...this.category } : {},
     };
   },
@@ -73,7 +74,14 @@ export default {
   methods: {
     submit() {
       this.$emit("submitted", this.newCategory);
+      this.modal.hide();
     },
+  },
+  mounted() {
+    /* bad practice to use JS DOM methods when using frontend 
+      framework, should be done with wrapper library like BootstrapVue 
+      (at the time it wasnt available for Vue 3) */
+    this.modal = new Modal(document.querySelector("#modal"));
   },
 };
 </script>

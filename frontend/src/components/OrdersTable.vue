@@ -49,14 +49,21 @@
         </tbody>
       </table>
     </div>
-    <div class="border p-3">
+    <div v-if="isOrderSelected" class="border p-3">
       <div class="mb-3">
         <h5>Shipping address and Billing address</h5>
-        <AddressesTable :addresses="selectedOrder.addresses" />
+        <AddressesTable
+          :addresses="selectedOrder.addresses"
+          :actionsAvailable="false"
+        />
       </div>
       <div>
         <h5>Products in order</h5>
-        <ProductsTable :products="selectedOrder.products" />
+        <ProductsTable
+          :products="selectedOrder.products"
+          :displayTotal="true"
+          :actionsAvailable="false"
+        />
       </div>
     </div>
   </div>
@@ -89,6 +96,10 @@ export default {
     };
   },
   computed: {
+    isOrderSelected() {
+      return Object.entries(this.selectedOrder).length !== 0;
+    },
+
     ...mapState(["isAdmin"]),
   },
   methods: {

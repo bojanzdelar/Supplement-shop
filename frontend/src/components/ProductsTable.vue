@@ -6,8 +6,8 @@
           <th>Name</th>
           <th>Price</th>
           <th>Quantity</th>
-          <th>Total</th>
-          <th>Actions</th>
+          <th v-if="displayTotal">Total</th>
+          <th v-if="actionsAvailable">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -15,8 +15,8 @@
           <td>{{ product.name }}</td>
           <td>${{ product.price }}</td>
           <td>{{ product.quantity }}</td>
-          <td>${{ product.price * product.quantity }}</td>
-          <td>
+          <td v-if="displayTotal">${{ product.price * product.quantity }}</td>
+          <td v-if="actionsAvailable">
             <button
               @click="edit(product.id)"
               class="btn text-dark text-uppercase me-2"
@@ -45,6 +45,8 @@ export default {
   name: "ProductsTable",
   props: {
     products: Array,
+    displayTotal: Boolean,
+    actionsAvailable: Boolean,
   },
   emits: {
     edit: null,

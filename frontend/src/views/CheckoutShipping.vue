@@ -2,7 +2,7 @@
   <form @submit.prevent="continueToPayment">
     <ul class="list-group mb-4">
       <li class="list-group-item d-flex justify-content-between p-3">
-        <span v-if="logged">Contact: {{ user.email }}</span>
+        <span v-if="logged">Contact: {{ data.email }}</span>
         <span v-else>Contact: {{ contact }}</span>
         <router-link to="/checkout/information" class="text-decoration-none">
           Change
@@ -74,7 +74,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("auth", ["logged", "user"]),
+    ...mapState("auth", ["logged", "data"]),
     ...mapState("checkout", ["contact", "shippingAddress"]),
   },
   methods: {

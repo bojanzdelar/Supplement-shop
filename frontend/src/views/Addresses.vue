@@ -12,7 +12,7 @@
         data-bs-toggle="modal"
         data-bs-target="#modal"
       >
-        <i class="bi bi-plus-lg"></i>
+        <i class="bi bi-plus-lg"></i> (Create new)
       </button>
     </div>
     <AddressesModal
@@ -21,7 +21,12 @@
       :button="modal.button"
       @submitted="modal.handler"
     />
-    <AddressesTable :addresses="addresses" @edit="edit" @remove="remove" />
+    <AddressesTable
+      :addresses="addresses"
+      :actionsAvailable="true"
+      @edit="edit"
+      @remove="remove"
+    />
     <DeleteModal :entity="'address'" @confirmed="deleteAddress(id)" />
   </div>
 </template>

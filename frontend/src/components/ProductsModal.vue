@@ -102,10 +102,8 @@
               <input
                 type="submit"
                 tag="button"
-                class="btn btn-success text-dark text-uppercase me-2"
+                class="btn btn-secondary text-uppercase me-2"
                 :value="button"
-                data-bs-toggle="modal"
-                data-bs-target="#modal"
               />
               <a
                 href="#"
@@ -124,6 +122,7 @@
 </template>
 
 <script>
+import { Modal } from "bootstrap";
 import axios from "@/service/index.js";
 
 export default {
@@ -139,6 +138,7 @@ export default {
   },
   data() {
     return {
+      modal: {},
       newProduct: this.product ? { ...this.product } : {},
       selectedCategories: [],
     };
@@ -163,7 +163,14 @@ export default {
 
     submit() {
       this.$emit("submitted", this.newProduct, this.selectedCategories);
+      this.modal.hide();
     },
+  },
+  mounted() {
+    /* bad practice to use JS DOM methods when using frontend 
+      framework, should be done with wrapper library like BootstrapVue 
+      (at the time it wasnt available for Vue 3) */
+    this.modal = new Modal(document.querySelector("#modal"));
   },
 };
 </script>

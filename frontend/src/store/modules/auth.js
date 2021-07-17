@@ -9,6 +9,10 @@ const auth = {
       accessToken: localStorage.getItem("access_token"),
       refreshToken: localStorage.getItem("refresh_token"),
     },
+    data: {
+      name: "",
+      email: "",
+    },
   },
   mutations: {
     initialize(state) {
@@ -16,7 +20,9 @@ const auth = {
       if (accessToken) {
         const decoded = jwt_decode(accessToken);
         state.logged = true;
-        state.isAdmin = decoded.isAdmin;
+        state.isAdmin = decoded.admin;
+        state.data.name = decoded.name;
+        state.data.email = decoded.email;
       } else {
         state.logged = false;
         state.isAdmin = false;
@@ -36,12 +42,11 @@ const auth = {
 
     logOut(state) {
       state.tokens = {};
+      state.data = {};
     },
   },
   actions: {
     async loggedIn({ commit, dispatch }, [access_token, refresh_token]) {
-      console.log("yo");
-
       commit("loggedIn", [access_token, refresh_token]);
       commit("initialize");
       await dispatch("cart/save", null, { root: true });

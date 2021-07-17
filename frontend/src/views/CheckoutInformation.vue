@@ -21,7 +21,7 @@
         <label for="email">Email</label>
       </div>
       <div v-else class="mb-4">
-        <div>{{ user.first_name }} {{ user.last_name }} ({{ user.email }})</div>
+        <div>{{ data.name }} ({{ data.email }})</div>
         <a @click="logOut" href="#" class="text-decoration-none">Log out</a>
       </div>
       <h5>Shipping Address</h5>
@@ -77,7 +77,7 @@ export default {
       },
     },
 
-    ...mapState("auth", ["logged", "user"]),
+    ...mapState("auth", ["logged", "data"]),
   },
   methods: {
     continueToShipping() {
