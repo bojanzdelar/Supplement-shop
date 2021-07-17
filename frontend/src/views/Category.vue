@@ -55,7 +55,7 @@ export default {
       } else {
         this.category.name = "Products";
       }
-      document.title += ` - ${this.category.name}`;
+      document.title = `${this.product.name} - ${document.title}`;
     },
 
     async getProducts() {

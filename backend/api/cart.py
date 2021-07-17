@@ -1,12 +1,13 @@
 import flask
 from flask import Blueprint
 from flask_jwt_extended import jwt_required, get_jwt_identity   
+from api.auth import admin_required   
 from db import mysql
 
 cart = Blueprint('cart', __name__)
 
 @cart.route("/", methods=["GET"])
-@jwt_required()
+@admin_required()
 def get_all_cart():
     cursor = mysql.get_db().cursor()
     cursor.execute("SELECT * FROM cart")

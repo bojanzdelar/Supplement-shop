@@ -175,6 +175,18 @@ export default {
 </script>
 
 <style scoped>
+.navbar-nav .dropdown-menu {
+  position: absolute;
+  top: 65px;
+  left: -150px;
+}
+
+@media (max-width: 992px) {
+  .navbar-nav .dropdown-menu {
+    top: 68px;
+  }
+}
+
 @media (max-width: 992px) {
   .navbar-nav.list-group-horizontal .nav-item {
     padding-left: 0.5rem;

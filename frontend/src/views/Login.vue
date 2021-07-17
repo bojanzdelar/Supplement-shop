@@ -76,7 +76,8 @@ export default {
     async login(user) {
       try {
         const response = await axios.post("/login", user);
-        this.loggedIn(response.data);
+        const data = response.data;
+        this.loggedIn([data.access_token, data.refresh_token]);
         this.$router.back();
       } catch {
         this.failed = true;

@@ -82,6 +82,8 @@ const cart = {
       for (let item of state.cart) {
         await axios.post("/cart", item);
       }
+
+      localStorage.removeItem("cart");
     },
 
     async get({ commit, rootState }) {

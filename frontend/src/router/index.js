@@ -209,10 +209,10 @@ router.beforeEach((to) => {
 });
 
 router.beforeEach((to) => {
-  document.title = process.env.VUE_APP_TITLE;
-  if (to.meta.title) {
-    document.title += ` - ${to.meta.title}`;
-  }
+  const baseTitle = process.env.VUE_APP_TITLE;
+  document.title = to.meta.title
+    ? `${to.meta.title} - ${baseTitle}`
+    : baseTitle;
 });
 
 export default router;

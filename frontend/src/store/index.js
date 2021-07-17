@@ -12,13 +12,12 @@ const store = createStore({
 });
 
 store.subscribe((mutation, state) => {
-  if (mutation.type.startsWith("cart") && !state.logged) {
+  if (mutation.type.startsWith("auth")) {
+    localStorage.setItem("access_token", state.auth.tokens.accessToken);
+    localStorage.setItem("refresh_token", state.auth.tokens.refreshToken);
+  } else if (mutation.type.startsWith("cart") && !state.auth.logged) {
     localStorage.setItem("cart", JSON.stringify(state.cart.cart));
-  }
-});
-
-store.subscribe((mutation, state) => {
-  if (mutation.type.startsWith("checkout")) {
+  } else if (mutation.type.startsWith("checkout")) {
     localStorage.setItem("checkout", JSON.stringify(state.checkout));
   }
 });

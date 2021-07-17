@@ -26,11 +26,14 @@ def login():
     user = cursor.fetchone()
     if not user:
         return "User doesn't exist", 401
-    additional_claims = {"is_administrator": user["user_type_id"] == 1 }
+    additional_claims = {
+        "name": f"{user['first_name']} {user['last_name']}",
+        "email": user["email"],
+        "admin": user["user_type_id"] == 1
+    }
     access_token = create_access_token(identity=user["id"], additional_claims=additional_claims)
     refresh_token = create_refresh_token(identity=user["id"], additional_claims=additional_claims)
-    user.pop("password")
-    return flask.jsonify(access_token=access_token, refresh_token=refresh_token, user=user), 200   
+    return flask.jsonify(access_token=access_token, refresh_token=refresh_token), 200   
 
 # We are using the `refresh=True` options in jwt_required to only allow
 # refresh tokens to access this route.
@@ -38,7 +41,12 @@ def login():
 @jwt_required(refresh=True)
 def refresh():
     identity = get_jwt_identity()
-    additional_claims = get_jwt()
+    old_claims = get_jwt()
+    additional_claims = {
+        "name": old_claims["name"],
+        "email": old_claims["email"],
+        "admin": old_claims["admin"]
+    }
     access_token = create_access_token(identity=identity, additional_claims=additional_claims)
     return flask.jsonify(access_token=access_token)
 
