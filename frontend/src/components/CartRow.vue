@@ -9,14 +9,17 @@
       ></button>
     </td>
     <td>
-      <a @click="viewDetails" href="#">
-        <img :src="thumbnail" class="img-fluid thumbnail" :alt="name" />
-      </a>
+      <router-link :to="{ name: 'ProductDetails', params: { id: productId } }">
+        <img :src="thumbnail" class="card-img-top" :alt="name" />
+      </router-link>
     </td>
     <td>
-      <a @click="viewDetails" href="#" class="text-body text-decoration-none">
+      <router-link
+        :to="{ name: 'ProductDetails', params: { id: productId } }"
+        class="text-decoration-none text-reset"
+      >
         {{ name }}
-      </a>
+      </router-link>
     </td>
     <td>${{ price }}</td>
     <td>
@@ -72,10 +75,6 @@ export default {
     async getQuantityAvailable() {
       const response = await axios.get(`/product/${this.productId}/quantity`);
       this.quantityAvailable = response.data.quantity;
-    },
-
-    viewDetails() {
-      this.$router.push(`/products/${this.productId}`);
     },
   },
   created() {

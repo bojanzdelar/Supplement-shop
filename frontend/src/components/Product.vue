@@ -1,12 +1,15 @@
 <template>
   <div class="card p-2">
-    <a @click="viewDetails" href="#">
+    <router-link :to="{ name: 'ProductDetails', params: { id: id } }">
       <img :src="thumbnail" class="card-img-top" :alt="name" />
-    </a>
+    </router-link>
     <div class="card-body">
-      <a @click="viewDetails" href="#" class="text-body text-decoration-none">
+      <router-link
+        :to="{ name: 'ProductDetails', params: { id: id } }"
+        class="text-decoration-none text-reset"
+      >
         <h5 class="card-title">{{ name }}</h5>
-      </a>
+      </router-link>
       <p class="card-text">${{ price }}</p>
     </div>
   </div>

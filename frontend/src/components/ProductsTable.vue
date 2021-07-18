@@ -13,7 +13,14 @@
       </thead>
       <tbody>
         <tr v-for="product in products" :key="product.id">
-          <td>{{ product.name }}</td>
+          <td>
+            <router-link
+              :to="{ name: 'ProductDetails', params: { id: product.id } }"
+              class="text-decoration-none"
+            >
+              {{ product.name }}
+            </router-link>
+          </td>
           <td>${{ product.price }}</td>
           <td>{{ product.quantity }}</td>
           <td v-if="displayTotal">${{ product.price * product.quantity }}</td>

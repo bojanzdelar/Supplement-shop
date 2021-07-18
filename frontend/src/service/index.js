@@ -19,14 +19,19 @@ instance.interceptors.response.use(
   (res) => res,
   async (error) => {
     if (error.response.status === 401) {
-      const refreshToken = store.state.auth.tokens.refreshToken;
-      const response = await axios.post(`${URL}/refresh`, null, {
-        headers: { Authorization: `Bearer ${refreshToken}` },
-      });
-      const accessToken = response.data.access_token;
-      store.commit("auth/refreshToken", accessToken);
-      error.config.headers.Authorization = `Bearer ${accessToken}`;
-      return axios(error.config);
+      try {
+        const refreshToken = store.state.auth.tokens.refreshToken;
+        const response = await axios.post(`${URL}/refresh`, null, {
+          headers: { Authorization: `Bearer ${refreshToken}` },
+        });
+        const accessToken = response.data.access_token;
+        store.commit("auth/refreshToken", accessToken);
+        error.config.headers.Authorization = `Bearer ${accessToken}`;
+        return axios(error.config);
+      } catch {
+        store.dispatch("auth/logOut");
+        return Promise.reject(error);
+      }
     } else {
       return Promise.reject(error);
     }

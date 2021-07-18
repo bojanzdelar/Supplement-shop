@@ -2,20 +2,22 @@
   <div class="card">
     <div class="row">
       <div class="col-3">
-        <a @click="viewDetails" href="#" data-bs-dismiss="offcanvas">
-          <img :src="thumbnail" class="img-fluid" :alt="name" />
-        </a>
+        <router-link
+          :to="{ name: 'ProductDetails', params: { id: productId } }"
+          data-bs-dismiss="offcanvas"
+        >
+          <img :src="thumbnail" class="card-img-top" :alt="name" />
+        </router-link>
       </div>
       <div class="col-7">
         <div class="card-body">
-          <a
-            @click="viewDetails"
-            href="#"
-            class="text-body text-decoration-none"
+          <router-link
+            :to="{ name: 'ProductDetails', params: { id: productId } }"
+            class="text-decoration-none text-reset"
             data-bs-dismiss="offcanvas"
           >
             <h6 class="card-title">{{ name }}</h6>
-          </a>
+          </router-link>
           <p class="card-text">${{ price }} * {{ quantity }}</p>
         </div>
       </div>
@@ -44,11 +46,6 @@ export default {
   },
   emits: {
     remove: null,
-  },
-  methods: {
-    viewDetails() {
-      this.$router.push(`/products/${this.productId}`);
-    },
   },
 };
 </script>

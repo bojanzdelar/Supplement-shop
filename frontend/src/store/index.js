@@ -13,8 +13,19 @@ const store = createStore({
 
 store.subscribe((mutation, state) => {
   if (mutation.type.startsWith("auth")) {
-    localStorage.setItem("access_token", state.auth.tokens.accessToken);
-    localStorage.setItem("refresh_token", state.auth.tokens.refreshToken);
+    const accessToken = state.auth.tokens.accessToken;
+    if (accessToken) {
+      localStorage.setItem("access_token", accessToken);
+    } else {
+      localStorage.removeItem("access_token");
+    }
+
+    const refreshToken = state.auth.tokens.refreshToken;
+    if (refreshToken) {
+      localStorage.setItem("refresh_token", refreshToken);
+    } else {
+      localStorage.removeItem("refresh_token");
+    }
   } else if (mutation.type.startsWith("cart") && !state.auth.logged) {
     localStorage.setItem("cart", JSON.stringify(state.cart.cart));
   } else if (mutation.type.startsWith("checkout")) {

@@ -120,7 +120,7 @@
       <input
         :value="newAddress.ZIP_code"
         @input="changeAddress(newAddress, 'ZIP_code', $event)"
-        type="text"
+        type="number"
         id="zipCode"
         class="form-control"
         aria-describedby="zipCode"
