@@ -7,6 +7,7 @@
           <th>Price</th>
           <th>Quantity</th>
           <th v-if="displayTotal">Total</th>
+          <th>Deleted</th>
           <th v-if="actionsAvailable">Actions</th>
         </tr>
       </thead>
@@ -16,6 +17,10 @@
           <td>${{ product.price }}</td>
           <td>{{ product.quantity }}</td>
           <td v-if="displayTotal">${{ product.price * product.quantity }}</td>
+          <td>
+            <span v-if="product.deleted">Yes</span>
+            <span v-else>No</span>
+          </td>
           <td v-if="actionsAvailable">
             <button
               @click="edit(product.id)"

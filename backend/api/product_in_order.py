@@ -22,10 +22,15 @@ def get_product_in_order(product_id, order_id):
 
 @product_in_order.route("/", methods=["POST"])
 def create_product_in_order():
+    item = flask.request.json
     db = mysql.get_db()
     cursor = db.cursor()
+    cursor.execute("SELECT deleted FROM product WHERE id=%s", (item["product_id"]))
+    product = cursor.fetchone()
+    if product["deleted"]:
+        return "You can't add deleted products to cart", 405   
     cursor.execute("INSERT INTO product_in_order(product_id, order_id, quantity) "
-            "VALUES(%(product_id)s, %(order_id)s, %(quantity)s)", flask.request.json)
+            "VALUES(%(product_id)s, %(order_id)s, %(quantity)s)", item)
     db.commit()
     return flask.jsonify(flask.request.json), 201
 

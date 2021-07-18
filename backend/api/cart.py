@@ -36,6 +36,12 @@ def add_to_cart():
     item["user_id"] = get_jwt_identity()
     db = mysql.get_db()
     cursor = db.cursor()
+
+    cursor.execute("SELECT deleted FROM product WHERE id=%s", (item["product_id"]))
+    product = cursor.fetchone()
+    if product["deleted"]:
+        return "You can't add deleted products to cart", 405
+
     cursor.execute("SELECT * FROM cart WHERE user_id=%(user_id)s AND product_id=%(product_id)s", item)
     item_in_cart = cursor.fetchone()
 

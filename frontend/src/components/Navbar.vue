@@ -91,7 +91,7 @@
               <i class="bi bi-gear"></i>
             </a>
             <ul
-              class="dropdown-menu no-collapse text-center p-3"
+              class="dropdown-menu dropdown-custom no-collapse text-center p-3"
               aria-labelledby="settingsDropdown"
             >
               <div v-if="logged">
@@ -175,14 +175,14 @@ export default {
 </script>
 
 <style scoped>
-.navbar-nav .dropdown-menu {
+.navbar-nav .dropdown-menu.dropdown-custom {
   position: absolute;
   top: 65px;
   left: -150px;
 }
 
 @media (max-width: 992px) {
-  .navbar-nav .dropdown-menu {
+  .navbar-nav .dropdown-menu.dropdown-custom {
     top: 68px;
   }
 }

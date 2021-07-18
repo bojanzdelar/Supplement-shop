@@ -25,7 +25,7 @@ def get_address(id):
 @jwt_required()
 def get_user_adresses():
     cursor = mysql.get_db().cursor()
-    cursor.execute("SELECT * FROM address WHERE user_id=%s", (get_jwt_identity(),))
+    cursor.execute("SELECT * FROM address WHERE user_id=%s AND deleted=0", (get_jwt_identity(),))
     return flask.jsonify(cursor.fetchall())
 
 @address.route("/", methods=["POST"])
@@ -79,6 +79,10 @@ def delete_address(id):
         return "", 404
     if address["user_id"] != get_jwt_identity():
         return "Unauthorized", 401
-    cursor.execute("DELETE FROM address WHERE id=%s", (id,))
+    cursor.execute("SELECT COUNT(*) AS num FROM orders WHERE shipping_address_id=%(id)s OR billing_address_id=%(id)s", {'id': id})
+    if cursor.fetchone()["num"]:
+        cursor.execute("UPDATE address SET deleted=1 WHERE id=%s", (id,))
+    else:
+        cursor.execute("DELETE FROM address WHERE id=%s", (id,))
     db.commit()
     return ""

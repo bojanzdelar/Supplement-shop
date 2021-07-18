@@ -26,7 +26,7 @@
           <button
             @click="confirm"
             type="button"
-            class="btn btn-success"
+            class="btn btn-primary"
             data-bs-dismiss="modal"
             data-bs-target="#deleteModal"
           >

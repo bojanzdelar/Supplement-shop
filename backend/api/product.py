@@ -1,5 +1,6 @@
 import flask
 from flask import Blueprint
+import pymysql
 from api.auth import admin_required
 from db import mysql
 
@@ -8,13 +9,13 @@ product = Blueprint('product', __name__)
 @product.route("/", methods=["GET"])
 def get_all_product():
     cursor = mysql.get_db().cursor()
-    cursor.execute("SELECT * FROM product")
+    cursor.execute("SELECT * FROM product WHERE deleted=0")
     return flask.jsonify(cursor.fetchall())
 
 @product.route("/popular/<int:limit>", methods=["GET"])
 def get_popular_product(limit):
     cursor = mysql.get_db().cursor()
-    cursor.execute("SELECT * FROM product ORDER BY views DESC LIMIT %s", (limit,))
+    cursor.execute("SELECT * FROM product WHERE deleted=0 ORDER BY views DESC LIMIT %s", (limit,))
     return flask.jsonify(cursor.fetchall())
 
 @product.route("/<string:id>", methods=["GET"])
@@ -60,8 +61,8 @@ def create_product():
     product.setdefault("image", None)
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("INSERT INTO product(id, name, description, price, quantity, image) "
-            "VALUES(%(id)s, %(name)s, %(description)s, %(price)s, %(quantity)s, %(image)s)", product)
+    cursor.execute("INSERT INTO product(id, name, description, price, quantity, image, archived) "
+            "VALUES(%(id)s, %(name)s, %(description)s, %(price)s, %(quantity)s, %(image)s, %(archived)s)", product)
     db.commit()
     return flask.jsonify(product), 201
 
@@ -76,7 +77,7 @@ def update_product(id):
     product.setdefault("image", None)
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("UPDATE product SET id=%(id)s, name=%(name)s, description=%(description)s, price=%(price)s, quantity=%(quantity)s, image=%(image)s "
+    cursor.execute("UPDATE product SET id=%(id)s, name=%(name)s, description=%(description)s, price=%(price)s, quantity=%(quantity)s, image=%(image)s, archived=%(archived)s "
             "WHERE id=%(old_id)s", product)
     db.commit()
     cursor.execute("SELECT * FROM product WHERE id=%s", (product["id"],))
@@ -87,6 +88,10 @@ def update_product(id):
 def delete_product(id):
     db = mysql.get_db()
     cursor = db.cursor()
-    cursor.execute("DELETE FROM product WHERE id=%s", (id,))
+    cursor.execute("SELECT COUNT(*) AS num FROM product_in_order WHERE product_id=%s", (id,))
+    if cursor.fetchone()["num"]:
+        cursor.execute("UPDATE product SET deleted=1 WHERE id=%s", (id,))
+    else:
+        cursor.execute("DELETE FROM product WHERE id=%s", (id,))
     db.commit()
     return ""
