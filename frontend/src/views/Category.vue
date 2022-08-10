@@ -50,7 +50,7 @@ export default {
     async getCategory() {
       const id = this.$route.params["id"];
       if (id !== "all") {
-        const response = await axios.get(`/category/${id}`);
+        const response = await axios.get(`/categories/${id}`);
         this.category = response.data;
       } else {
         this.category.name = "Products";
@@ -60,7 +60,7 @@ export default {
 
     async getProducts() {
       const id = this.$route.params["id"];
-      const path = id == "all" ? "/product" : `/category/${id}/products`;
+      const path = id == "all" ? "/products" : `/products/category/${id}`;
       const response = await axios.get(path);
       this.products = response.data;
     },

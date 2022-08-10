@@ -154,7 +154,7 @@ export default {
   methods: {
     async getProductCategories() {
       const response = await axios.get(
-        `/product/${this.product.id}/categories`
+        `/categories/product/${this.product.id}`
       );
       this.selectedCategories = response.data.map(
         (category) => category.category_id

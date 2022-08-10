@@ -1,7 +1,6 @@
-from turtle import back
 from config import db
 
-class Adress(db.Model):
+class Address(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     first_name = db.Column(db.Text, nullable=False)
@@ -15,7 +14,8 @@ class Adress(db.Model):
     zip_code = db.Column(db.Integer, nullable=False)
     phone = db.Column(db.String(45))
     deleted = db.Column(db.Boolean, default=False)
-    orders = db.relationship("Order", backref="address")
+    shipping_orders = db.relationship("Order", backref="shipping_address", foreign_keys="Order.shipping_address_id")
+    billing_orders = db.relationship("Order", backref="billing_address", foreign_keys="Order.billing_address_id")
     
     def __repr__(self):
         return f'<Address: {self.address}>'

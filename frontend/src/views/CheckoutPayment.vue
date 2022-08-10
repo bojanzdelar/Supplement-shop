@@ -133,7 +133,7 @@ export default {
   },
   methods: {
     async getPaymentMethods() {
-      const response = await axios.get("/payment-method");
+      const response = await axios.get("/payment-methods");
       this.methods = response.data;
     },
 

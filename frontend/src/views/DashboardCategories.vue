@@ -45,19 +45,19 @@ export default {
   },
   methods: {
     async getCategories() {
-      const response = await axios.get("/category");
+      const response = await axios.get("/categories");
       this.categories = response.data;
     },
 
     async createCategory(newCategory) {
-      const response = await axios.post("/category", newCategory);
+      const response = await axios.post("/categories", newCategory);
       newCategory.id = response.data.id;
       this.categories.push(newCategory);
     },
 
     async updateCategory(newCategory) {
       const response = await axios.put(
-        `/category/${newCategory.id}`,
+        `/categories/${newCategory.id}`,
         newCategory
       );
       this.categories[
@@ -66,7 +66,7 @@ export default {
     },
 
     async deleteCategory(id) {
-      await axios.delete(`/category/${id}`);
+      await axios.delete(`/categories/${id}`);
       this.categories.splice(
         this.categories.findIndex((category) => category.id === id),
         1

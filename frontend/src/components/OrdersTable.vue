@@ -104,7 +104,7 @@ export default {
   },
   methods: {
     async getAddress(addressId) {
-      const response = await axios.get(`/address/${addressId}`);
+      const response = await axios.get(`/addresses/${addressId}`);
       return response.data;
     },
 

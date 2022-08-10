@@ -77,10 +77,10 @@ const cart = {
     async save({ state }) {
       if (!state.cart) return;
 
-      await axios.delete("/cart/user");
+      await axios.delete("/carts/user");
 
       for (let item of state.cart) {
-        await axios.post("/cart", item);
+        await axios.post("/carts", item);
       }
 
       localStorage.removeItem("cart");
@@ -88,7 +88,7 @@ const cart = {
 
     async get({ commit, rootState }) {
       if (rootState.auth.logged) {
-        const response = await axios.get("/cart/user");
+        const response = await axios.get("/carts/user");
         commit("set", response.data);
       } else {
         commit("set", JSON.parse(localStorage.getItem("cart")) || []);
@@ -97,7 +97,7 @@ const cart = {
 
     async add({ commit, rootState }, [product, quantity]) {
       if (rootState.auth.logged) {
-        await axios.post("/cart", {
+        await axios.post("/carts", {
           product_id: product.id,
           quantity: quantity,
         });
@@ -109,7 +109,7 @@ const cart = {
       if (rootState.auth.logged) {
         for (let item of state.cart) {
           if ("newQuantity" in item) {
-            await axios.put(`/cart/${item.product_id}`, item);
+            await axios.put(`/carts/${item.product_id}`, item);
           }
         }
       }
@@ -118,14 +118,14 @@ const cart = {
 
     async remove({ commit, rootState }, productId) {
       if (rootState.auth.logged) {
-        await axios.delete(`/cart/${productId}`);
+        await axios.delete(`/carts/${productId}`);
       }
       commit("remove", productId);
     },
 
     async clear({ commit, rootState }) {
       if (rootState.auth.logged) {
-        await axios.delete("/cart/user");
+        await axios.delete("/carts/user");
       }
       commit("clear");
     },

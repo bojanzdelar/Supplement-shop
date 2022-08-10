@@ -45,15 +45,6 @@ INSERT INTO `category` VALUES ('essentials','Essentials'),('fitmiss','FitMiss'),
 UNLOCK TABLES;
 
 --
--- Dumping data for table `comment`
---
-
-LOCK TABLES `comment` WRITE;
-/*!40000 ALTER TABLE `comment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `comment` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Dumping data for table `orders`
 --
 
@@ -101,15 +92,6 @@ LOCK TABLES `product_in_order` WRITE;
 /*!40000 ALTER TABLE `product_in_order` DISABLE KEYS */;
 INSERT INTO `product_in_order` VALUES ('assault-energy-strength',1,2),('combat-protein',1,1);
 /*!40000 ALTER TABLE `product_in_order` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping data for table `rating`
---
-
-LOCK TABLES `rating` WRITE;
-/*!40000 ALTER TABLE `rating` DISABLE KEYS */;
-/*!40000 ALTER TABLE `rating` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     async getProducts() {
-      const response = await axios.get("/product/popular/6");
+      const response = await axios.get("/products/popular/6");
       this.products = response.data;
     },
   },

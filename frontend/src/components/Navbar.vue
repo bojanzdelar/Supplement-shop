@@ -163,7 +163,7 @@ export default {
   },
   methods: {
     async getCategories() {
-      const response = await axios.get("/category");
+      const response = await axios.get("/categories");
       this.categories = response.data;
     },
     ...mapActions(["logOut"]),

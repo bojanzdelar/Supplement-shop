@@ -43,11 +43,11 @@ const checkout = {
   },
   actions: {
     saveShippingAddress({ state }) {
-      return axios.post("/address", state.shippingAddress);
+      return axios.post("/addresses", state.shippingAddress);
     },
 
     saveBillingAddress({ state }) {
-      return axios.post("/address", state.billingAddress);
+      return axios.post("/addresses", state.billingAddress);
     },
 
     saveOrder({ state, rootState }, [shippingAdressId, billingAddressId]) {
@@ -66,7 +66,7 @@ const checkout = {
 
     async saveProductsInOrder({ rootState }, orderId) {
       for (let item of rootState.cart.cart) {
-        await axios.post("/product-in-order", {
+        await axios.post("/products-in-order", {
           product_id: item.product_id,
           order_id: orderId,
           quantity: item.quantity,

@@ -1,7 +1,7 @@
 import flask
 from flask import Blueprint
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from api.auth import admin_required   
+from utils.admin_required import admin_required   
 from db import mysql
 
 orders = Blueprint('orders', __name__)
@@ -86,7 +86,7 @@ def update_order(id):
             "WHERE id=%(id)s", order)
     db.commit()
     cursor.execute("SELECT * FROM order WHERE id=%s", (id,))
-    return flask.jsonify(cursor.fetchone()), 200
+    return flask.jsonify(cursor.fetchone())
 
 @orders.route("/<int:id>/send", methods=["PATCH"])
 @admin_required()
@@ -101,7 +101,7 @@ def send_order(id):
     cursor.execute("UPDATE orders SET sent=%s WHERE id=%s", (order["sent"], id))
     db.commit()
     cursor.execute("SELECT * FROM orders WHERE id=%s", (id,))
-    return flask.jsonify(cursor.fetchone()), 200
+    return flask.jsonify(cursor.fetchone())
 
 @orders.route("/<int:id>/deliver", methods=["PATCH"])
 @admin_required()
@@ -116,7 +116,7 @@ def deliver_order(id):
     cursor.execute("UPDATE orders SET delivered=%s WHERE id=%s", (order["delivered"], id))
     db.commit()
     cursor.execute("SELECT * FROM orders WHERE id=%s", (id,))
-    return flask.jsonify(cursor.fetchone()), 200
+    return flask.jsonify(cursor.fetchone())
 
 @orders.route("/<int:id>", methods=["DELETE"])
 @admin_required()

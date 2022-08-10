@@ -1,5 +1,4 @@
 from config import db
-from utils.serializer import Serializer
 
 class PaymentMethod(db.Model):
     id = db.Column(db.Integer, primary_key=True)

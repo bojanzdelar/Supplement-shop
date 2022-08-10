@@ -37,9 +37,9 @@ export default {
   },
   methods: {
     async getProducts() {
-      const response = await axios.get(
-        `/product/search/${this.$route.query.q}`
-      );
+      const response = await axios.get("/products", null, {
+        params: { search: this.$route.query.q },
+      });
       this.products = response.data;
     },
     viewDetails(id) {

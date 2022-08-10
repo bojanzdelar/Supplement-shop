@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     async getProduct() {
-      const response = await axios.get(`/product/${this.$route.params["id"]}`);
+      const response = await axios.get(`/products/${this.$route.params["id"]}`);
       this.product = response.data;
       document.title = `${this.product.name} - ${document.title}`;
     },

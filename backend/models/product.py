@@ -10,8 +10,8 @@ class Product(db.Model):
     image = db.Column(db.Text)
     views = db.Column(db.Integer, nullable=False, default=0)
     deleted = db.Column(db.Boolean, default=False)
-    categories = db.relationship('ProductInCategory', backref="product")
-    carts = db.relationship("Cart", backref="user")
+    categories = db.relationship('ProductInCategory', backref="product_category")
+    carts = db.relationship("Cart", backref="product_cart")
 
     def __repr__(self):
         return f'<Product: {self.name}>'

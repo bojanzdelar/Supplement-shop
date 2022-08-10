@@ -53,24 +53,27 @@ export default {
   },
   methods: {
     async getProducts() {
-      const response = await axios.get("/product");
+      const response = await axios.get("/products");
       this.products = response.data;
     },
 
     async getCategories() {
-      const response = await axios.get("/category");
+      const response = await axios.get("/categories");
       this.categories = response.data;
     },
 
     async createProduct(newProduct, selectedCategories) {
-      const response = await axios.post("/product", newProduct);
+      const response = await axios.post("/products", newProduct);
       newProduct.id = response.data.id;
       await this.setProductCategories(newProduct.id, selectedCategories);
       this.products.push(newProduct);
     },
 
     async updateProduct(newProduct, selectedCategories) {
-      const response = await axios.put(`/product/${newProduct.id}`, newProduct);
+      const response = await axios.put(
+        `/products/${newProduct.id}`,
+        newProduct
+      );
       const oldId = newProduct.id;
       newProduct.id = response.data.id;
       await this.setProductCategories(newProduct.id, selectedCategories);
@@ -80,7 +83,7 @@ export default {
     },
 
     async deleteProduct(id) {
-      await axios.delete(`/product/${id}`);
+      await axios.delete(`/products/${id}`);
       this.products.splice(
         this.products.findIndex((product) => product.id === id),
         1
@@ -88,10 +91,10 @@ export default {
     },
 
     async setProductCategories(productId, selectedCategories) {
-      await axios.delete(`/product-in-category/${productId}`);
+      await axios.delete(`/products-in-category/${productId}`);
 
       for (let category of selectedCategories) {
-        await axios.post("/product-in-category", {
+        await axios.post("/products-in-category", {
           product_id: productId,
           category_id: category,
         });

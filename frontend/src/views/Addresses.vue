@@ -53,25 +53,28 @@ export default {
   },
   methods: {
     async getAdresses() {
-      const response = await axios.get("/address/user");
+      const response = await axios.get("/addresses/user");
       this.addresses = response.data;
     },
 
     async createAddress(newAddress) {
-      const response = await axios.post("/address", newAddress);
+      const response = await axios.post("/addresses", newAddress);
       newAddress.id = response.data.id;
       this.addresses.push(newAddress);
     },
 
     async updateAddress(newAddress) {
-      const response = await axios.put(`/address/${newAddress.id}`, newAddress);
+      const response = await axios.put(
+        `/addresses/${newAddress.id}`,
+        newAddress
+      );
       this.addresses[
         this.addresses.findIndex((address) => address.id === newAddress.id)
       ] = response.data;
     },
 
     async deleteAddress(id) {
-      await axios.delete(`/address/${id}`);
+      await axios.delete(`/addresses/${id}`);
       this.addresses.splice(
         this.addresses.findIndex((address) => address.id === id),
         1

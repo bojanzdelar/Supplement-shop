@@ -182,7 +182,7 @@ export default {
     async getUserAddresses() {
       if (!this.logged) return;
 
-      const response = await axios.get("/address/user");
+      const response = await axios.get("/addresses/user");
       this.savedAddresses = response.data;
     },
 
