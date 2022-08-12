@@ -38,6 +38,7 @@ const routes = [
         name: "Cart",
         component: () => import("../views/Cart.vue"),
         meta: {
+          requiresBuyer: true,
           title: "Cart",
         },
       },
@@ -47,6 +48,7 @@ const routes = [
         component: () => import("../views/Account.vue"),
         meta: {
           requiresAuth: true,
+          requiresBuyer: true,
           title: "Account",
         },
       },
@@ -74,6 +76,7 @@ const routes = [
         component: () => import("../views/Orders.vue"),
         meta: {
           requiresAuth: true,
+          requiresBuyer: true,
           title: "Orders",
         },
       },
@@ -83,6 +86,7 @@ const routes = [
         component: () => import("../views/Addresses.vue"),
         meta: {
           requiresAuth: true,
+          requiresBuyer: true,
           title: "Addresses",
         },
       },
@@ -117,6 +121,9 @@ const routes = [
     beforeEnter: () => {
       if (store.getters["cart/isEmpty"]) return "/";
     },
+    meta: {
+      requiresBuyer: true,
+    },
     children: [
       {
         path: "information",
@@ -133,7 +140,7 @@ const routes = [
         beforeEnter: () => {
           if (
             !store.state.checkout.shippingAddress ||
-            !store.state.checkout.shippingAddress.complete
+            !store.state.checkout.shippingAddressComplete
           )
             return "/checkout/information";
         },
@@ -202,7 +209,8 @@ router.beforeEach((to) => {
     return "/account/login";
   } else if (
     (to.meta.requiresGuest && store.state.auth.logged) ||
-    (to.meta.requiresAdmin && !store.state.auth.isAdmin)
+    (to.meta.requiresAdmin && !store.state.auth.isAdmin) ||
+    (to.meta.requiresBuyer && store.state.auth.isAdmin)
   ) {
     return "/";
   }

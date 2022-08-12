@@ -13,7 +13,7 @@
           :key="address.id"
           :value="address"
         >
-          {{ address.address }}, {{ address.city }} {{ address.ZIP_code }},
+          {{ address.address }}, {{ address.city }} {{ address.zip_code }},
           {{ address.country }} ({{ address.first_name }}
           {{ address.last_name }})
         </option>
@@ -118,8 +118,8 @@
     </div>
     <div class="col-md-4 form-floating">
       <input
-        :value="newAddress.ZIP_code"
-        @input="changeAddress(newAddress, 'ZIP_code', $event)"
+        :value="newAddress.zip_code"
+        @input="changeAddress(newAddress, 'zip_code', $event)"
         type="number"
         id="zipCode"
         class="form-control"
@@ -182,7 +182,7 @@ export default {
     async getUserAddresses() {
       if (!this.logged) return;
 
-      const response = await axios.get("/addresses/user");
+      const response = await axios.get("/addresses");
       this.savedAddresses = response.data;
     },
 

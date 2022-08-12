@@ -12,6 +12,7 @@ class Product(db.Model):
     deleted = db.Column(db.Boolean, default=False)
     categories = db.relationship('ProductInCategory', backref="product_category")
     carts = db.relationship("Cart", backref="product_cart")
+    orders = db.relationship("ProductInOrder", backref="product_order")
 
     def __repr__(self):
         return f'<Product: {self.name}>'

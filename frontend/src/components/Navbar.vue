@@ -96,7 +96,7 @@
             >
               <div v-if="logged">
                 <li @click="logOut" class="dropdown-item">Logout</li>
-                <li>
+                <li v-if="!isAdmin">
                   <div class="d-grid">
                     <router-link to="/account" class="btn btn-success">
                       My account
@@ -124,7 +124,7 @@
               </div>
             </ul>
           </li>
-          <li class="nav-item">
+          <li v-if="!isAdmin" class="nav-item">
             <a
               href="#"
               class="nav-link"

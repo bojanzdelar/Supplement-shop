@@ -70,7 +70,7 @@ export default {
     },
 
     async updateProduct(newProduct, selectedCategories) {
-      const response = await axios.put(
+      const response = await axios.patch(
         `/products/${newProduct.id}`,
         newProduct
       );

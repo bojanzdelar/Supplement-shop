@@ -2,7 +2,7 @@
   <div class="container mt-5 text-center">
     <h1 class="mb-4">Create an account</h1>
     <div v-if="failed" class="alert alert-danger" role="alert">
-      Username is already taken.
+      Email is already taken.
     </div>
     <div class="row">
       <div class="col-md-6 mx-auto">

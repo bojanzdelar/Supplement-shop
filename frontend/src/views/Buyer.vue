@@ -1,21 +1,20 @@
 <template>
-  <div>
+  <div class="d-flex flex-column min-vh-100">
     <Navbar />
     <SearchBar />
-    <CartBar />
+    <CartBar v-if="!isAdmin" />
     <router-view />
+    <div class="flex-grow-1"></div>
     <Footer />
   </div>
 </template>
 
 <script>
-import { createNamespacedHelpers } from "vuex";
+import { mapState, mapActions } from "vuex";
 import Navbar from "@/components/Navbar.vue";
 import SearchBar from "@/components/SearchBar.vue";
 import CartBar from "@/components/CartBar.vue";
 import Footer from "@/components/Footer.vue";
-
-const { mapActions } = createNamespacedHelpers("cart");
 
 export default {
   name: "Buyer",
@@ -25,8 +24,11 @@ export default {
     CartBar,
     Footer,
   },
+  computed: {
+    ...mapState("auth", ["isAdmin"]),
+  },
   methods: {
-    ...mapActions(["get"]),
+    ...mapActions("cart", ["get"]),
   },
   created() {
     this.get();

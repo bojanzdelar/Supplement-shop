@@ -26,7 +26,7 @@
           <td>{{ address.city }}</td>
           <td>{{ address.country }}</td>
           <td>{{ address.state }}</td>
-          <td>{{ address.ZIP_code }}</td>
+          <td>{{ address.zip_code }}</td>
           <td>{{ address.phone }}</td>
           <td v-if="actionsAvailable">
             <button

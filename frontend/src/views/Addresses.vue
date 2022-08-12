@@ -52,8 +52,8 @@ export default {
     };
   },
   methods: {
-    async getAdresses() {
-      const response = await axios.get("/addresses/user");
+    async getAddresses() {
+      const response = await axios.get("/addresses");
       this.addresses = response.data;
     },
 
@@ -64,7 +64,7 @@ export default {
     },
 
     async updateAddress(newAddress) {
-      const response = await axios.put(
+      const response = await axios.patch(
         `/addresses/${newAddress.id}`,
         newAddress
       );
@@ -104,7 +104,7 @@ export default {
     },
   },
   created() {
-    this.getAdresses();
+    this.getAddresses();
   },
 };
 </script>

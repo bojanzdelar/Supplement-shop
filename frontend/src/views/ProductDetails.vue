@@ -8,7 +8,7 @@
         <h2>{{ product.name }}</h2>
         <p>${{ product.price }}</p>
         <p>{{ product.description }}</p>
-        <div v-if="!product.deleted" class="row mt-4">
+        <div v-if="!product.deleted && !isAdmin" class="row mt-4">
           <div class="col-3">
             <input
               v-model.number="cart.quantity"
@@ -34,6 +34,7 @@
 import { createNamespacedHelpers } from "vuex";
 import axios from "@/service/index.js";
 
+const { mapState } = createNamespacedHelpers("auth");
 const { mapActions } = createNamespacedHelpers("cart");
 
 export default {
@@ -46,6 +47,9 @@ export default {
         quantity: 1,
       },
     };
+  },
+  computed: {
+    ...mapState(["isAdmin"]),
   },
   watch: {
     $route() {

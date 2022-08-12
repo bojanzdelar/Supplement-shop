@@ -4,3 +4,4 @@ from models.product_in_category import ProductInCategory
 class ProductInCategorySchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = ProductInCategory
+        include_fk = True

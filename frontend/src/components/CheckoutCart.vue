@@ -2,11 +2,11 @@
   <div>
     <CheckoutCartItem
       v-for="item in cart"
-      :key="item.id"
-      :name="item.name"
+      :key="item.product_cart.id"
+      :name="item.product_cart.name"
       :quantity="item.quantity"
-      :price="item.price"
-      :thumbnail="item.thumbnail"
+      :price="item.product_cart.price"
+      :thumbnail="item.product_cart.thumbnail"
       class="mb-1"
     />
     <hr />

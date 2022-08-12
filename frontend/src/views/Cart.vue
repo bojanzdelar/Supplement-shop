@@ -23,15 +23,14 @@
             <tbody>
               <CartRow
                 v-for="item in cart"
-                :key="item.id"
-                :id="item.id"
-                :product-id="item.product_id"
-                :name="item.name"
+                :key="item.product_cart.id"
+                :id="item.product_cart.id"
+                :name="item.product_cart.name"
                 :quantity="item.quantity"
-                :price="item.price"
-                :thumbnail="item.thumbnail"
+                :price="item.product_cart.price"
+                :thumbnail="item.product_cart.thumbnail"
                 @changed="changeItemQuantity"
-                @remove="remove(item.product_id)"
+                @remove="remove(item.product_cart.id)"
                 class="mb-1"
               />
             </tbody>

@@ -103,7 +103,7 @@
               <div class="col-md-4">
                 <label for="zipCode">ZIP code</label>
                 <input
-                  v-model="newAddress.ZIP_code"
+                  v-model="newAddress.zip_code"
                   type="number"
                   id="zipCode"
                   class="form-control"

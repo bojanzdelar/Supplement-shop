@@ -4,3 +4,4 @@ from models.shipping_method import ShippingMethod
 class ShippingMethodSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = ShippingMethod
+        include_fk = True

@@ -22,7 +22,7 @@ const checkout = {
     },
 
     setShippingAddressComplete(state, complete) {
-      state.shippingAddress.complete = complete;
+      state.shippingAddressComplete = complete;
     },
 
     setBillingAddress(state, address) {
@@ -50,28 +50,26 @@ const checkout = {
       return axios.post("/addresses", state.billingAddress);
     },
 
-    saveOrder({ state, rootState }, [shippingAdressId, billingAddressId]) {
+    saveOrder({ state, rootState }, [shippingAddressId, billingAddressId]) {
+      const products = rootState.cart.cart.map((item) => {
+        return {
+          product_id: item.product_cart.id,
+          quantity: item.quantity,
+        };
+      });
+
       return axios.post("/orders", {
         email: rootState.auth.logged
           ? rootState.auth.data.email
           : state.contact,
-        shipping_address_id: shippingAdressId,
+        shipping_address_id: shippingAddressId,
         billing_address_id: billingAddressId,
         shipping_method_id: state.shippingMethod.id,
         payment_method_id: state.paymentMethod.id,
         sent: 0,
         delivered: 0,
+        products: products,
       });
-    },
-
-    async saveProductsInOrder({ rootState }, orderId) {
-      for (let item of rootState.cart.cart) {
-        await axios.post("/products-in-order", {
-          product_id: item.product_id,
-          order_id: orderId,
-          quantity: item.quantity,
-        });
-      }
     },
 
     async clear({ commit }) {
@@ -102,12 +100,7 @@ const checkout = {
         billingAddressId = response.data.id;
       }
 
-      const order = await dispatch("saveOrder", [
-        shippingAddressId,
-        billingAddressId,
-      ]);
-
-      await dispatch("saveProductsInOrder", order.data.id);
+      await dispatch("saveOrder", [shippingAddressId, billingAddressId]);
       await dispatch("cart/clear", null, { root: true });
       await dispatch("clear");
     },

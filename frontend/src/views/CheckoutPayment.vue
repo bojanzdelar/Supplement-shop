@@ -11,7 +11,7 @@
       <li class="list-group-item d-flex justify-content-between p-3">
         <span>
           Ship to: {{ shippingAddress.address }}, {{ shippingAddress.city }}
-          {{ shippingAddress.ZIP_code }}, {{ shippingAddress.country }}
+          {{ shippingAddress.zip_code }}, {{ shippingAddress.country }}
         </span>
         <router-link to="/checkout/information" class="text-decoration-none">
           Change
@@ -115,7 +115,7 @@ export default {
     return {
       methods: [],
       payment: {},
-      sameAddress: false,
+      sameAddress: true,
     };
   },
   computed: {
@@ -129,7 +129,12 @@ export default {
     },
 
     ...mapState("auth", ["logged", "data"]),
-    ...mapState("checkout", ["contact", "shippingAddress", "shippingMethod"]),
+    ...mapState("checkout", [
+      "contact",
+      "shippingAddress",
+      "shippingMethod",
+      "paymentMethod",
+    ]),
   },
   methods: {
     async getPaymentMethods() {
@@ -141,13 +146,15 @@ export default {
       this.setPaymentMethod(this.payment);
       this.setSameAddress(this.sameAddress);
 
-      try {
-        this.checkout();
-        window.alert("Your order has been received!");
-        this.$router.push("/");
-      } catch (error) {
-        window.alert(error);
-      }
+      await this.checkout()
+        .then(() => {
+          window.alert("Your order has been received!");
+        })
+        .catch(() => {
+          window.alert("Something went wrong! Please try again later.");
+        });
+
+      this.$router.push("/");
     },
 
     ...mapMutations("checkout", [
@@ -159,6 +166,7 @@ export default {
   },
   created() {
     this.getPaymentMethods();
+    this.payment = { ...this.paymentMethod };
   },
 };
 </script>

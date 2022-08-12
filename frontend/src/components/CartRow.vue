@@ -9,13 +9,13 @@
       ></button>
     </td>
     <td>
-      <router-link :to="{ name: 'ProductDetails', params: { id: productId } }">
-        <img :src="thumbnail" class="card-img-top" :alt="name" />
+      <router-link :to="{ name: 'ProductDetails', params: { id } }">
+        <img :src="thumbnail" class="card-img-top thumbnail" :alt="name" />
       </router-link>
     </td>
     <td>
       <router-link
-        :to="{ name: 'ProductDetails', params: { id: productId } }"
+        :to="{ name: 'ProductDetails', params: { id } }"
         class="text-decoration-none text-reset"
       >
         {{ name }}
@@ -42,8 +42,7 @@ import axios from "@/service/index.js";
 export default {
   name: "CartRow",
   props: {
-    id: Number,
-    productId: String,
+    id: String,
     name: String,
     quantity: Number,
     price: Number,
@@ -62,7 +61,7 @@ export default {
   watch: {
     newQuantity(val) {
       if (val <= this.quantityAvailable) {
-        this.$emit("changed", [this.productId, val]);
+        this.$emit("changed", [this.id, val]);
       } else {
         window.alert(
           "There aren't enough products for you! Please pick a smaller quantity"
@@ -73,8 +72,8 @@ export default {
   },
   methods: {
     async getQuantityAvailable() {
-      const response = await axios.get(`/products/${this.productId}/quantity`);
-      this.quantityAvailable = response.data.quantity;
+      const response = await axios.get(`/products/${this.id}/quantity`);
+      this.quantityAvailable = response.data;
     },
   },
   created() {

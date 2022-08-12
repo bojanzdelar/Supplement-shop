@@ -24,24 +24,9 @@ export default {
     };
   },
   methods: {
-    async getOrderPrice(id) {
-      const response = await axios.get(`/orders/${id}/price`);
-      return response.data;
-    },
-
     async getOrders() {
-      const response = await axios.get("/orders/user");
-      const data = response.data;
-
-      for (let order of data) {
-        const { shipping_price, total_product_price } =
-          await this.getOrderPrice(order.id);
-
-        order.shipping_price = shipping_price;
-        order.total_product_price = total_product_price;
-      }
-
-      this.orders = data;
+      const response = await axios.get("/orders");
+      this.orders = response.data;
     },
   },
   created() {

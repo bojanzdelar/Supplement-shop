@@ -6,7 +6,7 @@
         <h5>Login</h5>
         <p>If you have an account with us, please log in.</p>
         <div v-if="failed" class="alert alert-danger" role="alert">
-          Username and/or password is invalid.
+          Email and/or password is invalid.
         </div>
         <form @submit.prevent="login(user)" class="text-center row g-3">
           <div>

@@ -18,13 +18,15 @@
         <tbody>
           <tr @click="select(order)" v-for="order in orders" :key="order.id">
             <td>{{ order.id }}</td>
-            <td>{{ order.shipping_method_name }}</td>
-            <td>${{ order.shipping_price.toFixed(2) }}</td>
-            <td>{{ order.payment_method_name }}</td>
+            <td>{{ order.shipping_method.name }}</td>
+            <td>${{ order.shipping_method.price.toFixed(2) }}</td>
+            <td>{{ order.payment_method.name }}</td>
             <td>${{ order.total_product_price.toFixed(2) }}</td>
             <td>
               ${{
-                (order.shipping_price + order.total_product_price).toFixed(2)
+                (
+                  order.shipping_method.price + order.total_product_price
+                ).toFixed(2)
               }}
             </td>
             <td>
@@ -51,9 +53,16 @@
     </div>
     <div v-if="isOrderSelected" class="border p-3">
       <div class="mb-3">
-        <h5>Shipping address and Billing address</h5>
+        <h5>Shipping address</h5>
         <AddressesTable
-          :addresses="selectedOrder.addresses"
+          :addresses="[selectedOrder.shipping_address]"
+          :actionsAvailable="false"
+        />
+      </div>
+      <div class="mb-3">
+        <h5>Billing address</h5>
+        <AddressesTable
+          :addresses="[selectedOrder.billing_address]"
           :actionsAvailable="false"
         />
       </div>
@@ -103,22 +112,12 @@ export default {
     ...mapState(["isAdmin"]),
   },
   methods: {
-    async getAddress(addressId) {
-      const response = await axios.get(`/addresses/${addressId}`);
-      return response.data;
-    },
-
     async getProducts(orderId) {
-      const response = await axios.get(`/orders/${orderId}/products`);
+      const response = await axios.get(`/products/order/${orderId}`);
       return response.data;
     },
 
     async select(order) {
-      this.selectedOrder.addresses = await Promise.all([
-        this.getAddress(order.shipping_address_id),
-        this.getAddress(order.billing_address_id),
-      ]);
-
       this.selectedOrder.products = await this.getProducts(order.id);
     },
 

@@ -12,6 +12,7 @@ class Order(db.Model):
     payment_method_id = db.Column(db.Integer, db.ForeignKey("payment_method.id"), nullable=False)
     sent = db.Column(db.Boolean, nullable=False)
     delivered = db.Column(db.Boolean, nullable=False)
+    products = db.relationship("ProductInOrder", backref="order")
 
     def __repr__(self):
         return f'<Order: {self.id}>'

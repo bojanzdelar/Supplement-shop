@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-3">
         <router-link
-          :to="{ name: 'ProductDetails', params: { id: productId } }"
+          :to="{ name: 'ProductDetails', params: { id } }"
           data-bs-dismiss="offcanvas"
         >
           <img :src="thumbnail" class="card-img-top" :alt="name" />
@@ -12,7 +12,7 @@
       <div class="col-7">
         <div class="card-body">
           <router-link
-            :to="{ name: 'ProductDetails', params: { id: productId } }"
+            :to="{ name: 'ProductDetails', params: { id } }"
             class="text-decoration-none text-reset"
             data-bs-dismiss="offcanvas"
           >
@@ -37,8 +37,7 @@
 export default {
   name: "CartBarItem",
   props: {
-    id: Number,
-    productId: String,
+    id: String,
     name: String,
     quantity: Number,
     price: Number,

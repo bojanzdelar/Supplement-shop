@@ -75,11 +75,11 @@ export default {
   },
   computed: {
     ...mapState("auth", ["logged", "data"]),
-    ...mapState("checkout", ["contact", "shippingAddress"]),
+    ...mapState("checkout", ["contact", "shippingAddress", "shippingMethod"]),
   },
   methods: {
     async getShippingMethods() {
-      const response = await axios.get("/shipping-method");
+      const response = await axios.get("/shipping-methods");
       this.methods = response.data;
     },
 
@@ -92,6 +92,7 @@ export default {
   },
   created() {
     this.getShippingMethods();
+    this.shipping = { ...this.shippingMethod };
   },
 };
 </script>

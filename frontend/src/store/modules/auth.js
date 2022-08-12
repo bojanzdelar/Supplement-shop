@@ -14,6 +14,17 @@ const auth = {
       email: "",
     },
   },
+  getters: {
+    userId(state) {
+      const accessToken = state.tokens.accessToken;
+      if (!accessToken) {
+        return;
+      }
+
+      const decoded = jwt_decode(accessToken);
+      return decoded.sub;
+    },
+  },
   mutations: {
     initialize(state) {
       const accessToken = state.tokens.accessToken;

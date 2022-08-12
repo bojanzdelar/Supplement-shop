@@ -7,8 +7,9 @@ class User(db.Model):
     first_name = db.Column(db.Text, nullable=False)
     last_name = db.Column(db.Text, nullable=False)
     user_type_id = db.Column(db.Integer, db.ForeignKey("user_type.id"), nullable=False)
-    carts = db.relationship("Cart", backref="user_cart")
     addresses = db.relationship("Address", backref="user_address")
+    carts = db.relationship("Cart", backref="user_cart")
+    orders = db.relationship("Order", backref="user_order")
 
     def __repr__(self):
         return f'<User: {self.email}>'

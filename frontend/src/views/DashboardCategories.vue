@@ -56,7 +56,7 @@ export default {
     },
 
     async updateCategory(newCategory) {
-      const response = await axios.put(
+      const response = await axios.patch(
         `/categories/${newCategory.id}`,
         newCategory
       );
