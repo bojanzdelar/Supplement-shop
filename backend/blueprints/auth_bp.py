@@ -1,3 +1,4 @@
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import get_jwt, create_access_token, create_refresh_token, jwt_required, get_jwt_identity
 from config import db
@@ -14,7 +15,8 @@ def register():
         email_exists = User.query.filter_by(email=user.email).first() is not None
         if email_exists:
             return "Email already exists", 400
-
+        
+        user.password = generate_password_hash(user.password, "sha256")
         user.user_type_id = 2
         db.session.add(user)
         db.session.commit()
@@ -26,8 +28,8 @@ def register():
 @auth.route("/login", methods=["POST"])
 def login():
     credentials = request.json
-    user = User.query.filter_by(email = credentials["email"], password = credentials["password"]).first()
-    if not user:
+    user = User.query.filter_by(email = credentials["email"]).first()
+    if not user or not check_password_hash(user.password, credentials["password"]):
         return "User doesn't exist", 401
 
     additional_claims = {

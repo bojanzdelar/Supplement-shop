@@ -1,3 +1,4 @@
+from werkzeug.security import generate_password_hash
 from flask import Blueprint, request
 from config import db
 from utils.security_utils import admin_required
@@ -27,6 +28,7 @@ def get_user(id):
 def create_user():
     try:
         user = User(**request.json)
+        user.password = generate_password_hash(user.password, "sha256")
         db.session.add(user)
         db.session.commit()
     except Exception as e:
@@ -42,6 +44,8 @@ def update_user(id):
         return "User not found!", 404
     
     new_user = request.json
+    if "password" in new_user:
+        new_user["password"] = generate_password_hash(new_user["password"], "sha256")
     try:
         User.query.filter_by(id = id).update(new_user)
         db.session.commit()

@@ -19,4 +19,4 @@ class OrderSchema(ma.SQLAlchemyAutoSchema):
     def get_total_product_price(self, order):
         products = order.products
         prices = [product.product_order.price * product.quantity for product in products]
-        return sum(prices)
+        return round(sum(prices), 2)

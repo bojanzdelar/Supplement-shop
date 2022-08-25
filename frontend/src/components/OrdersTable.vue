@@ -12,7 +12,7 @@
             <th>Total price</th>
             <th>Sent</th>
             <th>Delivered</th>
-            <th v-if="isAdmin">Actions</th>
+            <th v-if="isAdmin"></th>
           </tr>
         </thead>
         <tbody>
@@ -37,7 +37,7 @@
               <span v-if="order.delivered">Yes</span>
               <span v-else>No</span>
             </td>
-            <td v-if="isAdmin">
+            <td v-if="isAdmin" class="text-end">
               <button @click="send(order.id)" class="btn btn-secondary me-2">
                 <span v-if="order.sent">Mark as unsent</span>
                 <span v-else>Mark as sent</span>
@@ -118,6 +118,7 @@ export default {
     },
 
     async select(order) {
+      this.selectedOrder = order;
       this.selectedOrder.products = await this.getProducts(order.id);
     },
 

@@ -27,6 +27,7 @@
                 :id="item.product_cart.id"
                 :name="item.product_cart.name"
                 :quantity="item.quantity"
+                :quantityAvailable="item.product_cart.quantity"
                 :price="item.product_cart.price"
                 :thumbnail="item.product_cart.thumbnail"
                 @changed="changeItemQuantity"

@@ -1,5 +1,5 @@
 from uuid import uuid1
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from config import db
 from utils.security_utils import admin_required, is_admin
@@ -45,7 +45,8 @@ def get_products_by_order(order_id):
     if not order:
         return "Order not found!", 404
 
-    if order.user_order.id != get_jwt_identity() and not is_admin():
+    user = order.user_order
+    if not is_admin() and (not user or user.id != get_jwt_identity()):
         return "You can't access products from this order", 403
 
     products = Product.query.join(ProductInOrder).filter_by(order_id = order_id).all()
@@ -60,14 +61,6 @@ def get_product(id):
     product.views += 1
     db.session.commit()
     return schema.jsonify(product)
-
-@product.route("/<string:id>/quantity", methods=["GET"])
-def get_product_quantity(id):
-    product = Product.query.filter_by(id = id).first()
-    if not product:
-        return "Product not found!", 404
-
-    return jsonify(product.quantity)
  
 @product.route("/", methods=["POST"])
 @admin_required()

@@ -13,7 +13,7 @@
           <th>State</th>
           <th>ZIP code</th>
           <th>Phone</th>
-          <th v-if="actionsAvailable">Actions</th>
+          <th v-if="actionsAvailable"></th>
         </tr>
       </thead>
       <tbody>
@@ -28,7 +28,7 @@
           <td>{{ address.state }}</td>
           <td>{{ address.zip_code }}</td>
           <td>{{ address.phone }}</td>
-          <td v-if="actionsAvailable">
+          <td v-if="actionsAvailable" class="text-end">
             <button
               @click="edit(address.id)"
               class="btn text-dark text-uppercase me-2"

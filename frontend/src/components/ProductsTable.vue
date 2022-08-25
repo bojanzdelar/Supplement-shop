@@ -8,7 +8,7 @@
           <th>Quantity</th>
           <th v-if="displayTotal">Total</th>
           <th>Deleted</th>
-          <th v-if="actionsAvailable">Actions</th>
+          <th v-if="actionsAvailable"></th>
         </tr>
       </thead>
       <tbody>
@@ -23,12 +23,14 @@
           </td>
           <td>${{ product.price }}</td>
           <td>{{ product.quantity }}</td>
-          <td v-if="displayTotal">${{ product.price * product.quantity }}</td>
+          <td v-if="displayTotal">
+            ${{ (product.price * product.quantity).toFixed(2) }}
+          </td>
           <td>
             <span v-if="product.deleted">Yes</span>
             <span v-else>No</span>
           </td>
-          <td v-if="actionsAvailable">
+          <td v-if="actionsAvailable" class="text-end">
             <button
               @click="edit(product.id)"
               class="btn text-dark text-uppercase me-2"

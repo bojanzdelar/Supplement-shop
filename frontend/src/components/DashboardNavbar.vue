@@ -16,12 +16,7 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <input
-      class="form-control form-control-dark w-100"
-      type="text"
-      placeholder="Search (not working yet)"
-      aria-label="Search"
-    />
+    <div class="navbar-filler w-100"></div>
     <div class="navbar-nav">
       <div class="nav-item text-nowrap">
         <router-link @click="logOut" to="/" class="nav-link px-3">
@@ -65,14 +60,9 @@ export default {
   border-radius: 0;
 }
 
-.form-control-dark {
-  color: #fff;
+.navbar-filler {
+  height: 3rem;
   background-color: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.1);
-}
-
-.form-control-dark:focus {
-  border-color: transparent;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
 }
 </style>

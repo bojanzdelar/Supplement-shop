@@ -1,4 +1,4 @@
-from config import app, db
+from config import app
 
 from blueprints.address_bp import address
 from blueprints.cart_bp import cart
@@ -29,9 +29,3 @@ app.register_blueprint(user_type, url_prefix="/api/user-types")
 
 app.register_blueprint(auth, url_prefix="/api")
 app.register_blueprint(mail_bp, url_prefix="/api/mail")
-
-if __name__ == "__main__":
-    db.drop_all()
-    db.create_all()
-    db.session.commit()
-    app.run()

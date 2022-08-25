@@ -6,7 +6,7 @@ There are two groups of users: buyers and administators.
 
 Buyers can be guests or self registered users and they can browse products, add them to cart and make orders.
 
-Administrators can manage products and categories and existing orders.
+Administrators can manage products, categories and existing orders.
 
 ## System architecture
 

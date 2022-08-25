@@ -4,13 +4,20 @@
       <thead>
         <tr>
           <th>Name</th>
-          <th>Actions</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="category in categories" :key="category.id">
-          <td>{{ category.name }}</td>
           <td>
+            <router-link
+              :to="{ name: 'Category', params: { id: category.id } }"
+              class="text-decoration-none"
+            >
+              {{ category.name }}
+            </router-link>
+          </td>
+          <td class="text-end">
             <button
               @click="edit(category.id)"
               class="btn text-dark text-uppercase me-2"

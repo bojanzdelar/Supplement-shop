@@ -37,14 +37,13 @@
 </template>
 
 <script>
-import axios from "@/service/index.js";
-
 export default {
   name: "CartRow",
   props: {
     id: String,
     name: String,
     quantity: Number,
+    quantityAvailable: Number,
     price: Number,
     thumbnail: String,
   },
@@ -55,7 +54,6 @@ export default {
   data() {
     return {
       newQuantity: this.quantity,
-      quantityAvailable: 1,
     };
   },
   watch: {
@@ -69,15 +67,6 @@ export default {
         this.newQuantity = this.quantity;
       }
     },
-  },
-  methods: {
-    async getQuantityAvailable() {
-      const response = await axios.get(`/products/${this.id}/quantity`);
-      this.quantityAvailable = response.data;
-    },
-  },
-  created() {
-    this.getQuantityAvailable();
   },
 };
 </script>

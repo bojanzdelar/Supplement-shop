@@ -125,20 +125,20 @@
           </div>
           <div class="modal-footer">
             <div>
-              <input
-                type="submit"
-                tag="button"
-                class="btn btn-success text-dark text-uppercase me-2"
-                :value="button"
-              />
               <a
                 href="#"
-                class="text-reset text-decoration-none"
+                class="text-reset text-decoration-none me-4"
                 data-bs-toggle="modal"
                 data-bs-target="#modal"
               >
                 Cancel
               </a>
+              <input
+                type="submit"
+                tag="button"
+                class="btn btn-success text-dark"
+                :value="button"
+              />
             </div>
           </div>
         </form>

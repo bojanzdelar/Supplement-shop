@@ -2,13 +2,13 @@
 
 ## Project setup
 
-### Creates virtual enviorement
+### Creates virtual environment
 
 ```
 python -m venv ~/envs/flask
 ```
 
-### Activates virtual enviorement
+### Activates virtual environment
 
 ```
 . ~/envs/flask/bin/activate
@@ -20,10 +20,10 @@ python -m venv ~/envs/flask
 (flask) pip install -r requirements.txt
 ```
 
-### Sets enviorement for development
+### Creates database tables (schema must be created manually)
 
 ```
-(flask) export FLASK_ENV=development
+(flask) python3 db_initializer.py
 ```
 
 ### Starts flask application

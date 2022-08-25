@@ -31,6 +31,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `cart` WRITE;
 /*!40000 ALTER TABLE `cart` DISABLE KEYS */;
+INSERT INTO `cart` VALUES (2,'combat-xl-mass-gainer',1), (2,'creatine',2);
 /*!40000 ALTER TABLE `cart` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -110,7 +111,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin@musclepharm.com','password','Bojan','Zdelar',1),(2,'bojan@zdelar.com','password','Bojan','Zdelar',2),(3,'marija@dostanic.com','password','Marija','Dostanic',2);
+INSERT INTO `user` VALUES (1,'admin@musclepharm.com','sha256$0G5OnI4f$2a52e84181d5496da2567637a7e06d5c706e8b54b2d88d161c9e0c3c62586380','Bojan','Zdelar',1),(2,'bojan@zdelar.com','sha256$EudqGDA9$d069e473e0f605da41df8a91c7679c323f6d66675a084261f92c7e190f356633','Bojan','Zdelar',2),(3,'marija@dostanic.com','sha256$fx1cOqPN$fcd5ab7cf4668f17f326b1d838292a030560f80b0a328797ef5efc107698061d','Marija','Dostanic',2);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
