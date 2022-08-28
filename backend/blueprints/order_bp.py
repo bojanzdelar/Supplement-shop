@@ -68,6 +68,7 @@ def update_order(id):
         return "Order not found!", 404
 
     new_order = request.json
+    new_order["id"] = id
     try:
         Order.query.filter_by(id=id).update(new_order)
         db.session.commit()
@@ -84,7 +85,7 @@ def send_order(id):
         return "Order not found!", 404
 
     order.sent = not order.sent
-    db.commit()
+    db.session.commit()
     return schema.jsonify(order)
 
 @order.route("/<int:id>/delivered", methods=["PATCH"])
@@ -95,7 +96,7 @@ def deliver_order(id):
         return "Order not found!", 404
 
     order.delivered = not order.delivered
-    db.commit()
+    db.session. commit()
     return schema.jsonify(order)
 
 @order.route("/<int:id>", methods=["DELETE"])

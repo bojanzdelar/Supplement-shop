@@ -34,8 +34,10 @@ def get_category(id):
 @category.route("/", methods=["POST"])
 @admin_required()
 def create_category():
+    category = request.json
     try:
-        category = Category(**request.json)
+        category["id"] = category["name"].replace(" ", "-").lower()
+        category = Category(**category)
         db.session.add(category)
         db.session.commit()
     except Exception as e:
@@ -58,6 +60,8 @@ def update_category(id):
     except Exception as e:
         print(e)
         return "Bad request!", 400
+
+    category = Category.query.filter_by(id = new_category["id"]).first()
     return schema.jsonify(category)
 
 @category.route("/<string:id>", methods=["DELETE"])

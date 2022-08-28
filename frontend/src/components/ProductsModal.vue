@@ -156,9 +156,7 @@ export default {
       const response = await axios.get(
         `/categories/product/${this.product.id}`
       );
-      this.selectedCategories = response.data.map(
-        (category) => category.category_id
-      );
+      this.selectedCategories = response.data.map((category) => category.id);
     },
 
     submit() {
@@ -167,8 +165,8 @@ export default {
     },
   },
   mounted() {
-    /* bad practice to use JS DOM methods when using frontend 
-      framework, should be done with wrapper library like BootstrapVue 
+    /* bad practice to use JS DOM methods when using frontend
+      framework, should be done with wrapper library like BootstrapVue
       (at the time it wasnt available for Vue 3) */
     this.modal = new Modal(document.querySelector("#modal"));
   },

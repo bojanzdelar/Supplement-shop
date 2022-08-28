@@ -14,7 +14,15 @@
       >
         {{ quantity }}
       </span>
-      <img :src="thumbnail" class="img-fluid" :alt="name" />
+      <img
+        :src="
+          thumbnail
+            ? thumbnail
+            : require('@/assets/images/no-image/no-image-300x.jpg')
+        "
+        class="img-fluid"
+        :alt="name"
+      />
     </div>
     <div class="col-8">
       <h6 class="fw-bold">{{ name }}</h6>

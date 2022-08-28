@@ -113,8 +113,13 @@ export default {
   },
   methods: {
     async getProducts(orderId) {
-      const response = await axios.get(`/products/order/${orderId}`);
-      return response.data;
+      const response = await axios.get(`/products-in-order/order/${orderId}`);
+      return response.data.map((data) => {
+        return {
+          ...data.product_order,
+          quantity: data.quantity,
+        };
+      });
     },
 
     async select(order) {

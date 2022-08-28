@@ -40,6 +40,7 @@ def update_shipping_method(id):
         return "Shipping method not found!", 404
     
     new_shipping_method = request.json
+    new_shipping_method["id"] = id
     try:
         ShippingMethod.query.filter_by(id = id).update(new_shipping_method)
         db.session.commit()

@@ -9,5 +9,8 @@ def send_mail():
 	data = request.json
 	msg = Message(subject="Message via musclepharm.com contact form", sender=data['email'], 
 			recipients=["contact.musclepharm@gmail.com"], html=render_template("mail.html", mail=data))
-	mail.send(msg)
+	try:
+		mail.send(msg)
+	except:
+		return "Something went wrong. Please try again", 400
 	return "Message sent"

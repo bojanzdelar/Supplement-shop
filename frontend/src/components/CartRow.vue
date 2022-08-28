@@ -10,7 +10,15 @@
     </td>
     <td>
       <router-link :to="{ name: 'ProductDetails', params: { id } }">
-        <img :src="thumbnail" class="card-img-top thumbnail" :alt="name" />
+        <img
+          :src="
+            thumbnail
+              ? thumbnail
+              : require('@/assets/images/no-image/no-image-300x.jpg')
+          "
+          class="card-img-top thumbnail"
+          :alt="name"
+        />
       </router-link>
     </td>
     <td>

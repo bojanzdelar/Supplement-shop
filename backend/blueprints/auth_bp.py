@@ -1,7 +1,8 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Blueprint, jsonify, request
-from flask_jwt_extended import get_jwt, create_access_token, create_refresh_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity
 from config import db
+from utils.security_utils import get_claims
 from schemas.user_schema import UserSchema
 from models.user import User
 
@@ -32,26 +33,21 @@ def login():
     if not user or not check_password_hash(user.password, credentials["password"]):
         return "User doesn't exist", 401
 
-    additional_claims = {
-        "name": f"{user.first_name} {user.last_name}",
-        "email": user.email,
-        "admin": (user.user_type_id == 1)
-    }
-    access_token = create_access_token(identity=user.id, additional_claims=additional_claims)
-    refresh_token = create_refresh_token(identity=user.id, additional_claims=additional_claims)
+    claims = get_claims(user)
+    access_token = create_access_token(identity=user.id, additional_claims=claims)
+    refresh_token = create_refresh_token(identity=user.id)
     return jsonify(access_token=access_token, refresh_token=refresh_token)
 
 # We are using the `refresh=True` options in jwt_required to only allow
 # refresh tokens to access this route.
-@auth.route("/refresh", methods=["POST"])
+@auth.route("/refresh", methods=["GET"])
 @jwt_required(refresh=True)
 def refresh():
     identity = get_jwt_identity()
-    old_claims = get_jwt()
-    additional_claims = {
-        "name": old_claims["name"],
-        "email": old_claims["email"],
-        "admin": old_claims["admin"]
-    }
-    access_token = create_access_token(identity=identity, additional_claims=additional_claims)
+    user = User.query.filter_by(id = identity).first()
+    if not user:
+        return "User doesn't exist", 401
+
+    claims = get_claims(user)
+    access_token = create_access_token(identity=identity, additional_claims=claims)
     return jsonify(access_token=access_token)

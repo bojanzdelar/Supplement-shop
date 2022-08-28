@@ -51,7 +51,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,2,'bojan@zdelar.com',1,1,1,1,0,0);
+INSERT INTO `orders` VALUES (1,2,'bojan@zdelar.com',1,2,1,1,0,0);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 

@@ -79,7 +79,8 @@ const cart = {
       for (let item of state.cart) {
         await axios.post("/carts", {
           user_id: rootGetters["auth/userId"],
-          ...item,
+          product_id: item.product_cart.id,
+          quantity: item.quantity,
         });
       }
 

@@ -12,7 +12,7 @@ Administrators can manage products, categories and existing orders.
 
 The system is using client-server architecture.
 
-Authentication and authorization are realized with JWT, including refresh tokens.
+Authentication and authorization are realized with JWT, including access and refresh tokens.
 
 ## Technologies used
 

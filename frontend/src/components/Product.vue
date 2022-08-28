@@ -1,7 +1,15 @@
 <template>
   <div class="card p-2">
     <router-link :to="{ name: 'ProductDetails', params: { id: id } }">
-      <img :src="thumbnail" class="card-img-top" :alt="name" />
+      <img
+        :src="
+          thumbnail
+            ? thumbnail
+            : require('@/assets/images/no-image/no-image-300x.jpg')
+        "
+        class="card-img-top"
+        :alt="name"
+      />
     </router-link>
     <div class="card-body">
       <router-link

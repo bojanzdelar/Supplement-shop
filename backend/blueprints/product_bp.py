@@ -1,14 +1,11 @@
 from uuid import uuid1
 from flask import Blueprint, request
-from flask_jwt_extended import jwt_required, get_jwt_identity
 from config import db
-from utils.security_utils import admin_required, is_admin
+from utils.security_utils import admin_required
 from schemas.product_schema import ProductSchema
 from models.product import Product
 from models.category import Category
 from models.product_in_category import ProductInCategory
-from models.order import Order
-from models.product_in_order import ProductInOrder
 
 product = Blueprint('product', __name__)
 schema = ProductSchema()
@@ -36,20 +33,6 @@ def get_products_by_category(category_id):
         return "Category not found!", 404
 
     products = Product.query.join(ProductInCategory).filter((Product.deleted == False) & (ProductInCategory.category_id == category_id)).all() 
-    return schema.jsonify(products, many=True)
-
-@product.route("/order/<int:order_id>", methods=["GET"])
-@jwt_required()
-def get_products_by_order(order_id):
-    order = Order.query.filter_by(id = order_id).first()
-    if not order:
-        return "Order not found!", 404
-
-    user = order.user_order
-    if not is_admin() and (not user or user.id != get_jwt_identity()):
-        return "You can't access products from this order", 403
-
-    products = Product.query.join(ProductInOrder).filter_by(order_id = order_id).all()
     return schema.jsonify(products, many=True)
 
 @product.route("/<string:id>", methods=["GET"])
@@ -91,6 +74,8 @@ def update_product(id):
     except Exception as e:
         print(e)
         return "Bad request!", 400
+
+    product = Product.query.filter_by(id = new_product["id"]).first()
     return schema.jsonify(product)
 
 @product.route("/<string:id>", methods=["DELETE"])

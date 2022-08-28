@@ -94,6 +94,9 @@ export default {
       await axios.delete(`/products-in-category/${productId}`);
 
       for (let category of selectedCategories) {
+        if (!category) {
+          return;
+        }
         await axios.post("/products-in-category", {
           product_id: productId,
           category_id: category,

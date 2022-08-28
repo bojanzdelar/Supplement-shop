@@ -2,7 +2,15 @@
   <div class="container mt-5">
     <div class="row">
       <div class="col-md-6 mb-4">
-        <img :src="product.image" :alt="product.name" class="img-fluid" />
+        <img
+          :src="
+            product.image
+              ? product.image
+              : require('@/assets/images/no-image/no-image-1800x.jpg')
+          "
+          :alt="product.name"
+          class="img-fluid"
+        />
       </div>
       <div class="col-md-6">
         <h2>{{ product.name }}</h2>

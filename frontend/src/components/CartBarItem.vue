@@ -6,7 +6,15 @@
           :to="{ name: 'ProductDetails', params: { id } }"
           data-bs-dismiss="offcanvas"
         >
-          <img :src="thumbnail" class="card-img-top" :alt="name" />
+          <img
+            :src="
+              thumbnail
+                ? thumbnail
+                : require('@/assets/images/no-image/no-image-300x.jpg')
+            "
+            class="card-img-top"
+            :alt="name"
+          />
         </router-link>
       </div>
       <div class="col-7">

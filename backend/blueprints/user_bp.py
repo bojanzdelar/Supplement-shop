@@ -44,6 +44,7 @@ def update_user(id):
         return "User not found!", 404
     
     new_user = request.json
+    new_user["id"] = id
     if "password" in new_user:
         new_user["password"] = generate_password_hash(new_user["password"], "sha256")
     try:

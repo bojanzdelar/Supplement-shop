@@ -2,11 +2,11 @@ import axios from "@/service/index.js";
 
 const checkout = {
   namespaced: true,
-  state: JSON.parse(localStorage.getItem("checkout")),
+  state: JSON.parse(localStorage.getItem("checkout")) || {},
   getters: {},
   mutations: {
-    setCheckout(state, checkout) {
-      state = checkout;
+    resetState(state) {
+      Object.keys(state).forEach((key) => delete state[key]);
     },
 
     setShippingProvided(state, provided) {
@@ -73,15 +73,11 @@ const checkout = {
     },
 
     async clear({ commit }) {
-      commit("setCheckout", {});
+      commit("resetState");
+      localStorage.removeItem("checkout");
     },
 
     async checkout({ dispatch, state }) {
-      // check whether:
-      // - shipping address already has an ID
-      // - check whether billing address already has an ID
-      // - shipping address is same as billing
-
       let shippingAddressId = state.shippingAddress.id;
       let billingAddressId = state.sameAddress
         ? shippingAddressId

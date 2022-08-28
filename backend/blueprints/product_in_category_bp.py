@@ -41,6 +41,8 @@ def update_product_in_category(product_id, category_id):
         return "Product in category not found!", 404
     
     new_product_in_category = request.json
+    new_product_in_category["product_id"] = product_id
+    new_product_in_category["category_id"] = category_id
     try:
         ProductInCategory.query.filter_by(product_id=product_id, category_id=category_id).update(new_product_in_category)
         db.session.commit()

@@ -85,6 +85,7 @@ def update_cart(user_id, product_id):
         return "You can't add this product to cart!", 400
 
     new_cart = request.json
+    new_cart["product_id"] = product_id 
     if not is_admin():
         new_cart["user_id"] = user_id
     try:

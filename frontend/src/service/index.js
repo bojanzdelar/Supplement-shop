@@ -3,11 +3,11 @@ import store from "../store/index.js";
 
 const URL = "http://127.0.0.1:5000/api";
 
-const instance = axios.create({
+const axiosInstance = axios.create({
   baseURL: URL,
 });
 
-instance.interceptors.request.use((req) => {
+axiosInstance.interceptors.request.use((req) => {
   const accessToken = localStorage.getItem("access_token");
   if (accessToken) {
     req.headers.Authorization = `Bearer ${accessToken}`;
@@ -15,19 +15,19 @@ instance.interceptors.request.use((req) => {
   return req;
 });
 
-instance.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   (res) => res,
   async (error) => {
     if (error.response.status === 401) {
       try {
         const refreshToken = store.state.auth.tokens.refreshToken;
-        const response = await axios.post(`${URL}/refresh`, null, {
+        const response = await axiosInstance.get("/refresh", null, {
           headers: { Authorization: `Bearer ${refreshToken}` },
         });
         const accessToken = response.data.access_token;
         store.commit("auth/refreshToken", accessToken);
         error.config.headers.Authorization = `Bearer ${accessToken}`;
-        return axios(error.config);
+        return axiosInstance(error.config);
       } catch {
         store.dispatch("auth/logOut");
         return Promise.reject(error);
@@ -38,4 +38,4 @@ instance.interceptors.response.use(
   }
 );
 
-export default instance;
+export default axiosInstance;

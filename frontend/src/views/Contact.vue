@@ -72,9 +72,15 @@ export default {
   },
   methods: {
     async sendMail() {
-      await axios.post("/mail", this.mail);
-      window.alert("Mail sent!");
-      this.mail = {};
+      await axios
+        .post("/mail", this.mail)
+        .then(() => {
+          window.alert("Mail sent!");
+          this.mail = {};
+        })
+        .catch(() => {
+          window.alert("Something went wrong! Please try again later.");
+        });
     },
   },
 };

@@ -5,6 +5,7 @@ from utils.security_utils import admin_required, is_admin
 from schemas.product_in_order_schema import ProductInOrderSchema
 from models.product_in_order import ProductInOrder
 from models.product import Product
+from models.order import Order
 
 product_in_order = Blueprint('product_in_order', __name__)
 schema = ProductInOrderSchema()
@@ -27,6 +28,20 @@ def get_product_in_order(product_id, order_id):
         return "You can't access this product in order!", 403
 
     return schema.jsonify(product_in_order)
+
+@product_in_order.route("/order/<int:order_id>", methods=["GET"])
+@jwt_required()
+def get_products_by_order(order_id):
+    order = Order.query.filter_by(id = order_id).first()
+    if not order:
+        return "Order not found!", 404
+
+    user = order.user_order
+    if not is_admin() and (not user or user.id != get_jwt_identity()):
+        return "You can't access products from this order", 403
+
+    products = ProductInOrder.query.join(Product).filter_by(id = ProductInOrder.product_id).all()
+    return schema.jsonify(products, many=True)
 
 @product_in_order.route("/", methods=["POST"])
 @admin_required()
@@ -56,6 +71,8 @@ def update_product_in_order(product_id, order_id):
         return "You can't add this product to order!", 400
     
     new_product_in_order = request.json
+    new_product_in_order["product_id"] = product_id
+    new_product_in_order["order_id"] = order_id
     try:
         ProductInOrder.query.filter_by(product_id=product_id, order_id=order_id).update(new_product_in_order)
         db.session.commit()

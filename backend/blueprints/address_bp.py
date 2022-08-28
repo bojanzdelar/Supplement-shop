@@ -60,6 +60,7 @@ def update_address(id):
         return "You can't modify this address!", 403
 
     new_address = request.json
+    new_address["id"] = id
     if not is_admin():
         new_address["user_id"] = get_jwt_identity()
 

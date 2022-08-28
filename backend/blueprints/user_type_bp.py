@@ -40,6 +40,7 @@ def update_user_type(id):
         return "User type not found!", 404
     
     new_user_type = request.json
+    new_user_type["id"] = id
     try:
         UserType.query.filter_by(id = id).update(new_user_type)
         db.session.commit()

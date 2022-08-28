@@ -40,6 +40,7 @@ def update_payment_method(id):
         return "Payment method not found!", 404
     
     new_payment_method = request.json
+    new_payment_method["id"] = id
     try:
         PaymentMethod.query.filter_by(id = id).update(new_payment_method)
         db.session.commit()
